@@ -15,8 +15,10 @@ package frc.robot;
 public final class Constants {
   public static final class Motors {
     public static final int INTAKE_FRONT = 13;
+    public static final int LIFTING_LEFT= 6;
+    public static final int LIFTING_RIGHT = 7;
   }
-
+  
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
