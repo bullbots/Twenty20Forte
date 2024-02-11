@@ -8,20 +8,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class FrontIntake extends SubsystemBase {
-    TalonSRX frontIntakeMotor;
-    int MotorDirection;
+    TalonSRX m_frontIntakeMotor;
+    int m_MotorDirection = 0;
 
-    public void frontIntake() {
-        frontIntakeMotor = new TalonSRX(Constants.Motors.INTAKE_FRONT);
+    public FrontIntake() {
+        //TalonSRX requires Phoenix 
+        m_frontIntakeMotor = new TalonSRX(Constants.Motors.INTAKE_FRONT);
     }
 
 
     public void enableIntake() {
-        frontIntakeMotor.set(TalonSRXControlMode.PercentOutput, (MotorDirection*2)-1);
+        m_frontIntakeMotor.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
     }
 
     public void disableIntake() {
-        frontIntakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
+        m_frontIntakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
 
     }
     /**
@@ -30,11 +31,11 @@ public class FrontIntake extends SubsystemBase {
      * @param direction 0 is forward, 1 is backward
      */
     public void setIntakeDirection(int direction) {
-        MotorDirection = direction;
+        m_MotorDirection = direction;
     }
 
     public int getIntakeDirection() {
-        return MotorDirection;
+        return m_MotorDirection;
     }
 
 }
