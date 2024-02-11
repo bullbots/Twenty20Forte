@@ -11,16 +11,16 @@ public class FrontIntake extends SubsystemBase {
     TalonSRX frontIntakeMotor;
     int MotorDirection;
 
-    public FrontIntake(){
+    public void frontIntake() {
         frontIntakeMotor = new TalonSRX(Constants.Motors.INTAKE_FRONT);
     }
 
 
-    public void EnableIntake(){
+    public void enableIntake() {
         frontIntakeMotor.set(TalonSRXControlMode.PercentOutput, (MotorDirection*2)-1);
     }
 
-    public void DisableIntake() {
+    public void disableIntake() {
         frontIntakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
 
     }
@@ -29,11 +29,11 @@ public class FrontIntake extends SubsystemBase {
      * 
      * @param direction 0 is forward, 1 is backward
      */
-    public void SetIntakeDirection(int direction) {
+    public void setIntakeDirection(int direction) {
         MotorDirection = direction;
     }
 
-    public int GetIntakeDirection() {
+    public int getIntakeDirection() {
         return MotorDirection;
     }
 
