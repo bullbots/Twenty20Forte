@@ -27,15 +27,17 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
+  Lift m_Lift;
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-  //Calling the lift 
-  Lift m_lift = new Lift();
-    m_lift.raising();
-    m_lift.lowering();
- }
+
+    // Calling the lift 
+    m_Lift = new Lift();
+  }
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
