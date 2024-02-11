@@ -40,8 +40,11 @@ public class RobotContainer {
 
     // Calling the lift 
     m_Lift = new Lift();
-  }
 
+  
+  
+  }
+  public static double setAngle = 0;
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
