@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Lift extends SubsystemBase {
-  private static final TalonFX rightLiftMotor = new TalonFX(Constants.Motor.LIFTING_RIGHT);
-  private static final TalonFX leftLiftMotor = new TalonFX(Constants.Motor.LIFTING_LEFT);
+  private static final TalonFX rightLiftMotor = new TalonFX(Constants.Motors.LIFTING_RIGHT);
+  private static final TalonFX leftLiftMotor = new TalonFX(Constants.Motors.LIFTING_LEFT);
 
   /**
    * Arms extending are positve, but doing a pull up is negative as arms are
