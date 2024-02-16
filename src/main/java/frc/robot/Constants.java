@@ -19,6 +19,7 @@ public final class Constants {
     public static final int STAGING_FRONT = 20;
     public static final int LIFTING_LEFT= 6;
     public static final int LIFTING_RIGHT = 7;
+    public static final int SLIDE = 14;
   }
   
   public static class OperatorConstants {
