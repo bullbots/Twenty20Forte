@@ -8,21 +8,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class BackIntakeSubsystem extends SubsystemBase {
-    TalonSRX m_backIntakeMotor;
+    TalonSRX BeltMotor;
     int m_MotorDirection = 0;
 
     public BackIntakeSubsystem() {
         //TalonSRX requires Phoenix 
-        m_backIntakeMotor = new TalonSRX(Constants.Motors.INTAKE_BACK);
+        BeltMotor = new TalonSRX(Constants.Motors.BELT);
     }
 
 
     public void enableIntake() {
-        m_backIntakeMotor.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
+        BeltMotor.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
     }
 
     public void disableIntake() {
-        m_backIntakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
+        BeltMotor.set(TalonSRXControlMode.PercentOutput, 0);
 
     }
     /**
@@ -38,7 +38,7 @@ public class BackIntakeSubsystem extends SubsystemBase {
         return m_MotorDirection;
     }
     public boolean isOn(){
-        if(m_backIntakeMotor.getMotorOutputPercent()==0){
+        if(BeltMotor.getMotorOutputPercent()==0){
             return false;
         }
         else{

@@ -15,7 +15,7 @@ package frc.robot;
 public final class Constants {
   public static final class Motors {
     public static final int INTAKE_FRONT = 13;
-    public static final int INTAKE_BACK = 14;
+    public static final int BELT = 14;
     public static final int STAGING_BACK = 21;
     public static final int STAGING_FRONT = 20;
     public static final int LIFTING_LEFT= 6;
