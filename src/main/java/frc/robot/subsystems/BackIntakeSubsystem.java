@@ -40,12 +40,7 @@ public class BackIntakeSubsystem extends SubsystemBase {
         return m_MotorDirection;
     }
     public boolean isOn(){
-        if(BeltMotor1.getMotorOutputPercent()==0){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return BeltMotor1.getMotorOutputPercent()!=0;
     }
 
 }
