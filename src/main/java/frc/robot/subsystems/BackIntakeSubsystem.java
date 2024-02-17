@@ -8,24 +8,24 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class BackIntakeSubsystem extends SubsystemBase {
-    TalonSRX BeltMotor1;
-    TalonSRX BeltMotor2;
+    TalonSRX m_BeltMotor1;
+    TalonSRX m_BeltMotor2;
     int m_MotorDirection = 0;
 
     public BackIntakeSubsystem() {
-        BeltMotor1 = new TalonSRX(Constants.Motors.BELT1);
-        BeltMotor2 = new TalonSRX(Constants.Motors.BELT2);
+        m_BeltMotor1 = new TalonSRX(Constants.Motors.BELT1);
+        m_BeltMotor2 = new TalonSRX(Constants.Motors.BELT2);
     }
 
 
     public void enableIntake() {
-        BeltMotor1.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
-        BeltMotor1.set(TalonSRXControlMode.PercentOutput, -((m_MotorDirection*2)-1));
+        m_BeltMotor1.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
+        m_BeltMotor2.set(TalonSRXControlMode.PercentOutput, -((m_MotorDirection*2)-1));
     }
 
     public void disableIntake() {
-        BeltMotor1.set(TalonSRXControlMode.PercentOutput, 0);
-
+        m_BeltMotor1.set(TalonSRXControlMode.PercentOutput, 0);
+        m_BeltMotor2.set(TalonSRXControlMode.PercentOutput, 0);
     }
     /**
      * Sets the direction of the front intake motor
@@ -40,7 +40,7 @@ public class BackIntakeSubsystem extends SubsystemBase {
         return m_MotorDirection;
     }
     public boolean isOn(){
-        return BeltMotor1.getMotorOutputPercent()!=0;
+        return m_BeltMotor1.getMotorOutputPercent()!=0;
     }
 
 }
