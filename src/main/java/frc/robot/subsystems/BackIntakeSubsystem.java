@@ -1,46 +1,49 @@
 package frc.robot.subsystems;
+
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//import frc.robot.subsystems.BackIntakeSubsystem;
+import frc.robot.Constants;
+
 public class BackIntakeSubsystem extends SubsystemBase {
-    private BackIntakeSubsystem(){}
-    private static BackIntakeSubsystem instance =null;
-    //get the motor for the belt here
-    private TalonSRX motor = new TalonSRX(0);
-    public static BackIntakeSubsystem getInstance(){
-        if(instance==null){
-            instance = new BackIntakeSubsystem();
-        }
-        return instance;
+    TalonSRX m_backIntakeMotor;
+    int m_MotorDirection = 0;
+
+    public BackIntakeSubsystem() {
+        //TalonSRX requires Phoenix 
+        m_backIntakeMotor = new TalonSRX(Constants.Motors.INTAKE_BACK);
     }
-    public void startForward(){
-        motor.set(TalonSRXControlMode.PercentOutput, 1);
+
+
+    public void enableIntake() {
+        m_backIntakeMotor.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
     }
-    public void startReverse(){
-        motor.set(TalonSRXControlMode.PercentOutput, -1);
-    }
-    public void stop(){
-        motor.set(TalonSRXControlMode.PercentOutput, -1);
-    }
-    public String getState(){
-        if(motor.getMotorOutputPercent()==0.0){
-            return "off";
-        }
-        else if(motor.getMotorOutputPercent()>0){
-            return "forward";
-        }
-        else{
-            return "reverse";
-        }
+
+    public void disableIntake() {
+        m_backIntakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
 
     }
+    /**
+     * Sets the direction of the front intake motor
+     * 
+     * @param direction 0 is forward, 1 is backward
+     */
+    public void setIntakeDirection(int direction) {
+        m_MotorDirection = direction;
+    }
+
+    public int getIntakeDirection() {
+        return m_MotorDirection;
+    }
     public boolean isOn(){
-        if(getState() == "off"){
+        if(m_backIntakeMotor.getMotorOutputPercent()==0){
             return false;
         }
         else{
             return true;
         }
     }
+
 }
