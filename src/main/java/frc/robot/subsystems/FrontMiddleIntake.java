@@ -7,11 +7,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class FrontIntake extends SubsystemBase {
+public class FrontMiddleIntake extends SubsystemBase {
     TalonSRX m_frontIntakeMotor;
     int m_MotorDirection = 0;
 
-    public FrontIntake() {
+    public FrontMiddleIntake() {
         //TalonSRX requires Phoenix 
         m_frontIntakeMotor = new TalonSRX(Constants.Motors.INTAKE_FRONT);
     }
