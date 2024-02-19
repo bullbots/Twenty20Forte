@@ -9,7 +9,7 @@ import frc.robot.Constants;
 
 public class FrontMiddleIntake extends SubsystemBase {
     TalonSRX m_IntakeMotors;
-    int m_Direction = 0;
+    int m_Direction = 1;
     private static FrontMiddleIntake instance = null;
     public FrontMiddleIntake getInstance(){
         if(instance ==null){

@@ -10,7 +10,7 @@ import frc.robot.Constants;
 public class BackIntake extends SubsystemBase {
     TalonSRX m_BeltMotor1;
     TalonSRX m_BeltMotor2;
-    int m_Direction = 0;
+    int m_Direction = 1;
     private static BackIntake instance = null;
     public BackIntake getInstance(){
         if(instance ==null){
