@@ -39,7 +39,7 @@ public class BackIntakeSubsystem extends SubsystemBase {
     public int getIntakeDirection() {
         return m_MotorDirection;
     }
-    public boolean isOn(){
+    public boolean isEnabled(){
         return m_BeltMotor1.getMotorOutputPercent()!=0;
     }
 
