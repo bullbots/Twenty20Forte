@@ -7,23 +7,30 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class BackIntakeSubsystem extends SubsystemBase {
+public class BackIntake extends SubsystemBase {
     TalonSRX m_BeltMotor1;
     TalonSRX m_BeltMotor2;
     int m_MotorDirection = 0;
+    private static BackIntake instance = null;
+    public BackIntake getInstance(){
+        if(instance ==null){
+            instance = new BackIntake();
+        }
+        return instance;
+    }
 
-    public BackIntakeSubsystem() {
+    public BackIntake() {
         m_BeltMotor1 = new TalonSRX(Constants.Motors.BELT1);
         m_BeltMotor2 = new TalonSRX(Constants.Motors.BELT2);
     }
 
 
-    public void enableIntake() {
+    public void enable() {
         m_BeltMotor1.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
         m_BeltMotor2.set(TalonSRXControlMode.PercentOutput, -((m_MotorDirection*2)-1));
     }
 
-    public void disableIntake() {
+    public void disable() {
         m_BeltMotor1.set(TalonSRXControlMode.PercentOutput, 0);
         m_BeltMotor2.set(TalonSRXControlMode.PercentOutput, 0);
     }
@@ -32,11 +39,11 @@ public class BackIntakeSubsystem extends SubsystemBase {
      * 
      * @param direction 0 is forward, 1 is backward
      */
-    public void setIntakeDirection(int direction) {
+    public void setDirection(int direction) {
         m_MotorDirection = direction;
     }
 
-    public int getIntakeDirection() {
+    public int getDirection() {
         return m_MotorDirection;
     }
     public boolean isEnabled(){

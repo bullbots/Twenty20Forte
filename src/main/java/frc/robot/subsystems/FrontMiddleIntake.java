@@ -10,6 +10,13 @@ import frc.robot.Constants;
 public class FrontMiddleIntake extends SubsystemBase {
     TalonSRX m_IntakeMotors;
     int m_MotorDirection = 0;
+    private static FrontMiddleIntake instance = null;
+    public FrontMiddleIntake getInstance(){
+        if(instance ==null){
+            instance = new FrontMiddleIntake();
+        }
+        return instance;
+    }
 
     public FrontMiddleIntake() {
         //TalonSRX requires Phoenix 
@@ -17,11 +24,11 @@ public class FrontMiddleIntake extends SubsystemBase {
     }
 
 
-    public void enableIntake() {
+    public void enable() {
         m_IntakeMotors.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
     }
 
-    public void disableIntake() {
+    public void disable() {
         m_IntakeMotors.set(TalonSRXControlMode.PercentOutput, 0);
 
     }
@@ -30,7 +37,7 @@ public class FrontMiddleIntake extends SubsystemBase {
      * 
      * @param direction 0 is forward, 1 is backward
      */
-    public void setIntakeDirection(int direction) {
+    public void setIntake(int direction) {
         m_MotorDirection = direction;
     }
 
