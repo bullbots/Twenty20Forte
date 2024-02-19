@@ -14,6 +14,7 @@ public class Lift extends SubsystemBase {
   private static final TalonFX rightLiftMotor = new TalonFX(Constants.Motors.LIFTING_RIGHT);
   private static final TalonFX leftLiftMotor = new TalonFX(Constants.Motors.LIFTING_LEFT);
   private static Lift instance = null;
+  private int m_Direction;
   public Lift getInstance(){
       if(instance ==null){
           instance = new Lift();
@@ -26,14 +27,24 @@ public class Lift extends SubsystemBase {
    */
   
   //moves the arms up to reach the chain
-  public void raising() { 
-    rightLiftMotor.set(-1);
-    leftLiftMotor.set(1);
+  public void enable() { 
+    
+    rightLiftMotor.set(m_Direction);
+    leftLiftMotor.set(-m_Direction);
   }
 
   //moves the robot up in the air
-  public void lowering() {
-    rightLiftMotor.set(1);
-    leftLiftMotor.set(-1);
+  public void disable() {
+    rightLiftMotor.set(0);
+    leftLiftMotor.set(0);
+  }
+  public void setDirection(int direction){
+    m_Direction = direction;
+  }
+  public int getDirection(){
+    return m_Direction;
+  }
+  public boolean isEnabled(){
+    return leftLiftMotor.get()!=0;
   }
 }

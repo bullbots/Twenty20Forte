@@ -9,7 +9,7 @@ import frc.robot.Constants;
 
 public class FrontMiddleIntake extends SubsystemBase {
     TalonSRX m_IntakeMotors;
-    int m_MotorDirection = 0;
+    int m_Direction = 0;
     private static FrontMiddleIntake instance = null;
     public FrontMiddleIntake getInstance(){
         if(instance ==null){
@@ -25,7 +25,7 @@ public class FrontMiddleIntake extends SubsystemBase {
 
 
     public void enable() {
-        m_IntakeMotors.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
+        m_IntakeMotors.set(TalonSRXControlMode.PercentOutput, (m_Direction*2)-1);
     }
 
     public void disable() {
@@ -37,12 +37,12 @@ public class FrontMiddleIntake extends SubsystemBase {
      * 
      * @param direction 0 is forward, 1 is backward
      */
-    public void setIntake(int direction) {
-        m_MotorDirection = direction;
+    public void setDirection(int direction) {
+        m_Direction = direction;
     }
 
-    public int getIntakeDirection() {
-        return m_MotorDirection;
+    public int getDirection() {
+        return m_Direction;
     }
 
     public boolean isEnabled(){
