@@ -5,11 +5,16 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.drivetrain.DriveTrainDefaultCommand;
 import frc.robot.sensors.DebouncedDigitalInput;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Lift;
 
 /**
@@ -23,6 +28,8 @@ public class RobotContainer {
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
+
+  private static final DriveTrain m_DriveTrain = new DriveTrain();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -39,6 +46,38 @@ public class RobotContainer {
 
     // Calling the lift 
     m_Lift = new Lift();
+
+    m_DriveTrain.setDefaultCommand(new DriveTrainDefaultCommand(m_DriveTrain, m_driverController));
+    // new RunCommand(
+    //     () -> {
+    //         // m_driverController.setRumble(RumbleType.kBothRumble, 0.0);
+    //         final double DEADBAND = .15;
+    //         double x = m_driverController.getLeftX();
+    //         double y = m_driverController.getLeftY();
+    //         double z = m_driverController.getRightX();
+    //         if (Math.abs(x) > DEADBAND) {
+    //           y = MathUtil.applyDeadband(y, DEADBAND*.6);
+    //         } else {
+    //           y = MathUtil.applyDeadband(y, DEADBAND);
+    //         }
+    //           if (Math.abs(y) > DEADBAND) {
+    //           x = MathUtil.applyDeadband(x, DEADBAND*.6);
+    //         } else {
+    //           x = MathUtil.applyDeadband(x, DEADBAND);
+    //         }
+    //         z = MathUtil.applyDeadband(z, DEADBAND);
+
+    //         m_DriveTrain.holonomicDrive(
+    //             // I may be wrong, but I think all of these should be negative (not z), 
+    //             // since forward y is negative, and on the x axes left is 
+    //             // positive for the robot strafing and twisting.
+    //             // It checks out in the simulator..
+    //             //Z should not be negative, the simulator has reversed turning for some reason
+    //             -y,
+    //             -x,
+    //             z,
+    //             true);
+    //     }, m_DriveTrain));
   }
 
   /**

@@ -14,10 +14,11 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.ShuffleBoardSubsystem;
 import frc.robot.sensors.NavX;
 
 /** Swerve Drivetrain base. */
-public class SwerveDrivetrain extends HolonomicDrivetrain {
+public class SwerveDrivetrain extends DrivetrainBase implements HolonomicDrivetrain, ShuffleBoardSubsystem {
   public static final double MAX_VOLTAGE = 12.0;
 
   public static final SwerveModuleState[] EMPTY_SWERVE_MODULE_STATES = new SwerveModuleState[] {
@@ -254,7 +255,7 @@ public class SwerveDrivetrain extends HolonomicDrivetrain {
   }
 
   @Override
-  protected void configureShuffleboard() {
+  public void configureShuffleboard() {
     //frontLeft.configureShuffleboard(shuffleboardTab.getLayout("Front Left", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0));
     //frontRight.configureShuffleboard(shuffleboardTab.getLayout("Front Right", BuiltInLayouts.kList).withSize(2, 4).withPosition(2, 0));
     //backLeft.configureShuffleboard(shuffleboardTab.getLayout("Back Left", BuiltInLayouts.kList).withSize(2, 4).withPosition(4, 0));
