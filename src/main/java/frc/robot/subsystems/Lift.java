@@ -13,7 +13,13 @@ import frc.robot.Constants;
 public class Lift extends SubsystemBase {
   private static final TalonFX rightLiftMotor = new TalonFX(Constants.Motors.LIFTING_RIGHT);
   private static final TalonFX leftLiftMotor = new TalonFX(Constants.Motors.LIFTING_LEFT);
-
+  private static Lift instance = null;
+  public Lift getInstance(){
+      if(instance ==null){
+          instance = new Lift();
+      }
+      return instance;
+  }
   /**
    * Arms extending are positve, but doing a pull up is negative as arms are
    * being retracted. Use as reference while coding the two movements 
