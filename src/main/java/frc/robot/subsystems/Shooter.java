@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.TalonFX;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.networktables.DoubleSubscriber;
@@ -13,6 +13,34 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
 
-private static final WPI_CANSparkMax m_shooterMotorLeft = new WPI_CANSparkMax(Constants.Motor.SHOOTING_LEFT, MotorType.kBrushless);
-private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(Constants.Motor.SHOOTING_RIGHT, MotorType.kBrushless);  
+private static final WPI_CANSparkMax m_shooterMotorLeft = new WPI_CANSparkMax(Constants.Motors.SHOOTING_LEFT, MotorType.kBrushless);
+private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(Constants.Motors.SHOOTING_RIGHT, MotorType.kBrushless); 
+
+int m_MotorDirection = 0;
+
+
+public void enable() {
+    m_shooterMotorLeft.set(WPI_CANSparkMax.PercentOutput, (m_MotorDirection*2)-1);
+    m_shooterMotorRight.set(WPI_CANSparkMax.PercentOutput, -((m_MotorDirection*2)-1));
+}
+
+public void disable() {
+    m_shooterMotorLeft.set(WPI_CANSparkMax.PercentOutput, 0);
+    m_shooterMotorRight.set(WPI_CANSparkMax.PercentOutput, 0);
+}
+/**
+ * Sets the direction of the front intake motor
+ * 
+ * @param direction 0 is forward, 1 is backward
+ */
+public void setDirection(int direction) {
+    m_MotorDirection = direction;
+}
+
+public int getDirection() {
+    return m_MotorDirection;
+}
+public boolean isEnabled(){
+    return m_shooterMotorLeft.getMotorOutputPercent()!=0;
+}
 }
