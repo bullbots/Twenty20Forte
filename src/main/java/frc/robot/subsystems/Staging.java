@@ -57,7 +57,7 @@ public class Staging extends SubsystemBase {
         m_BackStagingMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
 
-    public boolean isStaging() {
+    public boolean isEnabled() {
         return staging;
     }
 }
