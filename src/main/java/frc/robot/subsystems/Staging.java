@@ -7,6 +7,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Staging extends SubsystemBase {
+    private static Staging instance = null;
+    public Staging getInstance(){
+        if(instance ==null){
+            instance = new Staging();
+        }
+        return instance;
+    }
     enum Mode {
         MAX_SPEED,
         HALF_SPEED,
@@ -26,7 +33,7 @@ public class Staging extends SubsystemBase {
     }
 
 
-    public void enableStaging(Mode mode) {
+    public void enable(Mode mode) {
         staging = true;    
         //I belive the motors the motors need to run in opposite directions to pull the note the same direciton
 
@@ -51,13 +58,13 @@ public class Staging extends SubsystemBase {
         }
     }
 
-    public void disableStaging() {
+    public void disable() {
         staging = false;
         m_FrontStagingMotor.set(TalonSRXControlMode.PercentOutput, 0);
         m_BackStagingMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
 
-    public boolean isStaging() {
+    public boolean isEnabled() {
         return staging;
     }
 }
