@@ -1,5 +1,5 @@
 
-package frc.robot.utils;
+package frc.robot.sensors;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;

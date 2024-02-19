@@ -21,6 +21,31 @@ public final class Constants {
     public static final int LIFTING_RIGHT = 7;
   }
 
+  public static final class Drivetrain{
+    public static final int FRONT_LEFT_DRIVE_CHANNEL = 2;
+    public static final int FRONT_LEFT_STEER_CHANNEL = 2;
+
+    public static final int FRONT_RIGHT_DRIVE_CHANNEL = 1;
+    public static final int FRONT_RIGHT_STEER_CHANNEL = 1;
+
+    public static final int BACK_LEFT_DRIVE_CHANNEL = 3;
+    public static final int BACK_LEFT_STEER_CHANNEL = 3;
+
+    public static final int BACK_RIGHT_DRIVE_CHANNEL = 4;
+    public static final int BACK_RIGHT_STEER_CHANNEL = 4;
+
+    public static final int FRONT_LEFT_CANCODER_CHANNEL = 2;
+    public static final int FRONT_RIGHT_CANCODER_CHANNEL = 1;
+
+    public static final int BACK_LEFT_CANCODER_CHANNEL = 3;
+    public static final int BACK_RIGHT_CANCODER_CHANNEL = 4;
+    // ENCODER OFFSETS
+    public static final double FRONT_LEFT_ENCODER_OFFSET = -22.1484375;
+    public static final double FRONT_RIGHT_ENCODER_OFFSET = -308.4082;
+    public static final double BACK_LEFT_ENCODER_OFFSET = -214.541016;
+    public static final double BACK_RIGHT_ENCODER_OFFSET = -199.511719;
+  }
+
   public static final class Sensors {
     public static final int INTAKE_SENSOR = 0;
   }
