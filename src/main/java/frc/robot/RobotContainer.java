@@ -48,36 +48,6 @@ public class RobotContainer {
     m_Lift = new Lift();
 
     m_DriveTrain.setDefaultCommand(new DriveTrainDefaultCommand(m_DriveTrain, m_driverController));
-    // new RunCommand(
-    //     () -> {
-    //         // m_driverController.setRumble(RumbleType.kBothRumble, 0.0);
-    //         final double DEADBAND = .15;
-    //         double x = m_driverController.getLeftX();
-    //         double y = m_driverController.getLeftY();
-    //         double z = m_driverController.getRightX();
-    //         if (Math.abs(x) > DEADBAND) {
-    //           y = MathUtil.applyDeadband(y, DEADBAND*.6);
-    //         } else {
-    //           y = MathUtil.applyDeadband(y, DEADBAND);
-    //         }
-    //           if (Math.abs(y) > DEADBAND) {
-    //           x = MathUtil.applyDeadband(x, DEADBAND*.6);
-    //         } else {
-    //           x = MathUtil.applyDeadband(x, DEADBAND);
-    //         }
-    //         z = MathUtil.applyDeadband(z, DEADBAND);
-
-    //         m_DriveTrain.holonomicDrive(
-    //             // I may be wrong, but I think all of these should be negative (not z), 
-    //             // since forward y is negative, and on the x axes left is 
-    //             // positive for the robot strafing and twisting.
-    //             // It checks out in the simulator..
-    //             //Z should not be negative, the simulator has reversed turning for some reason
-    //             -y,
-    //             -x,
-    //             z,
-    //             true);
-    //     }, m_DriveTrain));
   }
 
   /**
