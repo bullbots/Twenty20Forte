@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import java.util.Optional;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -9,7 +10,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -349,7 +349,8 @@ public class DriveTrain extends SwerveDrivetrain {
       if (this.equals(NONE)) {
         return pose;
       }
-      if(DriverStation.getAlliance().equals(Alliance.Red)){
+      var optionalRed = Optional.of(Alliance.Red);
+      if(DriverStation.getAlliance().equals(optionalRed)) {
         return MirrorPoses.mirror(pose);
       }
       return pose;
