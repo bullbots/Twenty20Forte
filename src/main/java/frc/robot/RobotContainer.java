@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.LiftDirections;
+import frc.robot.commands.LeftLift;
 import frc.robot.sensors.DebouncedDigitalInput;
 
 import java.time.LocalDateTime;
@@ -38,7 +38,8 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  Lift m_Lift;
+  Lift m_LiftLeft;
+  Lift m_LiftRight;
 
   public static double setAngle = 0;
   
@@ -47,8 +48,11 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    // Calling the lift 
-    m_Lift = new Lift();
+    // Creating left lift arm
+    m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
+
+    // Creating right lift arm
+    m_LiftRight = new Lift();
   }
 
   /**
@@ -70,8 +74,10 @@ public class RobotContainer {
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     //Supplier for the Lift Directions command
-    m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new LiftDirections(m_Lift,1));
-    m_guitarHero.axisLessThan(1, -0.5).whileTrue(new LiftDirections(m_Lift,-1));
+    //Robot Up
+    m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new LeftLift(m_LiftLeft,1));
+    //Robot Down
+    m_guitarHero.axisLessThan(1, 0.5).whileTrue(new LeftLift(m_LiftRight,-1));
   }
   
 

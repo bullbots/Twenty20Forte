@@ -23,6 +23,13 @@ public final class Constants {
     public static final int LIFTING_RIGHT = 7;
   }
 
+  //Arm motor direction
+  public static final class LiftArm {
+    public static final int LIFT_UP = 1;
+    public static final int LIFT_DOWN = -1;
+  }
+    
+
   public static final class Sensors {
     public static final int INTAKE_SENSOR = 0;
   }

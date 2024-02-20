@@ -15,6 +15,12 @@ public class Lift extends SubsystemBase {
   private static final TalonFX leftLiftMotor = new TalonFX(Constants.Motors.LIFTING_LEFT);
   private static Lift instance = null;
   private int m_Direction = 1;
+
+  public Lift(int motorID) {
+    rightLiftMotor = new TalonFX(motorID);
+  }
+
+
   public Lift getInstance(){
       if(instance ==null){
           instance = new Lift();

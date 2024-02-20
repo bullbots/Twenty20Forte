@@ -5,7 +5,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Lift;
 
-public class LiftDirections extends Command {
+public class LeftLift extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Lift m_liftSubsystem;
   
@@ -17,11 +17,13 @@ public class LiftDirections extends Command {
    * @param Lift The subsystem used by this command.
    * @return 
    */
-  public LiftDirections(Lift lift, int direction) {
+  public LeftLift(Lift lift, int direction) {
     m_direction = direction;
     m_liftSubsystem = lift;
+    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(lift);
+    //Robot arms retracting in
     m_liftSubsystem.setDirection(-1);
     m_liftSubsystem.enable();
   }
