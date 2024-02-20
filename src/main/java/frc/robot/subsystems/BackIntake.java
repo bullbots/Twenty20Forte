@@ -26,8 +26,8 @@ public class BackIntake extends SubsystemBase {
 
 
     public void enable() {
-        m_BeltMotor1.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
-        m_BeltMotor2.set(TalonSRXControlMode.PercentOutput, -((m_MotorDirection*2)-1));
+        m_BeltMotor1.set(TalonSRXControlMode.PercentOutput, m_MotorDirection);
+        m_BeltMotor2.set(TalonSRXControlMode.PercentOutput, -m_MotorDirection);
     }
 
     public void disable() {
@@ -37,7 +37,7 @@ public class BackIntake extends SubsystemBase {
     /**
      * Sets the direction of the front intake motor
      * 
-     * @param direction 0 is forward, 1 is backward
+     * @param direction 1 is forward, -1 is backward, 0 is stop
      */
     public void setDirection(int direction) {
         m_MotorDirection = direction;
