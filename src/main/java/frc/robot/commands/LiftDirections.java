@@ -9,31 +9,41 @@ public class LiftDirections extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Lift m_liftSubsystem;
   
+  private int m_direction;
+
   /**
    * Creates a new ExampleCommand.
    *
    * @param Lift The subsystem used by this command.
    * @return 
    */
-  public LiftDirections(Lift lift) {
+  public LiftDirections(Lift lift, int direction) {
+    m_direction = direction;
     m_liftSubsystem = lift;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(lift);
+    m_liftSubsystem.setDirection(-1);
+    m_liftSubsystem.enable();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_liftSubsystem.setDirection();
+    m_liftSubsystem.setDirection(m_direction);
+    m_liftSubsystem.enable();
   }
     
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_liftSubsystem.disable();
+  }
 
   // Returns true when the command should end.
   @Override

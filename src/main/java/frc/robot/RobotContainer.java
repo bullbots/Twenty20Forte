@@ -5,9 +5,16 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.LiftDirections;
 import frc.robot.sensors.DebouncedDigitalInput;
+
+import java.time.LocalDateTime;
+import java.util.function.Supplier;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Lift;
@@ -21,6 +28,9 @@ import frc.robot.subsystems.Lift;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+
+  private final Joystick m_controller = new Joystick(0);
+  private final CommandJoystick m_guitarHero = new CommandJoystick(0);
 
   private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
 
@@ -58,7 +68,12 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    //Supplier for the Lift Directions command
+    m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new LiftDirections(m_Lift,1));
+    m_guitarHero.axisLessThan(1, -0.5).whileTrue(new LiftDirections(m_Lift,-1));
   }
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
