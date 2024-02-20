@@ -10,7 +10,7 @@ import frc.robot.Constants;
 public class BackIntake extends SubsystemBase {
     TalonSRX m_BeltMotor1;
     TalonSRX m_BeltMotor2;
-    int m_MotorDirection = 0;
+    int m_Direction = 1;
     private static BackIntake instance = null;
     public BackIntake getInstance(){
         if(instance ==null){
@@ -26,8 +26,8 @@ public class BackIntake extends SubsystemBase {
 
 
     public void enable() {
-        m_BeltMotor1.set(TalonSRXControlMode.PercentOutput, (m_MotorDirection*2)-1);
-        m_BeltMotor2.set(TalonSRXControlMode.PercentOutput, -((m_MotorDirection*2)-1));
+        m_BeltMotor1.set(TalonSRXControlMode.PercentOutput, (m_Direction*2)-1);
+        m_BeltMotor2.set(TalonSRXControlMode.PercentOutput, -((m_Direction*2)-1));
     }
 
     public void disable() {
@@ -40,11 +40,11 @@ public class BackIntake extends SubsystemBase {
      * @param direction 0 is forward, 1 is backward
      */
     public void setDirection(int direction) {
-        m_MotorDirection = direction;
+        m_Direction = direction;
     }
 
     public int getDirection() {
-        return m_MotorDirection;
+        return m_Direction;
     }
     public boolean isEnabled(){
         return m_BeltMotor1.getMotorOutputPercent()!=0;
