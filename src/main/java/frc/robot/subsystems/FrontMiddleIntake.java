@@ -25,7 +25,7 @@ public class FrontMiddleIntake extends SubsystemBase {
 
 
     public void enable() {
-        m_IntakeMotors.set(TalonSRXControlMode.PercentOutput, m_MotorDirection);
+        m_IntakeMotors.set(TalonSRXControlMode.PercentOutput, m_Direction);
 
     }
 
