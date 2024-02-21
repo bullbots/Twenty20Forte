@@ -5,9 +5,16 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.LeftLift;
 import frc.robot.sensors.DebouncedDigitalInput;
+
+import java.time.LocalDateTime;
+import java.util.function.Supplier;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Lift;
@@ -22,13 +29,17 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
+  private final Joystick m_controller = new Joystick(0);
+  private final CommandJoystick m_guitarHero = new CommandJoystick(0);
+
   private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  Lift m_Lift;
+  Lift m_LiftLeft;
+  Lift m_LiftRight;
 
   public static double setAngle = 0;
   
@@ -37,8 +48,11 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    // Calling the lift 
-    m_Lift = new Lift();
+    // Creating left lift arm
+    m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
+
+    // Creating right lift arm
+    m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
   }
 
   /**
@@ -58,7 +72,15 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    //Supplier for the Lift Directions command
+    //Robot Up
+    m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new LeftLift(m_LiftLeft,1));
+    //Robot Down
+    m_guitarHero.axisLessThan(1, 0.5).whileTrue(new LeftLift(m_LiftRight,-1));
+    
   }
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
