@@ -26,6 +26,7 @@ public class BackIntake extends SubsystemBase {
 
 
     public void enable() {
+
         m_BeltMotor1.set(TalonSRXControlMode.PercentOutput, m_Direction);
         m_BeltMotor2.set(TalonSRXControlMode.PercentOutput, -m_Direction);
 
