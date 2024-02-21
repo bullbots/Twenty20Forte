@@ -52,7 +52,7 @@ public class RobotContainer {
     m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
 
     // Creating right lift arm
-    m_LiftRight = new Lift();
+    m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
   }
 
   /**
@@ -78,6 +78,7 @@ public class RobotContainer {
     m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new LeftLift(m_LiftLeft,1));
     //Robot Down
     m_guitarHero.axisLessThan(1, 0.5).whileTrue(new LeftLift(m_LiftRight,-1));
+    
   }
   
 
