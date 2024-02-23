@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.LeftLift;
+import frc.robot.commands.Lifting;
 import frc.robot.sensors.DebouncedDigitalInput;
 
 import java.time.LocalDateTime;
@@ -75,9 +75,14 @@ public class RobotContainer {
 
     //Supplier for the Lift Directions command
     //Robot Up
-    m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new LeftLift(m_LiftLeft,1));
+    m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_LiftLeft,1));
     //Robot Down
-    m_guitarHero.axisLessThan(1, 0.5).whileTrue(new LeftLift(m_LiftRight,-1));
+    m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(m_LiftRight,-1));
+
+    //Buttons for co-driver moving the slider up and down
+    //Slider up
+    m_guitarHero.povDown().whileTrue(new Slide(Up, 180));
+    m_guitarHero.povUp().whileTrue(new Slide(Down, 0));
     
   }
   
