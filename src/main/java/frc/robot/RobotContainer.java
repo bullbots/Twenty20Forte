@@ -48,6 +48,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
+
     // Creating left lift arm
     m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
 
@@ -55,6 +56,11 @@ public class RobotContainer {
     m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
   }
 
+
+  
+  
+  }
+  public static double setAngle = 0;
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
