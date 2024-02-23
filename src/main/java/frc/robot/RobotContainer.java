@@ -81,8 +81,8 @@ public class RobotContainer {
 
     //Buttons for co-driver moving the slider up and down
     //Slider up
-    m_guitarHero.povDown().whileTrue(new Slide(Up, 180));
-    m_guitarHero.povUp().whileTrue(new Slide(Down, 0));
+    m_guitarHero.povDown().whileTrue(new Slide(Down, 180));
+    m_guitarHero.povUp().whileTrue(new Slide(Up, 0));
     
   }
   
