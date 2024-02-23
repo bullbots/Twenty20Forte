@@ -48,6 +48,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
+
     // Creating left lift arm
     m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
 
@@ -55,6 +56,11 @@ public class RobotContainer {
     m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
   }
 
+
+  
+  
+  }
+  public static double setAngle = 0;
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -81,8 +87,9 @@ public class RobotContainer {
 
     //Buttons for co-driver moving the slider up and down
     //Slider up
-    m_guitarHero.povDown().whileTrue(new Slide(Up, 180));
-    m_guitarHero.povUp().whileTrue(new Slide(Down, 0));
+
+    m_guitarHero.povDown().whileTrue(new Slide(Down, 180));
+    m_guitarHero.povUp().whileTrue(new Slide(Up, 0));
     
   }
   
