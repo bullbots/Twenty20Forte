@@ -11,23 +11,45 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Lift extends SubsystemBase {
-  private static final TalonFX rightLiftMotor = new TalonFX(Constants.Motors.LIFTING_RIGHT);
-  private static final TalonFX leftLiftMotor = new TalonFX(Constants.Motors.LIFTING_LEFT);
+  private TalonFX m_liftMotor;
+  private int m_motorID;
+  private Lift instance = null;
+  private int m_Direction = 1;
 
+  public Lift(int motorID) {
+    m_liftMotor = new TalonFX(motorID);
+    m_motorID = motorID;
+  }
+
+
+  public Lift getInstance(){
+      if(instance == null){
+          instance = new Lift(m_motorID);
+      }
+      return instance;
+  }
   /**
-   * Arms extending are positve, but doing a pull up is negative as arms are
+   * Arms extending are positive, but doing a pull up is negative as arms are
    * being retracted. Use as reference while coding the two movements 
    */
   
   //moves the arms up to reach the chain
-  public void raising() { 
-    rightLiftMotor.set(-1);
-    leftLiftMotor.set(1);
+  public void enable() { 
+    
+    m_liftMotor.set(-m_Direction);
   }
 
   //moves the robot up in the air
-  public void lowering() {
-    rightLiftMotor.set(1);
-    leftLiftMotor.set(-1);
+  public void disable() {
+    m_liftMotor.set(0);
+  }
+  public void setDirection(int direction){
+    m_Direction = direction;
+  }
+  public int getDirection(){
+    return m_Direction;
+  }
+  public boolean isEnabled(){
+    return m_liftMotor.get()!=0;
   }
 }
