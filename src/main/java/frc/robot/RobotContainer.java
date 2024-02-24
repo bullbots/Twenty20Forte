@@ -14,9 +14,11 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Lift;
 
 /**
@@ -40,6 +42,7 @@ public class RobotContainer {
 
   Lift m_LiftLeft;
   Lift m_LiftRight;
+  DriveTrain m_drivetrain;
 
   public static double setAngle = 0;
   
@@ -48,12 +51,38 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
+    //default driving code
+    m_drivetrain.setDefaultCommand(
+      new RunCommand(
+        () -> {
+        final double DEAD_ZONE = .3;
+        final double EXPONENT = 2;
+        double x = m_driverController.getLeftX();
+        double y = m_driverController.getLeftY();
+        double z = m_driverController.getRightX();
+        //mathematical formula for adjusting the axis to a more usable number
+        x = (Math.abs(x) >= DEAD_ZONE) ? (
+          (x > 0)
+           ? Math.pow((x-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+           : -Math.pow((x+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+        ) : 0;
+        y = (Math.abs(y) >= DEAD_ZONE) ? (
+          (y > 0)
+           ? Math.pow((y-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+           : -Math.pow((y+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+        ) : 0;
+        z = (Math.abs(z) >= DEAD_ZONE) ? (
+          (z > 0)
+          ? (z-DEAD_ZONE)/(1-DEAD_ZONE)
+          : (z+DEAD_ZONE)/(1-DEAD_ZONE)
+          ) : 0;
 
-    // Creating left lift arm
-    m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
-
-    // Creating right lift arm
-    m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
+        m_drivetrain.holonomicDrive(
+          -y,
+          -x,
+          -z,
+          true);
+        }, m_drivetrain));
   }
 
 
@@ -71,15 +100,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // new Trigger(m_exampleSubsystem::exampleCondition)
-    //     .onTrue(new ExampleCommand(m_exampleSubsystem));
+    // Creating left lift arm
+    m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    // Creating right lift arm
+    m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
+    m_drivetrain = DriveTrain.getInstance();
 
-    //Supplier for the Lift Directions command
     //Robot Up
     m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_LiftLeft,1));
     //Robot Down
