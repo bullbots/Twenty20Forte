@@ -7,9 +7,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.motors.WPI_CANSparkMax;
 
 public class Shooter extends SubsystemBase {
 
@@ -20,13 +20,13 @@ int m_MotorDirection = 0;
 
 
 public void enable() {
-    m_shooterMotorLeft.set(WPI_CANSparkMax.PercentOutput, (m_MotorDirection*2)-1);
-    m_shooterMotorRight.set(WPI_CANSparkMax.PercentOutput, -((m_MotorDirection*2)-1));
+    m_shooterMotorLeft.set(1);
+    m_shooterMotorRight.set(-1);
 }
 
 public void disable() {
-    m_shooterMotorLeft.set(WPI_CANSparkMax.PercentOutput, 0);
-    m_shooterMotorRight.set(WPI_CANSparkMax.PercentOutput, 0);
+    m_shooterMotorLeft.set(0);
+    m_shooterMotorRight.set(0);
 }
 /**
  * Sets the direction of the front intake motor
@@ -41,6 +41,6 @@ public int getDirection() {
     return m_MotorDirection;
 }
 public boolean isEnabled(){
-    return m_shooterMotorLeft.getMotorOutputPercent()!=0;
+    return m_shooterMotorLeft.get()!=0;
 }
 }
