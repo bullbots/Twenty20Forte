@@ -60,6 +60,6 @@ public class Staging extends SubsystemBase {
     }
 
     public boolean isEnabled() {
-        return staging;
+        return m_StagingMotor.getMotorOutputPercent()!=0;
     }
 }
