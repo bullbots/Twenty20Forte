@@ -44,10 +44,10 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  Lift m_LiftLeft;
-  Lift m_LiftRight;
-  DriveTrain m_drivetrain;
-  Slider m_slide = new Slider();
+  public static final Lift m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
+  public static final Lift m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
+  public static final DriveTrain m_drivetrain = new DriveTrain();
+  public static final Slider m_slide = new Slider();
 
   public static double setAngle = 0;
   
@@ -110,12 +110,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Creating left lift arm
-    m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
-
-    // Creating right lift arm
-    m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
-    m_drivetrain = DriveTrain.getInstance();
 
     //Robot Up
     m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_LiftLeft,1));
