@@ -9,8 +9,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.motors.WPI_CANSparkMax;
 
 public class Windlass extends SubsystemBase {
+
+  private WPI_CANSparkMax m_windlassMotor;
+  private int m_motorID;
   /** Creates a new ExampleSubsystem. */
   public Windlass() {}
+
+  public Windlass(int motorID) {
+    m_windlassMotor = new WPI_CANSparkMax(motorID, );
+    m_motorID = motorID;
+  }
+
+
+
+  public void enable() {
+    m_
+  }
+
 
   /**
    * Example command factory method.
