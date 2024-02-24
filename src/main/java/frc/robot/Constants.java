@@ -15,36 +15,47 @@ package frc.robot;
 public final class Constants {
   public static final class Motors {
     public static final int INTAKE_FRONT = 13;
-    public static final int BELT1 = 10;
-    public static final int BELT2 =11;
-    public static final int STAGING_BACK = 21;
-    public static final int STAGING_FRONT = 20;
-    public static final int LIFTING_LEFT= 6;
-    public static final int LIFTING_RIGHT = 7;
+    public static final int BELT = 10;
+    public static final int STAGER = 20;
+    public static final int LIFTER_LEFT= 6;
+    public static final int LIFTER_RIGHT = 7;
+    public static final int SHOOTER_LEFT = 8;
+    public static final int SHOOTER_RIGHT = 9;
+
+    public static final int SLIDER = 14;
+
+    public static final int WINDLASS = 5;
   }
+
+  //Arm motor direction
+  public static final class LiftArm {
+    public static final int LIFT_UP = 1;
+    public static final int LIFT_DOWN = -1;
+  }
+    
 
   public static final class Sensors {
     public static final int INTAKE_SENSOR = 0;
   }
 
   public static final class Drivetrain{
-    public static final int FRONT_LEFT_DRIVE_CHANNEL = 2;
-    public static final int FRONT_LEFT_STEER_CHANNEL = 2;
+    public static final int FRONT_LEFT_DRIVE_CHANNEL = 3;
+    public static final int FRONT_LEFT_STEER_CHANNEL = 3;
 
-    public static final int FRONT_RIGHT_DRIVE_CHANNEL = 1;
-    public static final int FRONT_RIGHT_STEER_CHANNEL = 1;
+    public static final int FRONT_RIGHT_DRIVE_CHANNEL = 4;
+    public static final int FRONT_RIGHT_STEER_CHANNEL = 4;
 
-    public static final int BACK_LEFT_DRIVE_CHANNEL = 3;
-    public static final int BACK_LEFT_STEER_CHANNEL = 3;
+    public static final int BACK_LEFT_DRIVE_CHANNEL = 2;
+    public static final int BACK_LEFT_STEER_CHANNEL = 2;
 
-    public static final int BACK_RIGHT_DRIVE_CHANNEL = 4;
-    public static final int BACK_RIGHT_STEER_CHANNEL = 4;
+    public static final int BACK_RIGHT_DRIVE_CHANNEL = 1;
+    public static final int BACK_RIGHT_STEER_CHANNEL = 1;
 
-    public static final int FRONT_LEFT_CANCODER_CHANNEL = 2;
-    public static final int FRONT_RIGHT_CANCODER_CHANNEL = 1;
+    public static final int FRONT_LEFT_CANCODER_CHANNEL = 3;
+    public static final int FRONT_RIGHT_CANCODER_CHANNEL = 4;
 
-    public static final int BACK_LEFT_CANCODER_CHANNEL = 3;
-    public static final int BACK_RIGHT_CANCODER_CHANNEL = 4;
+    public static final int BACK_LEFT_CANCODER_CHANNEL = 2;
+    public static final int BACK_RIGHT_CANCODER_CHANNEL = 1;
     // ENCODER OFFSETS
     public static final double FRONT_LEFT_ENCODER_OFFSET = -22.1484375;
     public static final double FRONT_RIGHT_ENCODER_OFFSET = -308.4082;

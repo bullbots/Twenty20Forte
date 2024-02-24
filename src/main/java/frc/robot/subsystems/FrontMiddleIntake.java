@@ -24,18 +24,19 @@ public class FrontMiddleIntake extends SubsystemBase {
     }
 
 
-    public void enable() {
-        m_IntakeMotors.set(TalonSRXControlMode.PercentOutput, (m_Direction*2)-1);
+    public void start() {
+        m_IntakeMotors.set(TalonSRXControlMode.PercentOutput, m_Direction);
+
     }
 
-    public void disable() {
+    public void stop() {
         m_IntakeMotors.set(TalonSRXControlMode.PercentOutput, 0);
 
     }
     /**
      * Sets the direction of the front intake motor
      * 
-     * @param direction 0 is forward, 1 is backward
+     * @param direction 1 is forward, 0 is backward
      */
     public void setDirection(int direction) {
         m_Direction = direction;
@@ -45,7 +46,5 @@ public class FrontMiddleIntake extends SubsystemBase {
         return m_Direction;
     }
 
-    public boolean isEnabled(){
-        return m_IntakeMotors.getMotorOutputPercent()!=0;
-    }
+
 }

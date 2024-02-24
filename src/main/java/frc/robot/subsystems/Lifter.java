@@ -10,33 +10,38 @@ import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Lift extends SubsystemBase {
-  private static final TalonFX rightLiftMotor = new TalonFX(Constants.Motors.LIFTING_RIGHT);
-  private static final TalonFX leftLiftMotor = new TalonFX(Constants.Motors.LIFTING_LEFT);
-  private static Lift instance = null;
+public class Lifter extends SubsystemBase {
+  private TalonFX m_liftMotor;
+  private int m_motorID;
+  private Lifter instance = null;
   private int m_Direction = 1;
-  public Lift getInstance(){
-      if(instance ==null){
-          instance = new Lift();
+
+  public Lifter(int motorID) {
+    m_liftMotor = new TalonFX(motorID);
+    m_motorID = motorID;
+  }
+
+
+  public Lifter getInstance(){
+      if(instance == null){
+          instance = new Lifter(m_motorID);
       }
       return instance;
   }
   /**
-   * Arms extending are positve, but doing a pull up is negative as arms are
+   * Arms extending are positive, but doing a pull up is negative as arms are
    * being retracted. Use as reference while coding the two movements 
    */
   
   //moves the arms up to reach the chain
-  public void enable() { 
+  public void start() { 
     
-    rightLiftMotor.set(m_Direction);
-    leftLiftMotor.set(-m_Direction);
+    //m_liftMotor.set(-m_Direction);
   }
 
   //moves the robot up in the air
-  public void disable() {
-    rightLiftMotor.set(0);
-    leftLiftMotor.set(0);
+  public void stop() {
+    m_liftMotor.set(0);
   }
   public void setDirection(int direction){
     m_Direction = direction;
@@ -44,7 +49,5 @@ public class Lift extends SubsystemBase {
   public int getDirection(){
     return m_Direction;
   }
-  public boolean isEnabled(){
-    return leftLiftMotor.get()!=0;
-  }
+
 }

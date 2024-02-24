@@ -42,7 +42,6 @@ import frc.robot.sensors.SimNavX;
 
 
 public class DriveTrain extends SwerveDrivetrain {
-  
   private static final double TRANSLATIONAL_TOLERANCE = .02;
   private static final double ROTATIONAL_TOLERANCE = Math.toRadians(1);
 
@@ -90,7 +89,7 @@ public class DriveTrain extends SwerveDrivetrain {
     return controller;
   }
   
-  public static double maxMetersPerSecond = 2;
+  public static double maxMetersPerSecond = 10;
 
   private static final ShuffleboardTab _shuffuleboardTab = Shuffleboard.getTab("Drivetrain");
   public static final DrivetrainConfig _config = new DrivetrainConfig(maxMetersPerSecond, .5, 7, 2, Units.inchesToMeters(2), 6.75, 2048);
@@ -127,8 +126,8 @@ public class DriveTrain extends SwerveDrivetrain {
   int staleVisionTicker = 0;
 
   NetworkTable limeNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
-  public DriveTrain() {
-    super(_shuffuleboardTab, _config, .501652, .62865, sim_gyro, frontLeft, frontRight, backLeft, backRight);
+  public DriveTrain(){
+    super(_shuffuleboardTab, _config, .501652, .62865, _gyro, frontLeft, frontRight, backLeft, backRight);
     encoders = new CANcoder[]{frontLeftEncoder, backLeftEncoder, frontRightEncoder, backRightEncoder};
     
     gyro.setAngleAdjustment(0);
@@ -364,5 +363,9 @@ public class DriveTrain extends SwerveDrivetrain {
       new SwerveModuleState(0, Rotation2d.fromDegrees(45))
       }
     );
+  }
+
+  public void setSpeed(double speed){
+    maxMetersPerSecond = speed;
   }
 }
