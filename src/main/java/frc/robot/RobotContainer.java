@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Lifting;
+import frc.robot.commands.WindlassDirections;
 import frc.robot.sensors.DebouncedDigitalInput;
 
 import java.time.LocalDateTime;
@@ -37,7 +38,7 @@ public class RobotContainer {
 
   private final Joystick m_controller = new Joystick(0);
   private final CommandJoystick m_guitarHero = new CommandJoystick(0);
-
+  private final Windlass m_Windlass = new Windlass();
   private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -122,6 +123,10 @@ public class RobotContainer {
 
     // m_guitarHero.povDown().whileTrue(m_slide.slide(Mode.DOWN));
     // m_guitarHero.povUp().whileTrue(m_slide.slide(Mode.UP));
+
+    //Bindings for the windlass direction
+    m_driverController.povLeft().whileTrue(new WindlassDirections(m_Windlass, -1));
+    m_driverController.povRight().whileFalse(new WindlassDirections(m_Windlass, 1));
     
 
   }
