@@ -3,21 +3,21 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Lifter;
 
 public class Lifting extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Lift m_liftSubsystem;
+  private final Lifter m_liftSubsystem;
   
   private int m_direction;
 
   /**
    * Creates a new ExampleCommand.
    *
-   * @param Lift The subsystem used by this command.
+   * @param Lifter The subsystem used by this command.
    * @return 
    */
-  public Lifting(Lift lift, int direction) {
+  public Lifting(Lifter lift, int direction) {
     m_direction = direction;
     m_liftSubsystem = lift;
     

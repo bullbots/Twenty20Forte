@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Lifter;
 
 
 import frc.robot.subsystems.Slider;
@@ -44,8 +44,8 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  public static final Lift m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
-  public static final Lift m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
+  public static final Lifter m_LiftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
+  public static final Lifter m_LiftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
   public static final DriveTrain m_drivetrain = new DriveTrain();
   public static final Slider m_slide = new Slider();
 

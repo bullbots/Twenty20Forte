@@ -10,21 +10,21 @@ import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Lift extends SubsystemBase {
+public class Lifter extends SubsystemBase {
   private TalonFX m_liftMotor;
   private int m_motorID;
-  private Lift instance = null;
+  private Lifter instance = null;
   private int m_Direction = 1;
 
-  public Lift(int motorID) {
+  public Lifter(int motorID) {
     m_liftMotor = new TalonFX(motorID);
     m_motorID = motorID;
   }
 
 
-  public Lift getInstance(){
+  public Lifter getInstance(){
       if(instance == null){
-          instance = new Lift(m_motorID);
+          instance = new Lifter(m_motorID);
       }
       return instance;
   }
