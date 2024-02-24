@@ -24,6 +24,7 @@ import frc.robot.subsystems.Lifter;
 
 
 import frc.robot.subsystems.Slider;
+import frc.robot.subsystems.Windlass;
 
 
 /**
