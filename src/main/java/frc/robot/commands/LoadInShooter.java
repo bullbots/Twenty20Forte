@@ -17,7 +17,7 @@ public class LoadInShooter extends Command {
    * @param Shooter The subsystem used by this command.
    * @return 
    */
-  public Loading(Shooter shoot, int direction) {
+  public LoadInShooter(Shooter shoot, int direction) {
     m_direction = direction;
     m_shooterSubsystem = shoot;
     

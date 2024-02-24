@@ -7,7 +7,7 @@ import frc.robot.Constants;
 import frc.robot.motors.WPI_CANSparkMax;
 
 public class Slider extends SubsystemBase {
-    enum Mode {
+    public enum Mode {
         UP,
         DOWN
     }
