@@ -9,9 +9,6 @@ import frc.robot.commands.Lifting;
 import frc.robot.commands.WindlassDirections;
 import frc.robot.sensors.DebouncedDigitalInput;
 
-import java.time.LocalDateTime;
-import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,6 +40,10 @@ public class RobotContainer {
   private final Windlass m_Windlass = new Windlass();
   private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
 
+    // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandXboxController m_driverController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
   private static final DriveTrain m_DriveTrain = new DriveTrain();
 
   public static final Lifter m_LiftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
@@ -70,9 +71,9 @@ public class RobotContainer {
                */
               final double DEAD_ZONE = .3;
               final double EXPONENT = 2;
-              double x = m_controller.getLeftX();
-              double y = m_controller.getLeftY();
-              double z = m_controller.getRightX();
+              double x = m_driverController.getLeftX();
+              double y = m_driverController.getLeftY();
+              double z = m_driverController.getRightX();
               // mathematical formula for adjusting the axis to a more usable number
               // ternary operators: (boolean) ? conditionIsTrue : conditionIsFalse
               x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
