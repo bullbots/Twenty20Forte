@@ -3,11 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Slide;
+import frc.robot.subsystems.Slider;
 
 public class MoveSlide extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Slide m_slideSubsystem;
+  private final Slider m_slideSubsystem;
   
   private int m_direction;
 
@@ -17,7 +17,7 @@ public class MoveSlide extends Command {
    * @param Shooter The subsystem used by this command.
    * @return 
    */
-  public Sliding(Slide slide, int direction) {
+  public Sliding(Slider slide, int direction) {
     m_direction = direction;
     m_slideSubsystem = slide;
     
