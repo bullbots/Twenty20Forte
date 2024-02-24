@@ -60,9 +60,21 @@ public class RobotContainer {
         double y = m_driverController.getLeftY();
         double z = m_driverController.getRightX();
         //mathematical formula for adjusting the axis to a more usable number
-        x = Math.pow((x-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT);
-        y = Math.pow((y-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT);
-        z = (z-DEAD_ZONE)/(1-DEAD_ZONE);
+        x = (Math.abs(x) >= DEAD_ZONE) ? (
+          (x > 0)
+           ? Math.pow((x-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+           : -Math.pow((x+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+        ) : 0;
+        y = (Math.abs(y) >= DEAD_ZONE) ? (
+          (y > 0)
+           ? Math.pow((y-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+           : -Math.pow((y+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+        ) : 0;
+        z = (Math.abs(z) >= DEAD_ZONE) ? (
+          (z > 0)
+          ? (z-DEAD_ZONE)/(1-DEAD_ZONE)
+          : (z+DEAD_ZONE)/(1-DEAD_ZONE)
+          ) : 0;
 
         m_drivetrain.holonomicDrive(
           -y,
@@ -92,10 +104,10 @@ public class RobotContainer {
     m_drivetrain = DriveTrain.getInstance();
 
     //Supplier for the Lift Directions command
-    //Robot Up
-    m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new LeftLift(m_LiftLeft,1));
-    //Robot Down
-    m_guitarHero.axisLessThan(1, 0.5).whileTrue(new LeftLift(m_LiftRight,-1));
+    // //Robot Up
+    // m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new LeftLift(m_LiftLeft,1));
+    // //Robot Down
+    // m_guitarHero.axisLessThan(1, 0.5).whileTrue(new LeftLift(m_LiftRight,-1));
 
     
   }

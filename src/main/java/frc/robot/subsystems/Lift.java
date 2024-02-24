@@ -36,7 +36,7 @@ public class Lift extends SubsystemBase {
   //moves the arms up to reach the chain
   public void enable() { 
     
-    m_liftMotor.set(-m_Direction);
+    //m_liftMotor.set(-m_Direction);
   }
 
   //moves the robot up in the air
