@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.LeftLift;
+import frc.robot.commands.Lifting;
 import frc.robot.sensors.DebouncedDigitalInput;
 
 import java.time.LocalDateTime;
@@ -50,6 +50,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
     //default driving code
     m_drivetrain.setDefaultCommand(
       new RunCommand(
@@ -82,10 +83,13 @@ public class RobotContainer {
           -z,
           true);
         }, m_drivetrain));
-    
-    
   }
 
+
+  
+  
+  }
+  public static double setAngle = 0;
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -103,12 +107,16 @@ public class RobotContainer {
     m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
     m_drivetrain = DriveTrain.getInstance();
 
-    //Supplier for the Lift Directions command
-    // //Robot Up
-    // m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new LeftLift(m_LiftLeft,1));
-    // //Robot Down
-    // m_guitarHero.axisLessThan(1, 0.5).whileTrue(new LeftLift(m_LiftRight,-1));
+    //Robot Up
+    m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_LiftLeft,1));
+    //Robot Down
+    m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(m_LiftRight,-1));
 
+    //Buttons for co-driver moving the slider up and down
+    //Slider up
+
+    m_guitarHero.povDown().whileTrue(new Slide(Down, 180));
+    m_guitarHero.povUp().whileTrue(new Slide(Up, 0));
     
   }
   

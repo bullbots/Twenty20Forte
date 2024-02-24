@@ -21,7 +21,11 @@ public final class Constants {
     public static final int STAGING_FRONT = 20;
     public static final int LIFTING_LEFT= 6;
     public static final int LIFTING_RIGHT = 7;
+    public static final int SHOOTING_LEFT = 8;
+    public static final int SHOOTING_RIGHT = 9;
+
     public static final int SLIDE = 14;
+
   }
 
   //Arm motor direction

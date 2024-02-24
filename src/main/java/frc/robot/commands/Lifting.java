@@ -5,7 +5,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Lift;
 
-public class LeftLift extends Command {
+public class Lifting extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Lift m_liftSubsystem;
   
@@ -17,7 +17,7 @@ public class LeftLift extends Command {
    * @param Lift The subsystem used by this command.
    * @return 
    */
-  public LeftLift(Lift lift, int direction) {
+  public Lifting(Lift lift, int direction) {
     m_direction = direction;
     m_liftSubsystem = lift;
     
