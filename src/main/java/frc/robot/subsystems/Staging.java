@@ -24,17 +24,14 @@ public class Staging extends SubsystemBase {
     //Staging uses two different motors
     TalonSRX m_StagingMotor;
     TalonSRX m_BackStagingMotor;
-    boolean staging = false;
-
+    
     public Staging() {
-        //TalonSRX requires Phoenix 
+        //TalonSRX requires Phoenix 5
         m_StagingMotor = new TalonSRX(Constants.Motors.STAGING);
     }
 
 
     public void enable(Mode mode) {
-        staging = true;    
-        //I belive the motors the motors need to run in opposite directions to pull the note the same direciton
 
         switch (mode) {
             case MAX_SPEED:
@@ -55,7 +52,6 @@ public class Staging extends SubsystemBase {
     }
 
     public void disable() {
-        staging = false;
         m_StagingMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
 
