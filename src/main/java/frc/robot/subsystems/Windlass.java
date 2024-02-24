@@ -18,14 +18,19 @@ public class Windlass extends SubsystemBase {
   private static final WPI_CANSparkMax m_WindlassMotor = new WPI_CANSparkMax(Constants.Motors.WINDLASS, MotorType.kBrushless); 
   int m_Direction = 1;
 
+  private static Windlass m_instance = null;
+  public Windlass getInstance(){
+      if(m_instance ==null){
+          m_instance = new Windlass();
+      }
+      return m_instance;
+  }
+
   /** The constructor */
   public Windlass() {
     
   }
 
-
-
-  
 
   public void enable() {
     // set it to a quarter speed
@@ -35,22 +40,23 @@ public class Windlass extends SubsystemBase {
   public void disable() {
     m_WindlassMotor.set(0);
   }
-    /**
-     * Sets the direction of the front intake motor
-     * 
-     * @param direction 0 is forward, 1 is backward
-     */
-    public void setDirection(int direction) {
-        m_Direction = direction;
-    }
+  
+  /**
+   * Sets the direction of the front intake motor
+   * 
+   * @param direction 0 is forward, 1 is backward
+   */
+  public void setDirection(int direction) {
+      m_Direction = direction;
+  }
 
-    public int getDirection() {
-        return m_Direction;
-    }
+  public int getDirection() {
+      return m_Direction;
+  }
 
-    public boolean isEnabled(){
-        return false; 
-    }
+  public boolean isEnabled(){
+      return false; 
+  }
 }
 
 
