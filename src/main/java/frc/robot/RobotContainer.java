@@ -119,7 +119,8 @@ public class RobotContainer {
     m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_LiftLeft,1));
     //Robot Down
     m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(m_LiftRight,-1));
-
+    m_driverController.button(9).onTrue(new RunCommand( () ->
+      m_drivetrain.setSpeed((m_drivetrain.maxMetersPerSecond == 10) ? 5 : 10)));
     //Buttons for co-driver moving the slider up and down
     //Slider up
 

@@ -372,4 +372,8 @@ public class DriveTrain extends SwerveDrivetrain {
       }
     );
   }
+
+  public void setSpeed(double speed){
+    maxMetersPerSecond = speed;
+  }
 }
