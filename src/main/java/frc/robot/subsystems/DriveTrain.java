@@ -43,14 +43,7 @@ import frc.robot.sensors.SimNavX;
 
 
 public class DriveTrain extends SwerveDrivetrain {
-  private static DriveTrain instance = null;
-  public static DriveTrain getInstance() {
-      if (instance == null) {
-          instance = new DriveTrain();
-      }
-      return instance;
-  }
-  
+
   private static final double TRANSLATIONAL_TOLERANCE = .02;
   private static final double ROTATIONAL_TOLERANCE = Math.toRadians(1);
 
@@ -135,7 +128,7 @@ public class DriveTrain extends SwerveDrivetrain {
   int staleVisionTicker = 0;
 
   NetworkTable limeNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
-  private DriveTrain(){
+  public DriveTrain(){
     super(_shuffuleboardTab, _config, .501652, .62865, _gyro, frontLeft, frontRight, backLeft, backRight);
     encoders = new CANcoder[]{frontLeftEncoder, backLeftEncoder, frontRightEncoder, backRightEncoder};
     

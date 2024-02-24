@@ -16,13 +16,13 @@ public final class Constants {
   public static final class Motors {
     public static final int INTAKE_FRONT = 13;
     public static final int BELT = 10;
-    public static final int STAGING = 20;
-    public static final int LIFTING_LEFT= 6;
-    public static final int LIFTING_RIGHT = 7;
-    public static final int SHOOTING_LEFT = 8;
-    public static final int SHOOTING_RIGHT = 9;
+    public static final int STAGER = 20;
+    public static final int LIFTER_LEFT= 6;
+    public static final int LIFTER_RIGHT = 7;
+    public static final int SHOOTER_LEFT = 8;
+    public static final int SHOOTER_RIGHT = 9;
 
-    public static final int SLIDE = 14;
+    public static final int SLIDER = 14;
 
     public static final int WINDLASS = 5;
   }

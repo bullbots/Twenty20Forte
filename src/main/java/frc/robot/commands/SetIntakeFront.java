@@ -19,7 +19,7 @@ public class SetIntakeFront extends Command{
     @Override
     public void initialize(){
         m_Intake.setDirection(m_Direciton);
-        m_Intake.enable();
+        m_Intake.start();
     }
 
     @Override

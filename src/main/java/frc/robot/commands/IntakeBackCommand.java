@@ -26,8 +26,8 @@ public class IntakeBackCommand  extends Command{
         // }
         m_BackIntake.setDirection(m_Direction);
         m_FrontMiddleIntake.setDirection(-m_Direction);
-        m_BackIntake.enable();
-        m_FrontMiddleIntake.enable();
+        m_BackIntake.start();
+        m_FrontMiddleIntake.start();
     }
     
     

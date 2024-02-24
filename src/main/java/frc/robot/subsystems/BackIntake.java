@@ -23,13 +23,13 @@ public class BackIntake extends SubsystemBase {
     }
 
 
-    public void enable() {
+    public void start() {
 
         m_BeltMotor.set(TalonSRXControlMode.PercentOutput, m_Direction);
 
     }
 
-    public void disable() {
+    public void stop() {
         m_BeltMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
     /**
@@ -44,8 +44,6 @@ public class BackIntake extends SubsystemBase {
     public int getDirection() {
         return m_Direction;
     }
-    public boolean isEnabled(){
-        return m_BeltMotor.getMotorOutputPercent()!=0;
-    }
+
 
 }
