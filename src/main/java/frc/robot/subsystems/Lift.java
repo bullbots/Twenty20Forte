@@ -34,13 +34,13 @@ public class Lift extends SubsystemBase {
    */
   
   //moves the arms up to reach the chain
-  public void enable() { 
+  public void start() { 
     
     //m_liftMotor.set(-m_Direction);
   }
 
   //moves the robot up in the air
-  public void disable() {
+  public void stop() {
     m_liftMotor.set(0);
   }
   public void setDirection(int direction){
@@ -49,7 +49,5 @@ public class Lift extends SubsystemBase {
   public int getDirection(){
     return m_Direction;
   }
-  public boolean isEnabled(){
-    return m_liftMotor.get()!=0;
-  }
+
 }

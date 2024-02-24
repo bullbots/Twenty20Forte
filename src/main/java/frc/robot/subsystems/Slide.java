@@ -23,7 +23,7 @@ public class Slide extends SubsystemBase {
     }
 
 
-    public void slide(Mode mode) {    
+    public void start(Mode mode) {    
         //I belive the motors the motors need to run in opposite directions to pull the note the same direciton
 
         switch (mode) {

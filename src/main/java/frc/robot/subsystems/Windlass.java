@@ -32,12 +32,12 @@ public class Windlass extends SubsystemBase {
   }
 
 
-  public void enable() {
+  public void start() {
     // set it to a quarter speed
     m_WindlassMotor.set(m_Direction * 0.25);
   }
 
-  public void disable() {
+  public void stop() {
     m_WindlassMotor.set(0);
   }
   
@@ -54,9 +54,7 @@ public class Windlass extends SubsystemBase {
       return m_Direction;
   }
 
-  public boolean isEnabled(){
-      return false; 
-  }
+
 }
 
 

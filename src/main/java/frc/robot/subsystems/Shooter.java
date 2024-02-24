@@ -19,12 +19,12 @@ private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(C
 int m_MotorDirection = 0;
 
 
-public void enable() {
+public void start() {
     m_shooterMotorLeft.set(1);
     m_shooterMotorRight.set(-1);
 }
 
-public void disable() {
+public void stop() {
     m_shooterMotorLeft.set(0);
     m_shooterMotorRight.set(0);
 }

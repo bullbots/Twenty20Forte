@@ -31,7 +31,7 @@ public class Staging extends SubsystemBase {
     }
 
 
-    public void enable(Mode mode) {
+    public void start(Mode mode) {
 
         switch (mode) {
             case MAX_SPEED:
@@ -51,7 +51,7 @@ public class Staging extends SubsystemBase {
         }
     }
 
-    public void disable() {
+    public void stop() {
         m_StagingMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
 
