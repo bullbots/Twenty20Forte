@@ -25,14 +25,14 @@ public class Lifting extends Command {
     addRequirements(lift);
     //Robot arms retracting in
     m_liftSubsystem.setDirection(-1);
-    m_liftSubsystem.enable();
+    m_liftSubsystem.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_liftSubsystem.setDirection(m_direction);
-    m_liftSubsystem.enable();
+    m_liftSubsystem.start();
   }
     
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +44,7 @@ public class Lifting extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_liftSubsystem.disable();
+    m_liftSubsystem.stop();
   }
 
   // Returns true when the command should end.
