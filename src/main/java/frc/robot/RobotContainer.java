@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Lifting;
+import frc.robot.commands.WindlassDirections;
 import frc.robot.sensors.DebouncedDigitalInput;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Lifter;
 
 import frc.robot.subsystems.Slider;
+import frc.robot.subsystems.Windlass;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -38,14 +40,10 @@ public class RobotContainer {
 
   private final Joystick m_controller = new Joystick(0);
   private final CommandJoystick m_guitarHero = new CommandJoystick(0);
-
+  private final Windlass m_Windlass = new Windlass();
   private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
 
   private static final DriveTrain m_DriveTrain = new DriveTrain();
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(
-      OperatorConstants.kDriverControllerPort);
 
   public static final Lifter m_LiftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
   public static final Lifter m_LiftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
@@ -72,9 +70,9 @@ public class RobotContainer {
                */
               final double DEAD_ZONE = .3;
               final double EXPONENT = 2;
-              double x = m_driverController.getLeftX();
-              double y = m_driverController.getLeftY();
-              double z = m_driverController.getRightX();
+              double x = m_controller.getLeftX();
+              double y = m_controller.getLeftY();
+              double z = m_controller.getRightX();
               // mathematical formula for adjusting the axis to a more usable number
               // ternary operators: (boolean) ? conditionIsTrue : conditionIsFalse
               x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
@@ -123,6 +121,10 @@ public class RobotContainer {
 
     // m_guitarHero.povDown().whileTrue(m_slide.slide(Mode.DOWN));
     // m_guitarHero.povUp().whileTrue(m_slide.slide(Mode.UP));
+
+    // Bindings for the windlass direction
+    m_driverController.povLeft().whileTrue(new WindlassDirections(m_Windlass, -1));
+    m_driverController.povRight().whileFalse(new WindlassDirections(m_Windlass, 1));
 
   }
 
