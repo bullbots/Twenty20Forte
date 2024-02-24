@@ -6,14 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Staging extends SubsystemBase {
-    private static Staging instance = null;
-    public Staging getInstance(){
-        if(instance ==null){
-            instance = new Staging();
-        }
-        return instance;
-    }
+public class Stager extends SubsystemBase {
     enum Mode {
         MAX_SPEED,
         HALF_SPEED,
@@ -26,18 +19,18 @@ public class Staging extends SubsystemBase {
     TalonSRX m_BackStagingMotor;
     boolean staging = false;
 
-    public Staging() {
+    public Stager() {
         //TalonSRX requires Phoenix 
         m_FrontStagingMotor = new TalonSRX(Constants.Motors.STAGING_FRONT);
         m_BackStagingMotor = new TalonSRX(Constants.Motors.STAGING_BACK);
     }
 
 
-    public void enable(Mode mode) {
+    public void start(Mode d) {
         staging = true;    
         //I belive the motors the motors need to run in opposite directions to pull the note the same direciton
 
-        switch (mode) {
+        switch (d) {
             case MAX_SPEED:
 
                 m_FrontStagingMotor.set(TalonSRXControlMode.PercentOutput, 1);
@@ -58,7 +51,7 @@ public class Staging extends SubsystemBase {
         }
     }
 
-    public void disable() {
+    public void stop() {
         staging = false;
         m_FrontStagingMotor.set(TalonSRXControlMode.PercentOutput, 0);
         m_BackStagingMotor.set(TalonSRXControlMode.PercentOutput, 0);

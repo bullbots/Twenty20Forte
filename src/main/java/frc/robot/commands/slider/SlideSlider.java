@@ -1,50 +1,49 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-package frc.robot.commands;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Slide;
+package frc.robot.commands.slider;
 
-public class MoveSlide extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Slide m_slideSubsystem;
-  
-  private int m_direction;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Slider;
+
+public class SlideSlider extends Command {
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+  private final Slider m_slideSubsystem;
+
+  private Slider.Mode m_direction;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param Shooter The subsystem used by this command.
-   * @return 
+   * @return
    */
-  public Sliding(Slide slide, int direction) {
+  public SlideSlider(Slider slide, Slider.Mode direction) {
     m_direction = direction;
     m_slideSubsystem = slide;
-    
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(slide);
-    //enabled
-    m_slideSubsystem.setDirection(Down);
-    m_slideSubsystem.enable();
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_slideSubsystem.setDirection(m_direction);
-    m_slideSubsystem.enable();
+  public void initialize() { 
+    System.out.println("initialize");
   }
-    
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // enabled
+    m_slideSubsystem.slide(m_direction);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_slideSubsystem.disable();
+    m_slideSubsystem.stop();
+    System.out.println("end");
   }
 
   // Returns true when the command should end.

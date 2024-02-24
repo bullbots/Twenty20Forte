@@ -12,14 +12,14 @@ import frc.robot.drivetrain.Subsystem;
 import frc.robot.sensors.NavX;
 
 /** Drivetrain base. */
-public abstract class Drivetrain extends Subsystem {
+public abstract class DriveTrainBase extends Subsystem {
     protected final Field2d field = new Field2d();
 
     protected final DrivetrainConfig config;
     protected final NavX gyro;
 
       /** Creates a new Drivetrain. */
-    public Drivetrain(
+    public DriveTrainBase(
         ShuffleboardTab shuffleboardTab,
         DrivetrainConfig config,
         NavX gyro

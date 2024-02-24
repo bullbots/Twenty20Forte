@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.motors.WPI_CANSparkMax;
 
-public class Slide extends SubsystemBase {
-    enum Mode {
+public class Slider extends SubsystemBase {
+public static enum Mode {
         UP,
         DOWN
     }
@@ -17,7 +17,7 @@ public class Slide extends SubsystemBase {
     WPI_CANSparkMax m_SlideMotor;
 
 
-    public Slide() {
+    public Slider() {
         //TalonSRX requires Phoenix 
         m_SlideMotor = new WPI_CANSparkMax(Constants.Motors.SLIDE, MotorType.kBrushless);
     }
@@ -29,14 +29,18 @@ public class Slide extends SubsystemBase {
         switch (mode) {
             case UP:
 
-                m_SlideMotor.set(1);
+                m_SlideMotor.set(0.3);
 
             case DOWN:
 
-                m_SlideMotor.set(-1);
+                m_SlideMotor.set(-0.3);
             default:
                 break;
         }
+    }
+
+    public void moveToPosition(){
+        m_SlideMotor.set
     }
 
     public void stop() {

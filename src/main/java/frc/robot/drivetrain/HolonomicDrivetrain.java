@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.sensors.NavX;
 
 /** Drivetrain base for any drivetrain with holonomic movement. */
-public abstract class HolonomicDrivetrain extends Drivetrain {
+public abstract class HolonomicDrivetrain extends DriveTrainBase {
     public HolonomicDrivetrain(ShuffleboardTab shuffleboardTab, DrivetrainConfig config, NavX gyro) {
         super(shuffleboardTab, config, gyro);
     }
