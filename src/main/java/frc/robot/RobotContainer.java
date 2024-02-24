@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Slide;
+import frc.robot.subsystems.Slide.Mode;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -43,6 +45,7 @@ public class RobotContainer {
   Lift m_LiftLeft;
   Lift m_LiftRight;
   DriveTrain m_drivetrain;
+  Slide m_slide = new Slide();
 
   public static double setAngle = 0;
   
@@ -55,12 +58,16 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(
       new RunCommand(
         () -> {
+        /**
+         * DEAD_ZONE is the distance from the center of the joystick that still has no robot function,
+         * EXPONENT is the ramping effect: Higher Exponent means slower speed of ramping */
         final double DEAD_ZONE = .3;
         final double EXPONENT = 2;
         double x = m_driverController.getLeftX();
         double y = m_driverController.getLeftY();
         double z = m_driverController.getRightX();
         //mathematical formula for adjusting the axis to a more usable number
+        //ternary operators: (boolean) ? conditionIsTrue : conditionIsFalse
         x = (Math.abs(x) >= DEAD_ZONE) ? (
           (x > 0)
            ? Math.pow((x-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
@@ -78,6 +85,7 @@ public class RobotContainer {
           ) : 0;
 
         m_drivetrain.holonomicDrive(
+          // All numbers are negative, due to the way WPI Motors handle rotation
           -y,
           -x,
           -z,
@@ -88,8 +96,8 @@ public class RobotContainer {
 
   
   
-  }
-  public static double setAngle = 0;
+  
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -115,8 +123,8 @@ public class RobotContainer {
     //Buttons for co-driver moving the slider up and down
     //Slider up
 
-    m_guitarHero.povDown().whileTrue(new Slide(Down, 180));
-    m_guitarHero.povUp().whileTrue(new Slide(Up, 0));
+    // m_guitarHero.povDown().whileTrue(m_slide.slide(Mode.DOWN));
+    // m_guitarHero.povUp().whileTrue(m_slide.slide(Mode.UP));
     
   }
   
