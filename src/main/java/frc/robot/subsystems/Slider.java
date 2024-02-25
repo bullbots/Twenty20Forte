@@ -29,11 +29,11 @@ public static enum Mode {
         switch (mode) {
             case DOWN:
                 System.out.println("Moving DOWN");
-                m_SlideMotor.set(0.6);
+                m_SlideMotor.set(0.75);
                 break;
             case UP:
                 System.out.println("Moving UP");
-                m_SlideMotor.set(-0.6);
+                m_SlideMotor.set(-0.75);
                 break;
             default:
                 break;
