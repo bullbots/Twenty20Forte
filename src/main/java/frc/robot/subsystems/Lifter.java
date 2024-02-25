@@ -15,8 +15,6 @@ public class Lifter extends SubsystemBase {
 
   public Lifter(int motorID) {
     m_liftMotor = new TalonFX(motorID);
-    m_motorID = motorID;
-
     m_liftMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
