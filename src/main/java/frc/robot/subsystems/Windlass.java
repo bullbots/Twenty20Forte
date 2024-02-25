@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.motors.WPI_CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 public class Windlass extends SubsystemBase {
 
@@ -19,6 +20,8 @@ public class Windlass extends SubsystemBase {
   /** The constructor */
   public Windlass() {
     
+    m_WindlassMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
   }
 
 
