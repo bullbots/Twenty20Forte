@@ -24,20 +24,18 @@ public class LoadInShooter extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shoot);
     //Robot arms retracting in
-    m_shooterSubsystem.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooterSubsystem.setDirection(m_direction);
-    m_shooterSubsystem.start();
+
   }
     
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    m_shooterSubsystem.speakerShoot();
   }
 
   // Called once the command ends or is interrupted.

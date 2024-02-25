@@ -1,0 +1,35 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Robot (Field2d)": "Field2d",
+      "/SmartDashboard/Test SlideSliderDown": "Command",
+      "/SmartDashboard/Test SlideSliderUp": "Command"
+    },
+    "windows": {
+      "/SmartDashboard/Robot (Field2d)": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Test SlideSliderUp": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "Test SlideSliderUp": {
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}

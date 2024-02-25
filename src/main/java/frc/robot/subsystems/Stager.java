@@ -17,7 +17,7 @@ public class Stager extends SubsystemBase {
 
     //Staging uses two different motors
     TalonSRX m_StagerMotor;
-    
+
     public Stager() {
         //TalonSRX requires Phoenix 5
         m_StagerMotor = new TalonSRX(Constants.Motors.STAGER);

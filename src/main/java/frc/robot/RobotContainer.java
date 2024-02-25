@@ -7,24 +7,19 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.Lifting;
+import frc.robot.commands.slider.SlideSlider;
 import frc.robot.commands.SetIntakeFront;
 import frc.robot.commands.WindlassDirections;
 import frc.robot.sensors.DebouncedDigitalInput;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.BackIntake;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.FrontMiddleIntake;
-import frc.robot.subsystems.Lifter;
-
-import frc.robot.subsystems.Slider;
-import frc.robot.subsystems.Stager;
-import frc.robot.subsystems.Windlass;
+import frc.robot.subsystems.*;
 
 
 /**
@@ -48,15 +43,18 @@ public class RobotContainer {
 
 
     // The robot's subsystems...
-    private static final DriveTrain m_driveTrain = new DriveTrain();
-    private final Windlass m_Windlass = new Windlass();
-    public static final Lifter m_liftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
-    public static final Lifter m_liftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
-    public static final Slider m_slide = new Slider();
-    public static final FrontMiddleIntake m_frontMiddleIntake = new FrontMiddleIntake();
-    public static final BackIntake m_backIntake = new BackIntake();
-    public static final Stager m_stager = new Stager();
-    public static double setAngle = 0;
+    private static final DriveTrain drivetrain = new DriveTrain();
+    private final Windlass windlass = new Windlass();
+    public static final Lifter liftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
+    public static final Lifter liftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
+    public static final Slider slider = new Slider();
+    public static final FrontMiddleIntake frontMiddleIntake = new FrontMiddleIntake();
+    public static final BackIntake backIntake = new BackIntake();
+    public static final Stager stager = new Stager();
+    public static final Shooter shooter = new Shooter();
+
+    // Global robot states
+    public static double gyro_angle = 0;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -65,8 +63,14 @@ public class RobotContainer {
         // Configure the trigger bindings
         configureBindings();
 
+        if (Robot.isSimulation()) {
+            DriverStation.silenceJoystickConnectionWarning(true);
+        }
+        // Configure the trigger bindings
+        configureBindings();
+
         // default driving code
-        m_driveTrain.setDefaultCommand(
+        drivetrain.setDefaultCommand(
                 new RunCommand(
                         () -> {
                             /**
@@ -91,53 +95,64 @@ public class RobotContainer {
                                     ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
                                     : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;
 
-                            m_driveTrain.holonomicDrive(
+                            drivetrain.holonomicDrive(
                                     // All numbers are negative, due to the way WPI Motors handle rotation
                                     -y,
                                     -x,
                                     -z,
                                     true);
-                        }, m_driveTrain));
+                        }, drivetrain));
     }
 
 
     /**
-     * Use this method to define your trigger->command mappings. Triggers can be
-     * created via the
-     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-     * an arbitrary
+     * Use this method to define your trigger->command mappings. Triggers can be created via the
+     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
      * predicate, or via the named factories in {@link
-     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-     * {@link
-     * CommandXboxController
-     * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or
-     * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+     * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+     * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
     private void configureBindings() {
+
         // Driver controls
 
         m_driverController.button(9).onTrue(new RunCommand(() ->
-                m_driveTrain.setSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
+                drivetrain.setSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
         //Bindings for the windlass direction
-        m_driverController.povLeft().whileTrue(new WindlassDirections(m_Windlass, -1));
-        m_driverController.povRight().whileFalse(new WindlassDirections(m_Windlass, 1));
+        m_driverController.povLeft().whileTrue(new WindlassDirections(windlass, -1));
+        m_driverController.povRight().whileFalse(new WindlassDirections(windlass, 1));
 
         // Copilot controls
 
         //Robot Up
-        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_liftLeft, 1));
+        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
         //Robot Down
-        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(m_liftRight, -1));
+        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
+        //Robot Up
+        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
+        //Robot Down
+        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
+
+        SmartDashboard.putData("Test SlideSliderUp", new SlideSlider(slider, Slider.Mode.UP));
+        SmartDashboard.putData("Test SlideSliderDown", new SlideSlider(slider, Slider.Mode.DOWN));
 
         //Buttons for co-driver moving the slider up and down
         //Slider up
-        m_guitarHero.button(10).onTrue(new IntakeBackCommand(m_backIntake, m_frontMiddleIntake, m_stager, 1));
-        m_guitarHero.button(10).onFalse(new IntakeBackCommand(m_backIntake, m_frontMiddleIntake, m_stager, 0));
-        m_guitarHero.button(9).onTrue(new SetIntakeFront(m_frontMiddleIntake, m_stager, 1));
-        m_guitarHero.button(9).onFalse(new SetIntakeFront(m_frontMiddleIntake, m_stager, 0));
+
+        m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
+        m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+
+        // Bindings for shooting into the Speaker
+
+        //Buttons for co-driver moving the slider up and down
+        //Slider up
+        m_guitarHero.button(10).onTrue(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 1));
+        m_guitarHero.button(10).onFalse(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 0));
+        m_guitarHero.button(9).onTrue(new SetIntakeFront(frontMiddleIntake, stager, 1));
+        m_guitarHero.button(9).onFalse(new SetIntakeFront(frontMiddleIntake, stager, 0));
     }
 
 
