@@ -394,7 +394,4 @@ public class DriveTrain extends SwerveDrivetrain {
     maxMetersPerSecond = speed;
   }
 
-  public void setSpeed(double speed){
-    maxMetersPerSecond = speed;
-  }
 }

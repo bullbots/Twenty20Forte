@@ -30,7 +30,6 @@ public class IntakeBackCommand  extends Command{
         m_FrontMiddleIntake.start();
     }
     
-    
     @Override
     public boolean isFinished(){
         return true;
