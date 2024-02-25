@@ -63,7 +63,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    default driving code
+    // default driving code
     m_drivetrain.setDefaultCommand(
       new RunCommand(
         () -> {
