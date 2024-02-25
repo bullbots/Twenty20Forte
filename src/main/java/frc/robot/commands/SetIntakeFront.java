@@ -27,7 +27,7 @@ public class SetIntakeFront extends Command{
         if(m_Direction==0){
             m_Stager.stop();
         } else{
-            m_Stager.start(Stager.Mode.HALF_SPEED);
+            m_Stager.start(Stager.Mode.MAX_SPEED);
         }
 
         System.out.println("back intake initialized");
