@@ -7,15 +7,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Stager extends SubsystemBase {
-    private static Stager instance = null;
-    public Stager getInstance(){
-        if(instance ==null){
-            instance = new Stager();
-        }
-        return instance;
-    }
-    
-    enum Mode {
+
+    public enum Mode {
         MAX_SPEED,
         HALF_SPEED,
         QUARTER_SPEED
@@ -37,15 +30,15 @@ public class Stager extends SubsystemBase {
             case MAX_SPEED:
 
                 m_StagerMotor.set(TalonSRXControlMode.PercentOutput, 1);
-
+                break;
             case HALF_SPEED:
 
                 m_StagerMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
-
+                break;
             case QUARTER_SPEED:
 
                 m_StagerMotor.set(TalonSRXControlMode.PercentOutput, 0.25);
-                
+                break;
             default:
                 break;
         }
