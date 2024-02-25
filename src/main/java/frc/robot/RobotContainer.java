@@ -125,14 +125,14 @@ public class RobotContainer {
     //Robot Down
     m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(m_LiftRight,-1));
 
-    // SmartDashboard.putData("Test SlideSliderUp", new SlideSlider(slider, Slider.Mode.UP));
-
+    SmartDashboard.putData("Test SlideSliderUp", new SlideSlider(slider, Slider.Mode.UP));
+    SmartDashboard.putData("Test SlideSliderDown", new SlideSlider(slider, Slider.Mode.DOWN));
 
     //Buttons for co-driver moving the slider up and down
     //Slider up
 
-    //m_guitarHero.povDown().whileTrue(new Slide(Down, 180));
-    //m_guitarHero.povUp().whileTrue(new Slide(Up, 0));
+    m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
+    m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
 
     // Bindings for shooting into the Speaker
     

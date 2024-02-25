@@ -3,6 +3,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Robot (Field2d)": "Field2d",
+      "/SmartDashboard/Test SlideSliderDown": "Command",
       "/SmartDashboard/Test SlideSliderUp": "Command"
     },
     "windows": {

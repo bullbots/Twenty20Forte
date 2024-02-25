@@ -20,6 +20,7 @@ public class WPI_CANSparkMax extends CANSparkMax implements Sendable {
      *                 connected to the Red and Black terminals only.
      */
     public SparkPIDController pidController;
+    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
     public WPI_CANSparkMax(int deviceId, MotorType type) {
         super(deviceId, type);
@@ -29,6 +30,7 @@ public class WPI_CANSparkMax extends CANSparkMax implements Sendable {
 
     private void configure() {
         restoreFactoryDefaults();
+        
         setSmartCurrentLimit(20);
         pidController = getPIDController();
         // PID coefficients

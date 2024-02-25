@@ -7,7 +7,7 @@ package frc.robot.commands.shooting;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
-import frc.robot.commands.slider.SliderSliderToPosition;
+import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.stager.StagingYeet;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,7 +18,7 @@ public class ShootInSpeaker extends SequentialCommandGroup {
   public ShootInSpeaker() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ParallelCommandGroup(new SliderSliderToPosition(RobotContainer.slider),
+    addCommands(new ParallelCommandGroup(new SlideSliderToPosition(RobotContainer.slider, 100),
                                          new SpinUpShooter(RobotContainer.shooter)),
                                          new StagingYeet(RobotContainer.stager){
                                           @Override

@@ -27,20 +27,21 @@ public static enum Mode {
         //I belive the motors the motors need to run in opposite directions to pull the note the same direciton
 
         switch (mode) {
-            case UP:
-
-                m_SlideMotor.set(0.3);
-
             case DOWN:
-
-                m_SlideMotor.set(-0.3);
+                System.out.println("Moving DOWN");
+                m_SlideMotor.set(0.6);
+                break;
+            case UP:
+                System.out.println("Moving UP");
+                m_SlideMotor.set(-0.6);
+                break;
             default:
                 break;
         }
     }
 
     public void moveToPosition(){
-        m_SlideMotor.set
+        m_SlideMotor.set(0.3);
     }
 
     public void stop() {
