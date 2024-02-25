@@ -5,7 +5,9 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.Lifting;
+import frc.robot.commands.SetIntakeFront;
 import frc.robot.commands.WindlassDirections;
 import frc.robot.sensors.DebouncedDigitalInput;
 
@@ -16,7 +18,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.BackIntake;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Lifter;
 
 import frc.robot.subsystems.Slider;
@@ -51,6 +55,8 @@ public class RobotContainer {
   public static final Lifter m_LiftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
   public static final DriveTrain m_drivetrain = new DriveTrain();
   public static final Slider m_slide = new Slider();
+  public static final FrontMiddleIntake m_FrontMiddleIntake = new FrontMiddleIntake();
+  public static final BackIntake m_BackIntake = new BackIntake();
 
   public static double setAngle = 0;
 
@@ -121,7 +127,10 @@ public class RobotContainer {
       m_drivetrain.setSpeed((m_drivetrain.maxMetersPerSecond == 10) ? 5 : 10)));
     //Buttons for co-driver moving the slider up and down
     //Slider up
-
+    m_guitarHero.button(10).onTrue(new IntakeBackCommand(m_BackIntake, m_FrontMiddleIntake, 1));
+    m_guitarHero.button(10).onFalse(new IntakeBackCommand(m_BackIntake, m_FrontMiddleIntake, 0));
+    m_guitarHero.button(9).onTrue(new SetIntakeFront(m_FrontMiddleIntake, 1));
+    m_guitarHero.button(9).onFalse(new SetIntakeFront(m_FrontMiddleIntake, 0));
     // m_guitarHero.povDown().whileTrue(m_slide.slide(Mode.DOWN));
     // m_guitarHero.povUp().whileTrue(m_slide.slide(Mode.UP));
 
