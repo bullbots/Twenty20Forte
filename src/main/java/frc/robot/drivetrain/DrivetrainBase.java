@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.sensors.NavX;
 
 /** Drivetrain base. */
-public abstract class DrivetrainBaseRename extends SubsystemBase {
+public abstract class DrivetrainBase extends SubsystemBase {
     protected final Field2d field = new Field2d();
 
     protected final DrivetrainConfig config;
     protected final NavX gyro;
 
       /** Creates a new Drivetrain. */
-    public DrivetrainBaseRename(
+    public DrivetrainBase(
         ShuffleboardTab shuffleboardTab,
         DrivetrainConfig config,
         NavX gyro

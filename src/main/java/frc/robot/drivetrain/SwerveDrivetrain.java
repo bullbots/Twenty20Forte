@@ -18,7 +18,7 @@ import frc.robot.subsystems.ShuffleBoardSubsystem;
 import frc.robot.sensors.NavX;
 
 /** Swerve Drivetrain base. */
-public class SwerveDrivetrain extends DrivetrainBaseRename implements HolonomicDrivetrain, ShuffleBoardSubsystem {
+public class SwerveDrivetrain extends DrivetrainBase implements HolonomicDrivetrain, ShuffleBoardSubsystem {
   public static final double MAX_VOLTAGE = 12.0;
 
   public static final SwerveModuleState[] EMPTY_SWERVE_MODULE_STATES = new SwerveModuleState[] {
