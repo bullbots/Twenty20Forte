@@ -63,38 +63,38 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    //default driving code
-  //   m_drivetrain.setDefaultCommand(
-  //     new RunCommand(
-  //       () -> {
-  //       final double DEAD_ZONE = .3;
-  //       final double EXPONENT = 2;
-  //       double x = m_driverController.getLeftX();
-  //       double y = m_driverController.getLeftY();
-  //       double z = m_driverController.getRightX();
-  //       //mathematical formula for adjusting the axis to a more usable number
-  //       x = (Math.abs(x) >= DEAD_ZONE) ? (
-  //         (x > 0)
-  //          ? Math.pow((x-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-  //          : -Math.pow((x+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-  //       ) : 0;
-  //       y = (Math.abs(y) >= DEAD_ZONE) ? (
-  //         (y > 0)
-  //          ? Math.pow((y-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-  //          : -Math.pow((y+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-  //       ) : 0;
-  //       z = (Math.abs(z) >= DEAD_ZONE) ? (
-  //         (z > 0)
-  //         ? (z-DEAD_ZONE)/(1-DEAD_ZONE)
-  //         : (z+DEAD_ZONE)/(1-DEAD_ZONE)
-  //         ) : 0;
+    default driving code
+    m_drivetrain.setDefaultCommand(
+      new RunCommand(
+        () -> {
+        final double DEAD_ZONE = .3;
+        final double EXPONENT = 2;
+        double x = m_driverController.getLeftX();
+        double y = m_driverController.getLeftY();
+        double z = m_driverController.getRightX();
+        //mathematical formula for adjusting the axis to a more usable number
+        x = (Math.abs(x) >= DEAD_ZONE) ? (
+          (x > 0)
+           ? Math.pow((x-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+           : -Math.pow((x+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+        ) : 0;
+        y = (Math.abs(y) >= DEAD_ZONE) ? (
+          (y > 0)
+           ? Math.pow((y-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+           : -Math.pow((y+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
+        ) : 0;
+        z = (Math.abs(z) >= DEAD_ZONE) ? (
+          (z > 0)
+          ? (z-DEAD_ZONE)/(1-DEAD_ZONE)
+          : (z+DEAD_ZONE)/(1-DEAD_ZONE)
+          ) : 0;
 
-  //       m_drivetrain.holonomicDrive(
-  //         -y,
-  //         -x,
-  //         -z,
-  //         true);
-  //       }, m_drivetrain));
+        m_drivetrain.holonomicDrive(
+          -y,
+          -x,
+          -z,
+          true);
+        }, m_drivetrain));
   
   }
 
