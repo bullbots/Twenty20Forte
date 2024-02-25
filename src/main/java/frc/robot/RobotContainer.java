@@ -14,6 +14,7 @@ import frc.robot.sensors.DebouncedDigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -24,6 +25,7 @@ import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Lifter;
 
 import frc.robot.subsystems.Slider;
+import frc.robot.subsystems.Stager;
 import frc.robot.subsystems.Windlass;
 
 
@@ -40,8 +42,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final Joystick m_controller = new Joystick(0);
-  private final CommandJoystick m_guitarHero = new CommandJoystick(0);
+  // private final Joystick m_controller = new Joystick(0);
+  private final CommandJoystick m_guitarHero = new CommandJoystick(1);
   private final Windlass m_Windlass = new Windlass();
   private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
 
@@ -57,7 +59,7 @@ public class RobotContainer {
   public static final Slider m_slide = new Slider();
   public static final FrontMiddleIntake m_FrontMiddleIntake = new FrontMiddleIntake();
   public static final BackIntake m_BackIntake = new BackIntake();
-
+  public static final Stager m_Stager = new Stager();
   public static double setAngle = 0;
 
   /**
@@ -127,10 +129,11 @@ public class RobotContainer {
       m_drivetrain.setSpeed((m_drivetrain.maxMetersPerSecond == 10) ? 5 : 10)));
     //Buttons for co-driver moving the slider up and down
     //Slider up
-    m_guitarHero.button(10).onTrue(new IntakeBackCommand(m_BackIntake, m_FrontMiddleIntake, 1));
-    m_guitarHero.button(10).onFalse(new IntakeBackCommand(m_BackIntake, m_FrontMiddleIntake, 0));
-    m_guitarHero.button(9).onTrue(new SetIntakeFront(m_FrontMiddleIntake, 1));
-    m_guitarHero.button(9).onFalse(new SetIntakeFront(m_FrontMiddleIntake, 0));
+    m_guitarHero.button(10).onTrue(new IntakeBackCommand(m_BackIntake, m_FrontMiddleIntake, m_Stager,  1));
+    m_guitarHero.button(10).onFalse(new IntakeBackCommand(m_BackIntake, m_FrontMiddleIntake, m_Stager, 0));
+    m_guitarHero.button(9).onTrue(new SetIntakeFront(m_FrontMiddleIntake, m_Stager, 1));
+    m_guitarHero.button(9).onFalse(new SetIntakeFront(m_FrontMiddleIntake, m_Stager, 0));
+    // m_guitarHero.button(9).whileTrue(new IntakeBackCommand(m_BackIntake, m_FrontMiddleIntake, 1));
     // m_guitarHero.povDown().whileTrue(m_slide.slide(Mode.DOWN));
     // m_guitarHero.povUp().whileTrue(m_slide.slide(Mode.UP));
 

@@ -22,6 +22,7 @@ public class WindlassDirections extends Command {
  public void initialize() {
    m_Windlass.setDirection(m_direction);
    m_Windlass.start();
+   System.out.println();
  }
 
   // Called every time the scheduler runs while the command is scheduled.

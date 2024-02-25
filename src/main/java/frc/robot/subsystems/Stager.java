@@ -15,7 +15,7 @@ public class Stager extends SubsystemBase {
         return instance;
     }
     
-    enum Mode {
+    public static enum Mode {
         MAX_SPEED,
         HALF_SPEED,
         QUARTER_SPEED
