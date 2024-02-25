@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,9 +13,9 @@ import frc.robot.motors.WPI_CANSparkMax;
 
 public class Shooter extends SubsystemBase {
 
-    private static final WPI_CANSparkMax m_shooterMotorLeft = new WPI_CANSparkMax(Constants.Motors.SHOOTING_LEFT,
+    private static final WPI_CANSparkMax m_shooterMotorLeft = new WPI_CANSparkMax(Constants.Motors.SHOOTER_LEFT,
             MotorType.kBrushless);
-    private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(Constants.Motors.SHOOTING_RIGHT,
+    private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(Constants.Motors.SHOOTER_RIGHT,
             MotorType.kBrushless);
 
     private void set(double speed) {

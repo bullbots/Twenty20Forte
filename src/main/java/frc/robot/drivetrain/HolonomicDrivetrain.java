@@ -6,14 +6,9 @@ package frc.robot.drivetrain;
 
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.sensors.NavX;
 
 /** Drivetrain base for any drivetrain with holonomic movement. */
-public abstract class HolonomicDrivetrain extends DriveTrainBase {
-    public HolonomicDrivetrain(ShuffleboardTab shuffleboardTab, DrivetrainConfig config, NavX gyro) {
-        super(shuffleboardTab, config, gyro);
-    }
+public interface HolonomicDrivetrain {
 
     /**
      * Primary method of controlling the robot.
@@ -23,7 +18,7 @@ public abstract class HolonomicDrivetrain extends DriveTrainBase {
      * @param rot rotational speed
      * @param fieldRelative field or robot relative
      */
-    public abstract void holonomicDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative);
+    public void holonomicDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative);
 
-    public abstract void fromChassisSpeeds(ChassisSpeeds speeds);
+    public void fromChassisSpeeds(ChassisSpeeds speeds);
 }

@@ -5,152 +5,169 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.Lifting;
 import frc.robot.commands.slider.SlideSlider;
+import frc.robot.commands.SetIntakeFront;
+import frc.robot.commands.WindlassDirections;
 import frc.robot.sensors.DebouncedDigitalInput;
 
-import java.time.LocalDateTime;
-import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Lift;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Slider;
-import frc.robot.subsystems.Stager;
+import frc.robot.subsystems.*;
+
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    // Replace with CommandPS4Controller or CommandJoystick if needed
+    private final CommandXboxController m_driverController =
+            new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
 
-  private final Joystick m_controller = new Joystick(0);
-  private final CommandJoystick m_guitarHero = new CommandJoystick(0);
 
-  private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
+    // Stand-alone sensors
+    private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  Lift m_LiftLeft;
-  Lift m_LiftRight;
-  DriveTrain m_drivetrain;
-  public static Slider slider;
-  public static Shooter shooter;
-  public static Stager stager;
+    // The robot's subsystems...
+    private static final DriveTrain drivetrain = new DriveTrain();
+    private final Windlass windlass = new Windlass();
+    public static final Lifter liftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
+    public static final Lifter liftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
+    public static final Slider slider = new Slider();
+    public static final FrontMiddleIntake frontMiddleIntake = new FrontMiddleIntake();
+    public static final BackIntake backIntake = new BackIntake();
+    public static final Stager stager = new Stager();
+    public static final Shooter shooter = new Shooter();
 
-  public static double setAngle = 0;
-  
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+    // Global robot states
+    public static double gyro_angle = 0;
 
-    if (Robot.isSimulation()){
-    DriverStation.silenceJoystickConnectionWarning(true);
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        // Configure the trigger bindings
+        configureBindings();
+
+        if (Robot.isSimulation()) {
+            DriverStation.silenceJoystickConnectionWarning(true);
+        }
+        // Configure the trigger bindings
+        configureBindings();
+
+        // default driving code
+        drivetrain.setDefaultCommand(
+                new RunCommand(
+                        () -> {
+                            /**
+                             * DEAD_ZONE is the distance from the center of the joystick that still has no
+                             * robot function,
+                             * EXPONENT is the ramping effect: Higher Exponent means slower speed of ramping
+                             */
+                            final double DEAD_ZONE = .3;
+                            final double EXPONENT = 2;
+                            double x = m_driverController.getLeftX();
+                            double y = m_driverController.getLeftY();
+                            double z = m_driverController.getRightX();
+                            // mathematical formula for adjusting the axis to a more usable number
+                            // ternary operators: (boolean) ? conditionIsTrue : conditionIsFalse
+                            x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
+                                    ? Math.pow((x - DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)
+                                    : -Math.pow((x + DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)) : 0;
+                            y = (Math.abs(y) >= DEAD_ZONE) ? ((y > 0)
+                                    ? Math.pow((y - DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)
+                                    : -Math.pow((y + DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)) : 0;
+                            z = (Math.abs(z) >= DEAD_ZONE) ? ((z > 0)
+                                    ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
+                                    : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;
+
+                            drivetrain.holonomicDrive(
+                                    // All numbers are negative, due to the way WPI Motors handle rotation
+                                    -y,
+                                    -x,
+                                    -z,
+                                    true);
+                        }, drivetrain));
     }
-    // Configure the trigger bindings
-    configureBindings();
 
-    // default driving code
-    m_drivetrain.setDefaultCommand(
-      new RunCommand(
-        () -> {
-        final double DEAD_ZONE = .3;
-        final double EXPONENT = 2;
-        double x = m_driverController.getLeftX();
-        double y = m_driverController.getLeftY();
-        double z = m_driverController.getRightX();
-        //mathematical formula for adjusting the axis to a more usable number
-        x = (Math.abs(x) >= DEAD_ZONE) ? (
-          (x > 0)
-           ? Math.pow((x-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-           : -Math.pow((x+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-        ) : 0;
-        y = (Math.abs(y) >= DEAD_ZONE) ? (
-          (y > 0)
-           ? Math.pow((y-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-           : -Math.pow((y+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-        ) : 0;
-        z = (Math.abs(z) >= DEAD_ZONE) ? (
-          (z > 0)
-          ? (z-DEAD_ZONE)/(1-DEAD_ZONE)
-          : (z+DEAD_ZONE)/(1-DEAD_ZONE)
-          ) : 0;
 
-        m_drivetrain.holonomicDrive(
-          -y,
-          -x,
-          -z,
-          true);
-        }, m_drivetrain));
-  
-  }
+    /**
+     * Use this method to define your trigger->command mappings. Triggers can be created via the
+     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+     * predicate, or via the named factories in {@link
+     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+     * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+     * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+     * joysticks}.
+     */
+    private void configureBindings() {
 
-  
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
-  private void configureBindings() {
-    // Creating left lift arm
-    m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
+        // Driver controls
 
-    // Creating right lift arm
-    m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
-    m_drivetrain = DriveTrain.getInstance();
+        m_driverController.button(9).onTrue(new RunCommand(() ->
+                drivetrain.setSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
-    slider = new Slider();
-    shooter = new Shooter();
-    stager = new Stager();
+        //Bindings for the windlass direction
+        m_driverController.povLeft().whileTrue(new WindlassDirections(windlass, -1));
+        m_driverController.povRight().whileFalse(new WindlassDirections(windlass, 1));
 
-    //Robot Up
-    m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_LiftLeft,1));
-    //Robot Down
-    m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(m_LiftRight,-1));
+        // Copilot controls
 
-    SmartDashboard.putData("Test SlideSliderUp", new SlideSlider(slider, Slider.Mode.UP));
-    SmartDashboard.putData("Test SlideSliderDown", new SlideSlider(slider, Slider.Mode.DOWN));
+        //Robot Up
+        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
+        //Robot Down
+        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
+        //Robot Up
+        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
+        //Robot Down
+        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
 
-    //Buttons for co-driver moving the slider up and down
-    //Slider up
+        SmartDashboard.putData("Test SlideSliderUp", new SlideSlider(slider, Slider.Mode.UP));
+        SmartDashboard.putData("Test SlideSliderDown", new SlideSlider(slider, Slider.Mode.DOWN));
 
-    m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
-    m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+        //Buttons for co-driver moving the slider up and down
+        //Slider up
 
-    // Bindings for shooting into the Speaker
-    
-  }
-  
+        m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
+        m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    // return Autos.exampleAuto(m_exampleSubsystem);
-    return null;
-  }
+        // Bindings for shooting into the Speaker
 
-  public void periodic() {
-    SmartDashboard.putNumber("Intake Sensor", m_intakeSensor.get() ? 1 : 0);
-  }
+        //Buttons for co-driver moving the slider up and down
+        //Slider up
+        m_guitarHero.button(10).onTrue(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 1));
+        m_guitarHero.button(10).onFalse(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 0));
+        m_guitarHero.button(9).onTrue(new SetIntakeFront(frontMiddleIntake, stager, 1));
+        m_guitarHero.button(9).onFalse(new SetIntakeFront(frontMiddleIntake, stager, 0));
+    }
+
+
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        // An example command will be run in autonomous
+        // return Autos.exampleAuto(m_exampleSubsystem);
+        return null;
+    }
+
+    public void periodic() {
+        SmartDashboard.putNumber("Intake Sensor", m_intakeSensor.get() ? 1 : 0);
+    }
 }

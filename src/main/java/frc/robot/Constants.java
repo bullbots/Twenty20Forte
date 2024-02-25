@@ -14,18 +14,17 @@ package frc.robot;
  */
 public final class Constants {
   public static final class Motors {
-    public static final int INTAKE_FRONT = 13;
-    public static final int BELT1 = 10;
-    public static final int BELT2 =11;
-    public static final int STAGING_BACK = 21;
-    public static final int STAGING_FRONT = 20;
-    public static final int LIFTING_LEFT= 6;
-    public static final int LIFTING_RIGHT = 7;
-    public static final int SHOOTING_LEFT = 8;
-    public static final int SHOOTING_RIGHT = 9;
+    public static final int INTAKE_FRONT = 12;
+    public static final int BELT = 10;
+    public static final int STAGER = 20;
+    public static final int LIFTER_LEFT= 6;
+    public static final int LIFTER_RIGHT = 7;
+    public static final int SHOOTER_LEFT = 8;
+    public static final int SHOOTER_RIGHT = 9;
 
-    public static final int SLIDE = 14;
+    public static final int SLIDER = 14;
 
+    public static final int WINDLASS = 5;
   }
 
   //Arm motor direction
@@ -66,5 +65,6 @@ public final class Constants {
   
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kCopilotControllerPort = 1;
   }
 }

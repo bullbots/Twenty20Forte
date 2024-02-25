@@ -8,23 +8,23 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.drivetrain.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.sensors.NavX;
 
 /** Drivetrain base. */
-public abstract class DriveTrainBase extends Subsystem {
+public abstract class DrivetrainBaseRename extends SubsystemBase {
     protected final Field2d field = new Field2d();
 
     protected final DrivetrainConfig config;
     protected final NavX gyro;
 
       /** Creates a new Drivetrain. */
-    public DriveTrainBase(
+    public DrivetrainBaseRename(
         ShuffleboardTab shuffleboardTab,
         DrivetrainConfig config,
         NavX gyro
     ) {
-        super(shuffleboardTab);
+        super();
         this.config = config;
         // gyro.reset();
         this.gyro = gyro;

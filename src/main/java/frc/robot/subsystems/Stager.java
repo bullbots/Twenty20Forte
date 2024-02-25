@@ -7,7 +7,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Stager extends SubsystemBase {
-    enum Mode {
+
+    public enum Mode {
         MAX_SPEED,
         HALF_SPEED,
         QUARTER_SPEED
@@ -15,49 +16,36 @@ public class Stager extends SubsystemBase {
 
 
     //Staging uses two different motors
-    TalonSRX m_FrontStagingMotor;
-    TalonSRX m_BackStagingMotor;
-    boolean staging = false;
+    TalonSRX m_StagerMotor;
 
     public Stager() {
-        //TalonSRX requires Phoenix 
-        m_FrontStagingMotor = new TalonSRX(Constants.Motors.STAGING_FRONT);
-        m_BackStagingMotor = new TalonSRX(Constants.Motors.STAGING_BACK);
+        //TalonSRX requires Phoenix 5
+        m_StagerMotor = new TalonSRX(Constants.Motors.STAGER);
     }
 
 
-    public void start(Mode d) {
-        staging = true;    
-        //I belive the motors the motors need to run in opposite directions to pull the note the same direciton
+    public void start(Mode mode) {
 
-        switch (d) {
+        switch (mode) {
             case MAX_SPEED:
 
-                m_FrontStagingMotor.set(TalonSRXControlMode.PercentOutput, 1);
-                m_BackStagingMotor.set(TalonSRXControlMode.PercentOutput, -1);
-
+                m_StagerMotor.set(TalonSRXControlMode.PercentOutput, 1);
+                break;
             case HALF_SPEED:
 
-                m_FrontStagingMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
-                m_BackStagingMotor.set(TalonSRXControlMode.PercentOutput, -0.5);
-
+                m_StagerMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
+                break;
             case QUARTER_SPEED:
 
-                m_FrontStagingMotor.set(TalonSRXControlMode.PercentOutput, 0.25);
-                m_BackStagingMotor.set(TalonSRXControlMode.PercentOutput, -0.25);
-                
+                m_StagerMotor.set(TalonSRXControlMode.PercentOutput, 0.25);
+                break;
             default:
                 break;
         }
     }
 
     public void stop() {
-        staging = false;
-        m_FrontStagingMotor.set(TalonSRXControlMode.PercentOutput, 0);
-        m_BackStagingMotor.set(TalonSRXControlMode.PercentOutput, 0);
+        m_StagerMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
 
-    public boolean isEnabled() {
-        return staging;
-    }
 }

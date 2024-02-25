@@ -91,7 +91,7 @@ public abstract class SwerveModule {
             public void drive(SwerveModuleState desiredState) {
                 // Optimize the reference state to avoid spinning further than 90 degrees
                 SwerveModuleState state2 = new SwerveModuleState();
-                state2.angle = Rotation2d.fromDegrees(RobotContainer.setAngle);
+                state2.angle = Rotation2d.fromDegrees(RobotContainer.gyro_angle);
                 SwerveModuleState state =
                         SwerveModuleState.optimize(desiredState, getCANCoderRotation2d());
 
@@ -122,7 +122,7 @@ public abstract class SwerveModule {
                 
                 driveFalcon.set(driveOutput);//-drive out
           
-                //System.out.println("M:" + moduleNumber + " speed:" + driveFalcon.get()/(13824/0.31918581360472297881)); // ticks/s -> m/s
+                // System.out.println("M:" + moduleNumber + " speed:" + driveFalcon.get()/(13824/0.31918581360472297881)); // ticks/s -> m/s
                 if(ignorCount > 0){
                     ignorCount--;
                     steeringNeo.set(turnOutput/8);

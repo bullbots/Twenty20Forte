@@ -3,21 +3,21 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Lifter;
 
 public class Lifting extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Lift m_liftSubsystem;
+  private final Lifter m_liftSubsystem;
   
   private int m_direction;
 
   /**
    * Creates a new ExampleCommand.
    *
-   * @param Lift The subsystem used by this command.
+   * @param Lifter The subsystem used by this command.
    * @return 
    */
-  public Lifting(Lift lift, int direction) {
+  public Lifting(Lifter lift, int direction) {
     m_direction = direction;
     m_liftSubsystem = lift;
     
@@ -25,14 +25,14 @@ public class Lifting extends Command {
     addRequirements(lift);
     //Robot arms retracting in
     m_liftSubsystem.setDirection(-1);
-    m_liftSubsystem.enable();
+    m_liftSubsystem.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_liftSubsystem.setDirection(m_direction);
-    m_liftSubsystem.enable();
+    m_liftSubsystem.start();
   }
     
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +44,7 @@ public class Lifting extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_liftSubsystem.disable();
+    m_liftSubsystem.stop();
   }
 
   // Returns true when the command should end.

@@ -7,43 +7,37 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Slider;
 
 public class SlideSlider extends Command {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final Slider m_slideSubsystem;
+
+  private final Slider m_sliderSubsystem;
 
   private Slider.Mode m_direction;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param Shooter The subsystem used by this command.
-   * @return
-   */
-  public SlideSlider(Slider slide, Slider.Mode direction) {
+
+  public SlideSlider(Slider slider, Slider.Mode direction) {
     m_direction = direction;
-    m_slideSubsystem = slide;
-    addRequirements(slide);
+    m_sliderSubsystem = slider;
+    addRequirements(slider);
 
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() { 
-    System.out.println("initialize");
+  public void initialize() {
+    System.out.println("INFO: SlideSlider initialize");
+    m_sliderSubsystem.slide(Slider.Mode.UP);
   }
-
+    
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // enabled
-    m_slideSubsystem.slide(m_direction);
-
+    m_sliderSubsystem.slide(m_direction);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_slideSubsystem.stop();
-    System.out.println("end");
+    m_sliderSubsystem.stop();
+    System.out.println("INFO: SlideSlider end");
   }
 
   // Returns true when the command should end.
