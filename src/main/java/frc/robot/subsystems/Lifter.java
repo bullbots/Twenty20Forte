@@ -5,18 +5,20 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Lifter extends SubsystemBase {
     private final TalonFX m_liftMotor;
     private int m_Direction = 1;
 
-    public Lifter(int motorID) {
-        m_liftMotor = new TalonFX(motorID);
-    }
+  public Lifter(int motorID) {
+    m_liftMotor = new TalonFX(motorID);
+    m_motorID = motorID;
+
+    m_liftMotor.setNeutralMode(NeutralModeValue.Brake);
+  }
 
     /**
      * Arms extending are positive, but doing a pull up is negative as arms are
