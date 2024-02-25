@@ -6,47 +6,40 @@ import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Stager;
 
 
-public class IntakeBackCommand  extends Command{
+public class IntakeBackCommand extends Command {
 
     BackIntake m_BackIntake;
     int m_Direction;
     FrontMiddleIntake m_FrontMiddleIntake;
     Stager m_Stager;
 
-    public IntakeBackCommand(BackIntake backIntake, FrontMiddleIntake frontMiddleIntake, Stager stager, int direction){
+    public IntakeBackCommand(BackIntake backIntake, FrontMiddleIntake frontMiddleIntake, Stager stager, int direction) {
         m_BackIntake = backIntake;
         m_FrontMiddleIntake = frontMiddleIntake;
         m_Direction = direction;
-        m_Stager =stager;
-        
-    }
-    
-    @Override
-    public void initialize(){
+        m_Stager = stager;
 
-        // if(/*check whether or not the sensor is sensed here*/){
-        //     end(true);
-        // }
+    }
+
+    @Override
+    public void initialize() {
+
         m_BackIntake.setDirection(m_Direction);
         m_FrontMiddleIntake.setDirection(-m_Direction);
-        
+
         m_BackIntake.start();
         m_FrontMiddleIntake.start();
 
-        if(m_Direction==0){
+        if (m_Direction == 0) {
             m_Stager.stop();
-        } else{
+        } else {
             m_Stager.start(Stager.Mode.MAX_SPEED);
         }
         System.out.println("back intake initialized");
     }
-    //@Override
-    // public void end(boolean interrupted){
-    //     m_BackIntake.stop();
-    //     System.out.println("back intake end");
-    // }
+
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return true;
     }
 }

@@ -7,15 +7,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Stager extends SubsystemBase {
-    private static Stager instance = null;
-    public Stager getInstance(){
-        if(instance ==null){
-            instance = new Stager();
-        }
-        return instance;
-    }
 
-    public static enum Mode {
+    public enum Mode {
         MAX_SPEED,
         HALF_SPEED,
         QUARTER_SPEED
