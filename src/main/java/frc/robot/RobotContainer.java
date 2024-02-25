@@ -22,6 +22,7 @@ import frc.robot.subsystems.Lifter;
 import frc.robot.subsystems.Slider;
 import frc.robot.subsystems.Windlass;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -95,6 +96,7 @@ public class RobotContainer {
             }, m_drivetrain));
   }
 
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
    * created via the
@@ -111,23 +113,25 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    // Robot Up
-    m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_LiftLeft, 1));
-    // Robot Down
-    m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(m_LiftRight, -1));
-    m_driverController.button(9)
-        .onTrue(new RunCommand(() -> m_drivetrain.setSpeed((m_drivetrain.maxMetersPerSecond == 10) ? 5 : 10)));
-    // Buttons for co-driver moving the slider up and down
-    // Slider up
+    //Robot Up
+    m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_LiftLeft,1));
+    //Robot Down
+    m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(m_LiftRight,-1));
+    m_driverController.button(9).onTrue(new RunCommand( () ->
+      m_drivetrain.setSpeed((m_drivetrain.maxMetersPerSecond == 10) ? 5 : 10)));
+    //Buttons for co-driver moving the slider up and down
+    //Slider up
 
     // m_guitarHero.povDown().whileTrue(m_slide.slide(Mode.DOWN));
     // m_guitarHero.povUp().whileTrue(m_slide.slide(Mode.UP));
 
-    // Bindings for the windlass direction
+
+    //Bindings for the windlass direction
     m_driverController.povLeft().whileTrue(new WindlassDirections(m_Windlass, -1));
     m_driverController.povRight().whileFalse(new WindlassDirections(m_Windlass, 1));
 
   }
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

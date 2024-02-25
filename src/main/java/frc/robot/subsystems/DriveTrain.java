@@ -40,6 +40,7 @@ import frc.robot.motors.WPI_CANSparkMax;
 import frc.robot.sensors.SimNavX;
 
 public class DriveTrain extends SwerveDrivetrain {
+
   private static final double TRANSLATIONAL_TOLERANCE = .02;
   private static final double ROTATIONAL_TOLERANCE = Math.toRadians(1);
 
@@ -91,6 +92,7 @@ public class DriveTrain extends SwerveDrivetrain {
     controller.setTolerance(ROTATIONAL_TOLERANCE);
     return controller;
   }
+
   public static double maxMetersPerSecond = 10;
 
   private static final ShuffleboardTab _shuffuleboardTab = Shuffleboard.getTab("Drivetrain");
@@ -389,6 +391,10 @@ public class DriveTrain extends SwerveDrivetrain {
   }
 
   public void setSpeed(double speed) {
+    maxMetersPerSecond = speed;
+  }
+
+  public void setSpeed(double speed){
     maxMetersPerSecond = speed;
   }
 }
