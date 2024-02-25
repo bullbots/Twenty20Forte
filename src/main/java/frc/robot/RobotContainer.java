@@ -9,9 +9,6 @@ import frc.robot.commands.Lifting;
 import frc.robot.commands.WindlassDirections;
 import frc.robot.sensors.DebouncedDigitalInput;
 
-import java.time.LocalDateTime;
-import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,15 +19,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Lifter;
 
-
 import frc.robot.subsystems.Slider;
 import frc.robot.subsystems.Windlass;
 
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
@@ -42,9 +41,11 @@ public class RobotContainer {
   private final Windlass m_Windlass = new Windlass();
   private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+    // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  private static final DriveTrain m_DriveTrain = new DriveTrain();
 
   public static final Lifter m_LiftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
   public static final Lifter m_LiftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
@@ -52,63 +53,62 @@ public class RobotContainer {
   public static final Slider m_slide = new Slider();
 
   public static double setAngle = 0;
-  
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
 
-    //default driving code
+    // default driving code
     m_drivetrain.setDefaultCommand(
-      new RunCommand(
-        () -> {
-        /**
-         * DEAD_ZONE is the distance from the center of the joystick that still has no robot function,
-         * EXPONENT is the ramping effect: Higher Exponent means slower speed of ramping */
-        final double DEAD_ZONE = .3;
-        final double EXPONENT = 2;
-        double x = m_driverController.getLeftX();
-        double y = m_driverController.getLeftY();
-        double z = m_driverController.getRightX();
-        //mathematical formula for adjusting the axis to a more usable number
-        //ternary operators: (boolean) ? conditionIsTrue : conditionIsFalse
-        x = (Math.abs(x) >= DEAD_ZONE) ? (
-          (x > 0)
-           ? Math.pow((x-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-           : -Math.pow((x+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-        ) : 0;
-        y = (Math.abs(y) >= DEAD_ZONE) ? (
-          (y > 0)
-           ? Math.pow((y-DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-           : -Math.pow((y+DEAD_ZONE)/(1-DEAD_ZONE),EXPONENT)
-        ) : 0;
-        z = (Math.abs(z) >= DEAD_ZONE) ? (
-          (z > 0)
-          ? (z-DEAD_ZONE)/(1-DEAD_ZONE)
-          : (z+DEAD_ZONE)/(1-DEAD_ZONE)
-          ) : 0;
+        new RunCommand(
+            () -> {
+              /**
+               * DEAD_ZONE is the distance from the center of the joystick that still has no
+               * robot function,
+               * EXPONENT is the ramping effect: Higher Exponent means slower speed of ramping
+               */
+              final double DEAD_ZONE = .3;
+              final double EXPONENT = 2;
+              double x = m_driverController.getLeftX();
+              double y = m_driverController.getLeftY();
+              double z = m_driverController.getRightX();
+              // mathematical formula for adjusting the axis to a more usable number
+              // ternary operators: (boolean) ? conditionIsTrue : conditionIsFalse
+              x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
+                  ? Math.pow((x - DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)
+                  : -Math.pow((x + DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)) : 0;
+              y = (Math.abs(y) >= DEAD_ZONE) ? ((y > 0)
+                  ? Math.pow((y - DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)
+                  : -Math.pow((y + DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)) : 0;
+              z = (Math.abs(z) >= DEAD_ZONE) ? ((z > 0)
+                  ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
+                  : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;
 
-        m_drivetrain.holonomicDrive(
-          // All numbers are negative, due to the way WPI Motors handle rotation
-          -y,
-          -x,
-          -z,
-          true);
-        }, m_drivetrain));
+              m_drivetrain.holonomicDrive(
+                  // All numbers are negative, due to the way WPI Motors handle rotation
+                  -y,
+                  -x,
+                  -z,
+                  true);
+            }, m_drivetrain));
   }
 
 
-  
-  
-  
-
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
@@ -125,10 +125,10 @@ public class RobotContainer {
     // m_guitarHero.povDown().whileTrue(m_slide.slide(Mode.DOWN));
     // m_guitarHero.povUp().whileTrue(m_slide.slide(Mode.UP));
 
+
     //Bindings for the windlass direction
     m_driverController.povLeft().whileTrue(new WindlassDirections(m_Windlass, -1));
     m_driverController.povRight().whileFalse(new WindlassDirections(m_Windlass, 1));
-    
 
   }
   
