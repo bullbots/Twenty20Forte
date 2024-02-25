@@ -5,10 +5,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Lifter extends SubsystemBase {
   private TalonFX m_liftMotor;
@@ -19,6 +18,8 @@ public class Lifter extends SubsystemBase {
   public Lifter(int motorID) {
     m_liftMotor = new TalonFX(motorID);
     m_motorID = motorID;
+
+    m_liftMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
 
