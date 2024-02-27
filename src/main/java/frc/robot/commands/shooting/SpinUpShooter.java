@@ -12,12 +12,23 @@ import frc.robot.subsystems.Shooter;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SpinUpShooter extends WaitCommand {
+   Shooter shooter1;
+
   public SpinUpShooter(Shooter shooter) {
     super(1.0);
     addRequirements(shooter);
+    shooter1 = shooter;
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    shooter1.set(0.5);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+      shooter1.stop();
+  }
 }

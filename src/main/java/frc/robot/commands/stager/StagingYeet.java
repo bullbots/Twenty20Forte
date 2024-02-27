@@ -9,12 +9,16 @@ import frc.robot.subsystems.Stager;
 
 public class StagingYeet extends InstantCommand {
   /** Creates a new StagingYeet. */
+  Stager m_stager;
   public StagingYeet(Stager stager) {
     addRequirements(stager);
+    m_stager = stager;
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_stager.start(Stager.Mode.MAX_SPEED);
+  }
 
 }
