@@ -29,9 +29,10 @@ public final class Autos {
   private static SendableChooser<Pair<Command,Command>> commandChooser = new SendableChooser<>();
 
   public static void load(){
+    System.out.println(DriveTrain.getInstance().getPose2d());
     commandChooser.setDefaultOption("Testing", new Pair<Command,Command>(
-      new DriveToPos(DriveTrain.getInstance(), () -> new Pose2d(0,0,new Rotation2d(0)), () -> DriverStation.isAutonomousEnabled()),
-      null));
+      new DriveToPos(DriveTrain.getInstance(), () -> new Pose2d(-1,0,new Rotation2d(0)), () -> false),
+      new DriveToPos(DriveTrain.getInstance(), () -> new Pose2d(1,0,new Rotation2d(0)), () -> false)));
 
     SmartDashboard.putData("Command Selected", commandChooser);
   }
