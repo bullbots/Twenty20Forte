@@ -139,8 +139,8 @@ public class RobotContainer {
         //Robot Down
         m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
 
-        SmartDashboard.putData("Test SlideSliderToSpeaker", new SlideSliderToPosition(slider, 0));
-        SmartDashboard.putData("Test SlideSliderToAmp", new SlideSliderToPosition(slider, -120));
+        SmartDashboard.putData("Test SlideSliderToSpeaker", new SlideSliderToPosition(slider, 0, slider::isAtPosition));
+        SmartDashboard.putData("Test SlideSliderToAmp", new SlideSliderToPosition(slider, -120, slider::isAtPosition));
 
         //Buttons for co-driver moving the slider up and down
         //Slider up

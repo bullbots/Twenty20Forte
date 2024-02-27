@@ -14,19 +14,16 @@ public class Slider extends SubsystemBase {
         DOWN
     }
 
-
     WPI_CANSparkMax m_SliderMotor;
     private int m_position;
-    private static final int TOLERANCE = 50;
-
+    private static final int TOLERANCE = 5;
 
     public Slider() {
         m_SliderMotor = new WPI_CANSparkMax(Constants.Motors.SLIDER, MotorType.kBrushless);
     }
 
-
     public void slide(Mode mode) {
-        //I belive the motors the motors need to run in opposite directions to pull the note the same direciton
+        // I believe the motors need to run in opposite directions to pull the note the same direction
 
         switch (mode) {
             case DOWN:
@@ -48,8 +45,8 @@ public class Slider extends SubsystemBase {
     }
 
     public boolean isAtPosition() {
-        return (m_position - TOLERANCE <= m_SliderMotor.encoder.getPosition()) && 
-        (m_SliderMotor.encoder.getPosition() <= m_position + TOLERANCE); 
+        return (m_position - TOLERANCE <= m_SliderMotor.encoder.getPosition()) &&
+                (m_SliderMotor.encoder.getPosition() <= m_position + TOLERANCE);
     }
 
     public void stop() {
@@ -58,6 +55,6 @@ public class Slider extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("slider encoder", m_SliderMotor.encoder.getPosition());
+        SmartDashboard.putNumber("Slider encoder", m_SliderMotor.encoder.getPosition());
     }
 }

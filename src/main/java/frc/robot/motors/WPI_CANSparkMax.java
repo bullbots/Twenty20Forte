@@ -9,6 +9,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
 
+
 public class WPI_CANSparkMax extends CANSparkMax implements Sendable {
     /**
      * Create a new object to control a SPARK MAX motor Controller
@@ -32,10 +33,11 @@ public class WPI_CANSparkMax extends CANSparkMax implements Sendable {
 
     private void configure() {
         restoreFactoryDefaults();
-        
+
         setSmartCurrentLimit(20);
         pidController = getPIDController();
         encoder = getEncoder();
+
         // PID coefficients
         var kP = 5e-5;
         var kI = 1e-6;

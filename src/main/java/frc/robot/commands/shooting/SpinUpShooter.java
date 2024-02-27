@@ -4,7 +4,6 @@
 
 package frc.robot.commands.shooting;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Shooter;
 
@@ -12,23 +11,24 @@ import frc.robot.subsystems.Shooter;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SpinUpShooter extends WaitCommand {
-   Shooter shooter1;
+    Shooter shooter;
 
-  public SpinUpShooter(Shooter shooter) {
-    super(1.0);
-    addRequirements(shooter);
-    shooter1 = shooter;
+    public SpinUpShooter(Shooter shooter) {
+        super(1.0);
+        addRequirements(shooter);
+        this.shooter = shooter;
+    }
 
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        System.out.println("INFO: SpinUpShooter initialize");
+        shooter.set(0.5);
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    shooter1.set(0.5);
-  }
-
-  @Override
-  public void end(boolean interrupted) {
-      shooter1.stop();
-  }
+    @Override
+    public void end(boolean interrupted) {
+        System.out.println("INFO: SpinUpShooter end");
+//        shooter.stop();
+    }
 }

@@ -18,7 +18,7 @@ public class ShootInSpeaker extends SequentialCommandGroup {
   public ShootInSpeaker() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ParallelCommandGroup(new SlideSliderToPosition(RobotContainer.slider, 0),
+    addCommands(new ParallelCommandGroup(new SlideSliderToPosition(RobotContainer.slider, 0, RobotContainer.slider::isAtPosition),
                                          new SpinUpShooter(RobotContainer.shooter)),
                                          new StagingYeet(RobotContainer.stager){
                                           @Override
