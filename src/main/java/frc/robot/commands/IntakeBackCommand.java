@@ -22,7 +22,8 @@ public class IntakeBackCommand extends Command {
         m_Direction = direction;
         m_Stager = stager;
         m_Sensor = sensor;
-
+        addRequirements(m_BackIntake);
+        addRequirements(m_FrontMiddleIntake);
     }
 
     @Override
