@@ -149,10 +149,9 @@ public class RobotContainer {
 
         //Buttons for co-driver moving the slider up and down
         //Slider up
-        m_guitarHero.button(10).onTrue(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 1));
-        m_guitarHero.button(10).onFalse(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 0));
-        m_guitarHero.button(9).onTrue(new SetIntakeFront(frontMiddleIntake, stager, 1));
-        m_guitarHero.button(9).onFalse(new SetIntakeFront(frontMiddleIntake, stager, 0));
+        m_guitarHero.button(10).whileTrue(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 1, () -> m_intakeSensor.get()));
+        m_guitarHero.button(9).whileTrue(new SetIntakeFront(frontMiddleIntake, stager, 1, () -> m_intakeSensor.get()));
+
     }
 
 
