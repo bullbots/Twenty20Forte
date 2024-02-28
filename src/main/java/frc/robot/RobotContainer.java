@@ -8,8 +8,11 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.Lifting;
 import frc.robot.commands.slider.SlideSlider;
+import frc.robot.commands.slider.SlideSliderToPosition;
+import frc.robot.commands.stager.StagingYeet;
 import frc.robot.commands.SetIntakeFront;
 import frc.robot.commands.WindlassDirections;
+import frc.robot.commands.shooting.ShootInSpeaker;
 import frc.robot.sensors.DebouncedDigitalInput;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -117,7 +120,7 @@ public class RobotContainer {
     private void configureBindings() {
 
         // Driver controls
-
+        m_driverController.axisGreaterThan(3,0.5).whileTrue(new ShootInSpeaker() );
         m_driverController.button(9).onTrue(new RunCommand(() ->
                 drivetrain.setSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
@@ -136,8 +139,8 @@ public class RobotContainer {
         //Robot Down
         m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
 
-        SmartDashboard.putData("Test SlideSliderUp", new SlideSlider(slider, Slider.Mode.UP));
-        SmartDashboard.putData("Test SlideSliderDown", new SlideSlider(slider, Slider.Mode.DOWN));
+        SmartDashboard.putData("Test SlideSliderToSpeaker", new SlideSliderToPosition(slider, 0, slider::isAtPosition));
+        SmartDashboard.putData("Test SlideSliderToAmp", new SlideSliderToPosition(slider, -120, slider::isAtPosition));
 
         //Buttons for co-driver moving the slider up and down
         //Slider up

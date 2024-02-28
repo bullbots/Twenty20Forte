@@ -18,13 +18,13 @@ public class Shooter extends SubsystemBase {
     private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(Constants.Motors.SHOOTER_RIGHT,
             MotorType.kBrushless);
 
-    private void set(double speed) {
+    public void set(double speed) {
         m_shooterMotorLeft.set(speed);
         m_shooterMotorRight.set(-speed);
     }
 
     public void speakerShoot() {
-        set(0.5);
+        set(1.0);
     }
 
     public void stop() {
