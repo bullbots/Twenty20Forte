@@ -100,8 +100,8 @@ public class RobotContainer {
 
                             drivetrain.holonomicDrive(
                                     // All numbers are negative, due to the way WPI Motors handle rotation
-                                    -y,
-                                    -x,
+                                    y,
+                                    x,
                                     -z,
                                     true);
                         }, drivetrain));
@@ -127,6 +127,9 @@ public class RobotContainer {
         //Bindings for the windlass direction
         m_driverController.povLeft().whileTrue(new WindlassDirections(windlass, -1));
         m_driverController.povRight().whileFalse(new WindlassDirections(windlass, 1));
+
+        //Reset Gyro
+        m_driverController.button(8).onTrue(new RunCommand(()-> drivetrain.resetGyro()));
 
         // Copilot controls
 
