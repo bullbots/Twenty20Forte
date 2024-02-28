@@ -7,7 +7,6 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -29,10 +28,9 @@ public final class Autos {
   private static SendableChooser<Pair<Command,Command>> commandChooser = new SendableChooser<>();
 
   public static void load(){
-    System.out.println(DriveTrain.getInstance().getPose2d());
     commandChooser.setDefaultOption("Testing", new Pair<Command,Command>(
-      new DriveToPos(DriveTrain.getInstance(), () -> new Pose2d(-1,0,new Rotation2d(0)), () -> false),
-      new DriveToPos(DriveTrain.getInstance(), () -> new Pose2d(1,0,new Rotation2d(0)), () -> false)));
+      new DriveForward(100),
+      new DriveForward(100)));
 
     SmartDashboard.putData("Command Selected", commandChooser);
   }

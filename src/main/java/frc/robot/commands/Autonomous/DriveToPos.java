@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveTrain;
@@ -17,7 +18,7 @@ public class DriveToPos extends Command {
   private Supplier<Pose2d> targetPosSupplier;
   private Supplier<Boolean> interrupt;
   private Pose2d targetPos;
-
+  private Pose2d currentPos;
   private PIDController controlX, controlY;
   private ProfiledPIDController controlA;
   /** Creates a new DriveToPos. */
@@ -31,6 +32,7 @@ public class DriveToPos extends Command {
     controlX = DriveTrain.getTunedTranslationalPIDController();
     controlY = DriveTrain.getTunedTranslationalPIDController();
     controlA = DriveTrain.getTunedRotationalPIDController();
+    currentPos = new Pose2d(0,0,drivetrain.getPose2d().getRotation());
   }
 
   // Called when the command is initially scheduled.
@@ -40,6 +42,7 @@ public class DriveToPos extends Command {
     controlX.reset();
     controlY.reset();
     targetPos = targetPosSupplier.get();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,13 +51,14 @@ public class DriveToPos extends Command {
     final double MAX = 2;
     final double MIN = -2;
     if (targetPos == null) return;
-    Pose2d currentPos = drivetrain.getPose2d();
     double dx = controlX.calculate(currentPos.getX(),targetPos.getX());
     double dy = controlY.calculate(currentPos.getY(),targetPos.getY());
     double da = controlA.calculate(currentPos.getRotation().getRadians(), targetPos.getRotation().getRadians());
+    System.out.println("" + dx + ", " + dy + ", " + da);
     dx = (dx > MAX) ? MAX : (dx < MIN) ? MIN : dx;
     dy = (dy > MAX) ? MAX : (dy < MIN) ? MIN : dy;
     drivetrain.fromChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(dx, dy, da, currentPos.getRotation()));
+    currentPos = new Pose2d(currentPos.getX() + dx, currentPos.getY() + dy, drivetrain.getPose2d().getRotation());
   }
 
   // Called once the command ends or is interrupted.
@@ -67,6 +71,6 @@ public class DriveToPos extends Command {
   @Override
   public boolean isFinished() {
     if (interrupt.get() || targetPos == null) return true;
-    return controlX.atSetpoint() && controlA.atSetpoint() && controlY.atSetpoint();
+    return (controlX.atSetpoint() && controlA.atSetpoint() && controlY.atSetpoint());
   }
 }

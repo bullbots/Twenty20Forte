@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Lifting;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.sensors.DebouncedDigitalInput;
+import frc.robot.sensors.NavX;
 
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
@@ -20,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Lift;
-import frc.robot.subsystems.Slide;
+import frc.robot.subsystems.Lifter;
+import frc.robot.subsystems.Slider;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -42,11 +43,10 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  Lift m_LiftLeft;
-  Lift m_LiftRight;
+  Lifter m_LiftLeft;
+  Lifter m_LiftRight;
   DriveTrain m_drivetrain;
-  Slide m_slide = new Slide();
-
+  Slider m_slide = new Slider();
   public static double setAngle = 0;
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -110,10 +110,10 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Creating left lift arm
-    m_LiftLeft = new Lift(Constants.Motors.LIFTING_LEFT);
+    m_LiftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
 
     // Creating right lift arm
-    m_LiftRight = new Lift(Constants.Motors.LIFTING_RIGHT);
+    m_LiftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
     m_drivetrain = DriveTrain.getInstance();
 
     //Robot Up
