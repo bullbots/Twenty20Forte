@@ -14,13 +14,13 @@ public class DriveForward extends Command {
   final int stop;
   public DriveForward(int feet) {
     // Use addRequirements() here to declare subsystem dependencies.
-    drivetrain = DriveTrain.getInstance();
+    drivetrain = RobotContainer.drivetrain;
     this.stop = feet * 24;
   }
 
   public DriveForward(int[] feet_inches) {
     // Use addRequirements() here to declare subsystem dependencies.
-    drivetrain = DriveTrain.getInstance();
+    drivetrain = RobotContainer.drivetrain;
     this.stop = feet_inches[0] * 24 + feet_inches[1] * 2;
   }
   // Called when the command is initially scheduled.

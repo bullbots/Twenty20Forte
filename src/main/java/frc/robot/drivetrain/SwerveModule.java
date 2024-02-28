@@ -91,7 +91,7 @@ public abstract class SwerveModule {
             public void drive(SwerveModuleState desiredState) {
                 // Optimize the reference state to avoid spinning further than 90 degrees
                 SwerveModuleState state2 = new SwerveModuleState();
-                state2.angle = Rotation2d.fromDegrees(RobotContainer.setAngle);
+                state2.angle = Rotation2d.fromDegrees(RobotContainer.gyro_angle);
                 SwerveModuleState state =
                         SwerveModuleState.optimize(desiredState, getCANCoderRotation2d());
 

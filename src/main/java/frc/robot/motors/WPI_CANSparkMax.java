@@ -2,11 +2,13 @@
 package frc.robot.motors;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
+
 
 public class WPI_CANSparkMax extends CANSparkMax implements Sendable {
     /**
@@ -20,6 +22,7 @@ public class WPI_CANSparkMax extends CANSparkMax implements Sendable {
      *                 connected to the Red and Black terminals only.
      */
     public SparkPIDController pidController;
+    public RelativeEncoder encoder;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
     public WPI_CANSparkMax(int deviceId, MotorType type) {
@@ -30,9 +33,11 @@ public class WPI_CANSparkMax extends CANSparkMax implements Sendable {
 
     private void configure() {
         restoreFactoryDefaults();
-        
+
         setSmartCurrentLimit(20);
         pidController = getPIDController();
+        encoder = getEncoder();
+
         // PID coefficients
         var kP = 5e-5;
         var kI = 1e-6;
@@ -44,8 +49,8 @@ public class WPI_CANSparkMax extends CANSparkMax implements Sendable {
         var maxRPM = 5700;
 
         // Smart Motion Coefficients
-        var maxVel = 2000; // rpm
-        var maxAcc = 1500;
+        var maxVel = 9000; // rpm
+        var maxAcc = 8000;
 
         // set PID coefficients
         pidController.setP(kP);

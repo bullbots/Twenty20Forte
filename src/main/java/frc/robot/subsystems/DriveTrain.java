@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -25,7 +24,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.CircularBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -43,14 +41,7 @@ import frc.robot.sensors.SimNavX;
 
 
 public class DriveTrain extends SwerveDrivetrain {
-  private static DriveTrain instance = null;
-  public static DriveTrain getInstance() {
-      if (instance == null) {
-          instance = new DriveTrain();
-      }
-      return instance;
-  }
-  
+
   private static final double TRANSLATIONAL_TOLERANCE = .02;
   private static final double ROTATIONAL_TOLERANCE = Math.toRadians(1);
 
@@ -103,7 +94,7 @@ public class DriveTrain extends SwerveDrivetrain {
   private static final ShuffleboardTab _shuffuleboardTab = Shuffleboard.getTab("Drivetrain");
   public static final DrivetrainConfig _config = new DrivetrainConfig(maxMetersPerSecond, .5, 7, 2, Units.inchesToMeters(2), 6.75, 2048);
   // public static final SimNavX _gyro = new SimNavX(SPI.Port.kMXP);
-  public static final SimNavX _gyro = new SimNavX(SerialPort.Port.kUSB1);
+  public static final SimNavX sim_gyro = new SimNavX(SerialPort.Port.kUSB1);
 
   private static final TalonFX frontLeftDriveFalcon = new TalonFX(Constants.Drivetrain.FRONT_LEFT_DRIVE_CHANNEL);
   private static final WPI_CANSparkMax frontLeftSteerFalcon = new WPI_CANSparkMax(Constants.Drivetrain.FRONT_LEFT_STEER_CHANNEL, MotorType.kBrushless);
@@ -135,8 +126,8 @@ public class DriveTrain extends SwerveDrivetrain {
   int staleVisionTicker = 0;
 
   NetworkTable limeNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
-  private DriveTrain(){
-    super(_shuffuleboardTab, _config, .501652, .62865, _gyro, frontLeft, frontRight, backLeft, backRight);
+  public DriveTrain() {
+    super(_shuffuleboardTab, _config, .501652, .62865, sim_gyro, frontLeft, frontRight, backLeft, backRight);
     encoders = new CANcoder[]{frontLeftEncoder, backLeftEncoder, frontRightEncoder, backRightEncoder};
     
     gyro.setAngleAdjustment(0);
@@ -168,7 +159,7 @@ public class DriveTrain extends SwerveDrivetrain {
     moduleSub[2] = datatable.getDoubleTopic("module3Offset").subscribe(0.0);
     moduleSub[3] = datatable.getDoubleTopic("module4Offset").subscribe(0.0);
 
-    _gyro.reset();
+    sim_gyro.reset();
     if (Robot.isRedAlliance()) {
       resetOdometry(MirrorPoses.mirror(getPose2d()));
     } else {
@@ -280,7 +271,7 @@ public class DriveTrain extends SwerveDrivetrain {
       backRight.getDesiredState()
     );
 
-    _gyro.setRadians(_gyro.getRadians() - simSpeeds.omegaRadiansPerSecond * .02);
+    sim_gyro.setRadians(sim_gyro.getRadians() - simSpeeds.omegaRadiansPerSecond * .02);
     Pose2d newPose = poseEstimator.getEstimatedPosition().plus(
       new Transform2d(
         new Translation2d(
@@ -291,7 +282,7 @@ public class DriveTrain extends SwerveDrivetrain {
       )
     );
 
-    poseEstimator.resetPosition(_gyro.getRotation2d(), getSwerveModulePositions(), newPose);
+    poseEstimator.resetPosition(sim_gyro.getRotation2d(), getSwerveModulePositions(), newPose);
   }
   public void resetAngle(double deg){
     poseEstimator.resetPosition(gyro.getRotation2d(), getSwerveModulePositions(), new Pose2d(getPose2d().getTranslation(), Rotation2d.fromDegrees(deg)));
