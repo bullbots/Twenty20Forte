@@ -12,7 +12,9 @@ import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.slider.SlideSlider;
 import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.SetIntakeFront;
+import frc.robot.commands.StageInShooter;
 import frc.robot.commands.WindlassDirections;
+import frc.robot.commands.shooting.ShootInAmp;
 import frc.robot.commands.shooting.ShootInSpeaker;
 import frc.robot.sensors.DebouncedDigitalInput;
 
@@ -26,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.*;
 
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -37,148 +38,170 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController m_driverController =
-            new CommandXboxController(OperatorConstants.kDriverControllerPort);
-    private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
+        // Replace with CommandPS4Controller or CommandJoystick if needed
+        private final CommandXboxController m_driverController = new CommandXboxController(
+                        OperatorConstants.kDriverControllerPort);
+        private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
 
-    // Stand-alone sensors
-    private final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
+        // Stand-alone sensors
+        public static final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
 
+        // The robot's subsystems...
+        public static final DriveTrain drivetrain = new DriveTrain();
+        public final Windlass windlass = new Windlass();
+        public static final Lifter liftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
+        public static final Lifter liftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
+        public static final Slider slider = new Slider();
+        public static final FrontMiddleIntake frontMiddleIntake = new FrontMiddleIntake();
+        public static final BackIntake backIntake = new BackIntake();
+        public static final Stager stager = new Stager();
+        public static final Shooter shooter = new Shooter();
 
-    // The robot's subsystems...
-    public static final DriveTrain drivetrain = new DriveTrain();
-    public final Windlass windlass = new Windlass();
-    public static final Lifter liftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
-    public static final Lifter liftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
-    public static final Slider slider = new Slider();
-    public static final FrontMiddleIntake frontMiddleIntake = new FrontMiddleIntake();
-    public static final BackIntake backIntake = new BackIntake();
-    public static final Stager stager = new Stager();
-    public static final Shooter shooter = new Shooter();
+        // Global robot states
+        public static double gyro_angle = 0;
 
-    // Global robot states
-    public static double gyro_angle = 0;
+        /**
+         * The container for the robot. Contains subsystems, OI devices, and commands.
+         */
+        public RobotContainer() {
+                // Configure the trigger bindings
+                configureBindings();
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
-    public RobotContainer() {
-        // Configure the trigger bindings
-        configureBindings();
+                if (Robot.isSimulation()) {
+                        DriverStation.silenceJoystickConnectionWarning(true);
+                }
 
-        if (Robot.isSimulation()) {
-            DriverStation.silenceJoystickConnectionWarning(true);
+                // default driving code
+                drivetrain.setDefaultCommand(
+                                new RunCommand(
+                                                () -> {
+                                                        /**
+                                                         * DEAD_ZONE is the distance from the center of the joystick
+                                                         * that still has no
+                                                         * robot function,
+                                                         * EXPONENT is the ramping effect: Higher Exponent means slower
+                                                         * speed of ramping
+                                                         */
+                                                        final double DEAD_ZONE = .3;
+                                                        final double EXPONENT = 2;
+                                                        double x = m_driverController.getLeftX();
+                                                        double y = m_driverController.getLeftY();
+                                                        double z = m_driverController.getRightX();
+                                                        // mathematical formula for adjusting the axis to a more usable
+                                                        // number
+                                                        // ternary operators: (boolean) ? conditionIsTrue :
+                                                        // conditionIsFalse
+                                                        x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
+                                                                        ? Math.pow((x - DEAD_ZONE) / (1 - DEAD_ZONE),
+                                                                                        EXPONENT)
+                                                                        : -Math.pow((x + DEAD_ZONE) / (1 - DEAD_ZONE),
+                                                                                        EXPONENT))
+                                                                        : 0;
+                                                        y = (Math.abs(y) >= DEAD_ZONE) ? ((y > 0)
+                                                                        ? Math.pow((y - DEAD_ZONE) / (1 - DEAD_ZONE),
+                                                                                        EXPONENT)
+                                                                        : -Math.pow((y + DEAD_ZONE) / (1 - DEAD_ZONE),
+                                                                                        EXPONENT))
+                                                                        : 0;
+                                                        z = (Math.abs(z) >= DEAD_ZONE) ? ((z > 0)
+                                                                        ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
+                                                                        : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;
+
+                                                        drivetrain.holonomicDrive(
+                                                                        // All numbers are negative, due to the way WPI
+                                                                        // Motors handle rotation
+                                                                        y,
+                                                                        x,
+                                                                        -z,
+                                                                        true);
+                                                }, drivetrain));
         }
 
-        // default driving code
-        drivetrain.setDefaultCommand(
-                new RunCommand(
-                        () -> {
-                            /**
-                             * DEAD_ZONE is the distance from the center of the joystick that still has no
-                             * robot function,
-                             * EXPONENT is the ramping effect: Higher Exponent means slower speed of ramping
-                             */
-                            final double DEAD_ZONE = .3;
-                            final double EXPONENT = 2;
-                            double x = m_driverController.getLeftX();
-                            double y = m_driverController.getLeftY();
-                            double z = m_driverController.getRightX();
-                            // mathematical formula for adjusting the axis to a more usable number
-                            // ternary operators: (boolean) ? conditionIsTrue : conditionIsFalse
-                            x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
-                                    ? Math.pow((x - DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)
-                                    : -Math.pow((x + DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)) : 0;
-                            y = (Math.abs(y) >= DEAD_ZONE) ? ((y > 0)
-                                    ? Math.pow((y - DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)
-                                    : -Math.pow((y + DEAD_ZONE) / (1 - DEAD_ZONE), EXPONENT)) : 0;
-                            z = (Math.abs(z) >= DEAD_ZONE) ? ((z > 0)
-                                    ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
-                                    : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;
+        /**
+         * Use this method to define your trigger->command mappings. Triggers can be
+         * created via the
+         * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+         * an arbitrary
+         * predicate, or via the named factories in {@link
+         * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+         * {@link
+         * CommandXboxController
+         * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+         * PS4} controllers or
+         * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+         * joysticks}.
+         */
+        private void configureBindings() {
 
-                            drivetrain.holonomicDrive(
-                                    // All numbers are negative, due to the way WPI Motors handle rotation
-                                    y,
-                                    x,
-                                    -z,
-                                    true);
-                        }, drivetrain));
-    }
+                // Driver controls
+                m_driverController.rightTrigger(0.5).whileTrue(new ShootInSpeaker());
+                m_driverController.rightTrigger(0.5).onFalse(new KillAll());
+                m_driverController.leftTrigger(0.5).whileTrue(new ShootInAmp());
+                m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1, slider::isAtPosition));
+                m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120, slider::isAtPosition));
+                m_driverController.start().onTrue(new RunCommand(
+                                () -> drivetrain.setSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
+                // // m_driverController.button(6).onTrue(new SlideSliderToPosition(slider, -1,
+                // slider::isAtPosition));
+                // m_guitarHero.button(7).onTrue(new InstantCommand(){
+                // @Override
+                // public void initialize() {
+                // System.out.println("Initialize");
+                // }
+                // @Override
+                // public void end(boolean interrupted) {
+                // System.out.println("End");
+                // }
+                // });
+                // Bindings for the windlass direction
+                m_driverController.povLeft().whileTrue(new WindlassDirections(windlass, -1));
+                m_driverController.povRight().whileFalse(new WindlassDirections(windlass, 1));
 
-    /**
-     * Use this method to define your trigger->command mappings. Triggers can be created via the
-     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-     * predicate, or via the named factories in {@link
-     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-     * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-     * joysticks}.
-     */
-    private void configureBindings() {
+                // Reset Gyro
+                m_driverController.button(8).onTrue(new RunCommand(drivetrain::resetGyro));
 
-        // Driver controls
-        m_driverController.axisGreaterThan(3, 0.5).whileTrue(new ShootInSpeaker());
-        m_driverController.axisGreaterThan(3, 0.5).onFalse(new KillAll());
-        m_driverController.button(9).onTrue(new RunCommand(() ->
-                drivetrain.setSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
+                // Copilot controls
 
-        // // m_driverController.button(6).onTrue(new SlideSliderToPosition(slider, -1, slider::isAtPosition));
-        // m_guitarHero.button(7).onTrue(new InstantCommand(){
-        //         @Override
-        //         public void initialize() {
-        //                 System.out.println("Initialize");
-        //         }
-        //         @Override
-        //         public void end(boolean interrupted) {
-        //                 System.out.println("End");
-        //         }
-        // });
-        //Bindings for the windlass direction
-        m_driverController.povLeft().whileTrue(new WindlassDirections(windlass, -1));
-        m_driverController.povRight().whileFalse(new WindlassDirections(windlass, 1));
+                // Robot Up
+                m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
+                // Robot Down
+                m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
 
-        //Reset Gyro
-        m_driverController.button(8).onTrue(new RunCommand(drivetrain::resetGyro));
+                SmartDashboard.putData("Test SlideSliderToSpeaker",
+                                new SlideSliderToPosition(slider, 1, slider::isAtPosition));
+                SmartDashboard.putData("Test SlideSliderToAmp",
+                                new SlideSliderToPosition(slider, -120, slider::isAtPosition));
 
-        // Copilot controls
+                // Robot Up
+                m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
+                // Robot Down
+                m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
 
-        //Robot Up
-        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
-        //Robot Down
-        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
+                // Buttons for co-driver moving the slider up and down
+                m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
+                m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
 
-        SmartDashboard.putData("Test SlideSliderToSpeaker", new SlideSliderToPosition(slider, 1, slider::isAtPosition));
-        SmartDashboard.putData("Test SlideSliderToAmp", new SlideSliderToPosition(slider, -120, slider::isAtPosition));
+                m_guitarHero.button(7).onTrue(new StageInShooter());
 
-        //Robot Up
-        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
-        //Robot Down
-        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
+                m_guitarHero.button(10).whileTrue(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 1,
+                                m_intakeSensor::get));
+                m_guitarHero.button(9).whileTrue(new SetIntakeFront(frontMiddleIntake, stager, 1,
+                                m_intakeSensor::get));
+        }
 
-        //Buttons for co-driver moving the slider up and down
-        m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
-        m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+        /**
+         * Use this to pass the autonomous command to the main {@link Robot} class.
+         *
+         * @return the command to run in autonomous
+         */
+        public Command getAutonomousCommand() {
+                // An example command will be run in autonomous
+                System.out.println("Found Autos!");
+                return Autos.getSelected();
+        }
 
-        m_guitarHero.button(10).whileTrue(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 1,
-                m_intakeSensor::get));
-        m_guitarHero.button(9).whileTrue(new SetIntakeFront(frontMiddleIntake, stager, 1,
-                m_intakeSensor::get));
-    }
-
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        System.out.println("Found Autos!");
-        return Autos.getSelected();
-    }
-
-    public void periodic() {
-        SmartDashboard.putNumber("Intake Sensor", m_intakeSensor.get() ? 1 : 0);
-    }
+        public void periodic() {
+                SmartDashboard.putNumber("Intake Sensor", m_intakeSensor.get() ? 1 : 0);
+        }
 }
