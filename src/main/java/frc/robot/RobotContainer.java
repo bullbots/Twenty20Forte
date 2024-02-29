@@ -125,7 +125,7 @@ public class RobotContainer {
 
         //Bindings for the windlass direction
         m_driverController.povLeft().whileTrue(new WindlassDirections(windlass, -1));
-        m_driverController.povRight().whileFalse(new WindlassDirections(windlass, 1));
+        m_driverController.povRight().whileTrue(new WindlassDirections(windlass, 1));
 
         //Reset Gyro
         m_driverController.button(8).onTrue(new RunCommand(drivetrain::resetGyro));
