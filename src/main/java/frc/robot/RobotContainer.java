@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.BeanBurrito;
 import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.KillAll;
 import frc.robot.commands.Lifting;
@@ -141,19 +142,11 @@ public class RobotContainer {
         m_driverController.leftStick().onTrue(new RunCommand(
                 () -> drivetrain.setMaxSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
-        //Bindings for the windlass direction
-        m_driverController.povLeft().whileTrue(new WindlassDirections(windlass, -1));
-        m_driverController.povRight().whileTrue(new WindlassDirections(windlass, 1));
 
         // Reset Gyro
         m_driverController.start().onTrue(new RunCommand(drivetrain::resetGyro));
 
         // Copilot controls
-
-        // Robot Up
-        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
-        // Robot Down
-        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
 
         SmartDashboard.putData("Test SlideSliderToSpeaker",
                 new SlideSliderToPosition(slider, 1, slider::isAtPosition));
@@ -161,9 +154,9 @@ public class RobotContainer {
                 new SlideSliderToPosition(slider, -120, slider::isAtPosition));
 
         // Robot Up
-        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(liftLeft, 1));
+        m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight, 1));
         // Robot Down
-        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
+        m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new Lifting(liftLeft, liftRight, -1));
 
         // Buttons for co-driver moving the slider up and down
         m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
@@ -171,10 +164,15 @@ public class RobotContainer {
 
         m_guitarHero.button(7).onTrue(new StageInShooter());
 
-        m_guitarHero.button(10).whileTrue(new IntakeBackCommand(backIntake, frontMiddleIntake, stager, 1,
-                m_intakeSensor::get));
-        m_guitarHero.button(9).whileTrue(new SetIntakeFront(frontMiddleIntake, stager, 1,
-                m_intakeSensor::get));
+        m_guitarHero.button(10).whileTrue(new IntakeBackCommand(1,m_intakeSensor::get));
+        m_guitarHero.button(9).whileTrue(new SetIntakeFront(1,m_intakeSensor::get));
+
+        //Burrito shoots the notes out so they can't get stuck
+        m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
+
+        //Bindings for the windlass direction
+        m_guitarHero.axisGreaterThan(0,0.5).whileTrue(new WindlassDirections(windlass, -1));
+        m_guitarHero.axisLessThan(0,-0.5).whileTrue(new WindlassDirections(windlass, 1));
     }
 
     /**

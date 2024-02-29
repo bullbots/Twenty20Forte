@@ -26,6 +26,7 @@ public class Lifter extends SubsystemBase {
     //moves the arms up to reach the chain
     public void start() {
         //m_liftMotor.set(-m_Direction);
+        m_liftMotor.set(0.5 * m_Direction);
     }
 
     //moves the robot up in the air
