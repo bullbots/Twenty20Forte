@@ -14,7 +14,7 @@ public class SpinUpShooter extends WaitCommand {
   Shooter shooter;
 
   public SpinUpShooter(Shooter shooter) {
-    super(2.0);
+    super(0.5);
     addRequirements(shooter);
     this.shooter = shooter;
   }
@@ -22,6 +22,7 @@ public class SpinUpShooter extends WaitCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    super.initialize();
     System.out.println("INFO: SpinUpShooter initialize");
     shooter.set(1.0);
   }
@@ -29,6 +30,6 @@ public class SpinUpShooter extends WaitCommand {
   @Override
   public void end(boolean interrupted) {
     System.out.println("INFO: SpinUpShooter end");
-    shooter.stop();
+    // shooter.stop();
   }
 }

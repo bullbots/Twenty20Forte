@@ -16,7 +16,7 @@ public class Slider extends SubsystemBase {
 
     WPI_CANSparkMax m_SliderMotor;
     private int m_position;
-    private static final int TOLERANCE = 5;
+    private static final int TOLERANCE = 2;
 
     public Slider() {
         m_SliderMotor = new WPI_CANSparkMax(Constants.Motors.SLIDER, MotorType.kBrushless);

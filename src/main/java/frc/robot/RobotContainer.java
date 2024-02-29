@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.IntakeBackCommand;
+import frc.robot.commands.KillAll;
 import frc.robot.commands.Lifting;
 import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.slider.SlideSlider;
@@ -18,6 +19,7 @@ import frc.robot.sensors.DebouncedDigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -68,8 +70,6 @@ public class RobotContainer {
         if (Robot.isSimulation()) {
             DriverStation.silenceJoystickConnectionWarning(true);
         }
-        // Configure the trigger bindings
-        configureBindings();
 
         // default driving code
         drivetrain.setDefaultCommand(
@@ -120,9 +120,21 @@ public class RobotContainer {
 
         // Driver controls
         m_driverController.axisGreaterThan(3, 0.5).whileTrue(new ShootInSpeaker());
+        m_driverController.axisGreaterThan(3, 0.5).onFalse(new KillAll());
         m_driverController.button(9).onTrue(new RunCommand(() ->
                 drivetrain.setSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
+        // // m_driverController.button(6).onTrue(new SlideSliderToPosition(slider, -1, slider::isAtPosition));
+        // m_guitarHero.button(7).onTrue(new InstantCommand(){
+        //         @Override
+        //         public void initialize() {
+        //                 System.out.println("Initialize");
+        //         }
+        //         @Override
+        //         public void end(boolean interrupted) {
+        //                 System.out.println("End");
+        //         }
+        // });
         //Bindings for the windlass direction
         m_driverController.povLeft().whileTrue(new WindlassDirections(windlass, -1));
         m_driverController.povRight().whileFalse(new WindlassDirections(windlass, 1));
@@ -137,7 +149,7 @@ public class RobotContainer {
         //Robot Down
         m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(liftRight, -1));
 
-        SmartDashboard.putData("Test SlideSliderToSpeaker", new SlideSliderToPosition(slider, 0, slider::isAtPosition));
+        SmartDashboard.putData("Test SlideSliderToSpeaker", new SlideSliderToPosition(slider, 1, slider::isAtPosition));
         SmartDashboard.putData("Test SlideSliderToAmp", new SlideSliderToPosition(slider, -120, slider::isAtPosition));
 
         //Robot Up
