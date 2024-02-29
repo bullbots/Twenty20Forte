@@ -13,6 +13,8 @@ import frc.robot.motors.WPI_CANSparkMax;
 
 public class Shooter extends SubsystemBase {
 
+    public boolean stagedInShooter = false;
+
     private static final WPI_CANSparkMax m_shooterMotorLeft = new WPI_CANSparkMax(Constants.Motors.SHOOTER_LEFT,
             MotorType.kBrushless);
     private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(Constants.Motors.SHOOTER_RIGHT,
@@ -25,6 +27,14 @@ public class Shooter extends SubsystemBase {
 
     public void speakerShoot() {
         set(1.0);
+    }
+
+    public void ampShoot() {
+        set(-0.75);
+    }
+
+    public void stageShoot() {
+        set(0.25);
     }
 
     public void stop() {

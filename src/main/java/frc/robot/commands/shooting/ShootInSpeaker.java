@@ -14,24 +14,27 @@ import frc.robot.commands.stager.StagingYeet;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShootInSpeaker extends ParallelCommandGroup {
+public class ShootInSpeaker extends SequentialCommandGroup {
   /** Creates a new ShootInSpeaker2. */
   public ShootInSpeaker() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new SlideSliderToPosition(RobotContainer.slider,0), 
-                new SpinUpShooter(RobotContainer.shooter),
-                new SequentialCommandGroup(new WaitCommand(1.0),
-                                            new StagingYeet(RobotContainer.stager)));
+    addCommands(
+        new ParallelCommandGroup(
+            new SlideSliderToPosition(RobotContainer.slider, -1, RobotContainer.slider::isAtPosition),
+            new SpinUpShooter(RobotContainer.shooter)),
+        new StagingYeet(RobotContainer.stager)
+                );
 
   }
-
   // @Override
-  //                                         public void end(boolean interrupted) {
-  //                                             super.end(interrupted);
-  //                                             System.out.println("ShootInSpeakerEnd");
-  //                                             RobotContainer.slider.stop();
-  //                                             RobotContainer.shooter.stop();
-  //                                             RobotContainer.stager.stop();
-  //                                           }
+  // public void end(boolean interrupted) {
+  //   // super.end(interrupted);
+  //   System.out.println("ShootInSpeakerEnd");
+  //   RobotContainer.slider.stop();
+  //   RobotContainer.shooter.stop();
+  //   RobotContainer.stager.stop();
+  // }
+
+
 }

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 
 public class DebouncedDigitalInput extends DigitalInput {
-    private static final float DEBOUNCE_TIME = 0.2f;
+    private static final float DEBOUNCE_TIME = 0.1f;
 
     private final Timer m_timer = new Timer();
     private boolean m_prevVal = false;
