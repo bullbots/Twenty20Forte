@@ -146,8 +146,8 @@ public class RobotContainer {
         m_driverController.rightTrigger(0.5).whileTrue(new ShootInSpeaker());
         m_driverController.rightTrigger(0.5).onFalse(new KillAll());
         m_driverController.leftTrigger(0.5).whileTrue(new ShootInAmp());
-        m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1, slider::isAtPosition));
-        m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120, slider::isAtPosition));
+        //m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1, slider::isAtPosition));
+        //m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120, slider::isAtPosition));
         m_driverController.leftStick().onTrue(new RunCommand(
                 () -> drivetrain.setMaxSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
@@ -169,6 +169,9 @@ public class RobotContainer {
         // Buttons for co-driver moving the slider up and down
         m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
         m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+
+        m_guitarHero.button(1).onTrue(new SlideSliderToPosition(slider, 1, slider::isAtPosition));
+        m_guitarHero.button(2).onTrue(new SlideSliderToPosition(slider, -120, slider::isAtPosition));
 
         m_guitarHero.button(7).onTrue(new StageInShooter());
 
