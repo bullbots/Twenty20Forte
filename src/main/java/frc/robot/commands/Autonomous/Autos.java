@@ -33,6 +33,11 @@ public final class Autos {
             new CenterSpeaker(), 
             new CenterSpeaker()));
 
+        commandChooser.addOption("DoubleCenterSpeaker", new Pair<>(
+            new DoubleCenterSpeaker(),
+            new DoubleCenterSpeaker()
+        ));
+
         SmartDashboard.putData("Command Selected", commandChooser);
     }
 

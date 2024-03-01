@@ -15,16 +15,15 @@ import frc.robot.commands.shooting.ShootInSpeaker;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CenterSpeaker extends SequentialCommandGroup {
+public class DoubleCenterSpeaker extends SequentialCommandGroup {
   /** Creates a new CenterSpeaker. */
-  public CenterSpeaker() {
+  public DoubleCenterSpeaker() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new WaitCommand(4.0), 
-               new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()), 
-               new KillAll(),
-               new ParallelDeadlineGroup(new DriveForward(1.5), 
-               new SetIntakeFront(1, RobotContainer.m_intakeSensor::get))
-               );
+    addCommands(new CenterSpeaker());
+       // new SetIntakeFront(1, RobotContainer.m_intakeSensor::get));
+        // new ParallelDeadlineGroup(new DriveBackward(1.5),
+        //     new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker())),
+        // new KillAll());
   }
 }
