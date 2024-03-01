@@ -5,6 +5,7 @@
 package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -26,6 +27,7 @@ public class SpinUpShooter extends WaitCommand {
     System.out.println("INFO: SpinUpShooter initialize");
     shooter.set(1.0);
     shooter.stagedInShooter = false;
+    RobotContainer.slider.locked = false;
   }
 
   @Override

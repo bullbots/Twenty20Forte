@@ -34,6 +34,7 @@ public class BeanBurrito extends Command {
         m_Intake.start();
         m_Stager.start(Stager.Mode.BURRITO);
         m_shooter.stageShoot();
+        RobotContainer.slider.locked = false;
         
     }
 

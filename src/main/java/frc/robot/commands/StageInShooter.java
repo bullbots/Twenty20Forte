@@ -38,7 +38,7 @@ public class StageInShooter extends WaitCommand {
     }
     else {
       super.initialize();
-      
+      RobotContainer.slider.locked = true;
       m_shooter.stageShoot();
       m_first = true;
     }
@@ -60,6 +60,7 @@ public class StageInShooter extends WaitCommand {
     m_stager.stop();
     m_shooter.stop();
     m_shooter.stagedInShooter = true;
+    RobotContainer.slider.locked = false;
   }
 
   // Returns true when the command should end.
