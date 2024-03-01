@@ -25,9 +25,13 @@ public final class Autos {
     private static final SendableChooser<Pair<Command, Command>> commandChooser = new SendableChooser<>();
 
     public static void load() {
-        commandChooser.setDefaultOption("Testing", new Pair<>(
+        commandChooser.setDefaultOption("Drive Forward", new Pair<>(
                 new DriveForward(2),
                 new DriveForward(2)));
+
+        commandChooser.addOption("Center Speaker", new Pair<>(
+            new CenterSpeaker(), 
+            new CenterSpeaker()));
 
         SmartDashboard.putData("Command Selected", commandChooser);
     }
