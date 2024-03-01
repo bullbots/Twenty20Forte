@@ -50,9 +50,9 @@ public class RobotContainer {
 
     // The robot's subsystems...
     public static final DriveTrain drivetrain = new DriveTrain();
-    public final Windlass windlass = new Windlass();
-    public static final Lifter liftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
-    public static final Lifter liftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
+    //public final Windlass windlass = new Windlass();
+    //public static final Lifter liftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
+    //public static final Lifter liftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
     public static final Slider slider = new Slider();
     public static final FrontMiddleIntake frontMiddleIntake = new FrontMiddleIntake();
     public static final BackIntake backIntake = new BackIntake();
@@ -162,9 +162,9 @@ public class RobotContainer {
                 new SlideSliderToPosition(slider, -120, slider::isAtPosition));
 
         // Robot Up
-        m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight, 1));
+        //m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight, 1));
         // Robot Down
-        m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new Lifting(liftLeft, liftRight, -1));
+        //m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new Lifting(liftLeft, liftRight, -1));
 
         // Buttons for co-driver moving the slider up and down
         m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
@@ -183,8 +183,8 @@ public class RobotContainer {
         m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
         // Bindings for the windlass direction
-        m_guitarHero.axisGreaterThan(0, 0.5).whileTrue(new WindlassDirections(windlass, -1));
-        m_guitarHero.axisLessThan(0, -0.5).whileTrue(new WindlassDirections(windlass, 1));
+        //m_guitarHero.axisGreaterThan(0, 0.5).whileTrue(new WindlassDirections(windlass, -1));
+        //m_guitarHero.axisLessThan(0, -0.5).whileTrue(new WindlassDirections(windlass, 1));
     }
 
     /**

@@ -17,6 +17,7 @@ public class Slider extends SubsystemBase {
     WPI_CANSparkMax m_SliderMotor;
     private int m_position;
     private static final int TOLERANCE = 2;
+    public boolean locked = false;
 
     public Slider() {
         m_SliderMotor = new WPI_CANSparkMax(Constants.Motors.SLIDER, MotorType.kBrushless);
@@ -24,7 +25,10 @@ public class Slider extends SubsystemBase {
 
     public void slide(Mode mode) {
         // I believe the motors need to run in opposite directions to pull the note the same direction
-
+        if (locked){
+            System.out.println("Slider Locked");
+            return;
+        }
         switch (mode) {
             case DOWN:
                 System.out.println("Moving DOWN");
@@ -40,6 +44,10 @@ public class Slider extends SubsystemBase {
     }
 
     public void moveToPosition(int position) {
+        if (locked){
+            System.out.println("Slider Locked");
+            return;
+        }
         m_SliderMotor.pidController.setReference(position, CANSparkMax.ControlType.kSmartMotion);
         m_position = position;
     }
