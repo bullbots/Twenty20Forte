@@ -15,6 +15,7 @@ public class StageInShooter extends WaitCommand {
   
   private Stager m_stager;
   private Shooter m_shooter;
+  private boolean m_first;
 
   public StageInShooter() {
     this(0.5);
@@ -37,14 +38,21 @@ public class StageInShooter extends WaitCommand {
     }
     else {
       super.initialize();
-      m_stager.start(Stager.Mode.MAX_SPEED);
+      
       m_shooter.stageShoot();
+      m_first = true;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (super.isFinished()&&m_first) {
+      m_first = false;
+      m_stager.start(Stager.Mode.HALF_SPEED);
+      m_timer.restart();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

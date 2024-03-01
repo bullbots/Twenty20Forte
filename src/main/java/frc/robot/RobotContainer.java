@@ -67,6 +67,8 @@ public class RobotContainer {
         // Configure the trigger bindings
         configureBindings();
 
+        Autos.load();
+
         if (Robot.isSimulation()) {
             DriverStation.silenceJoystickConnectionWarning(true);
         }
@@ -82,7 +84,7 @@ public class RobotContainer {
                              * EXPONENT is the ramping effect: Higher Exponent means slower
                              * speed of ramping
                              */
-                            final double DEAD_ZONE = .3;
+                            final double DEAD_ZONE = .1;
                             final double EXPONENT = 2;
                             double x = m_driverController.getLeftX();
                             double y = m_driverController.getLeftY();
@@ -91,18 +93,23 @@ public class RobotContainer {
                             // number
                             // ternary operators: (boolean) ? conditionIsTrue :
                             // conditionIsFalse
-                            x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
-                                    ? Math.pow((x - DEAD_ZONE) / (1 - DEAD_ZONE),
-                                    EXPONENT)
-                                    : -Math.pow((x + DEAD_ZONE) / (1 - DEAD_ZONE),
-                                    EXPONENT))
-                                    : 0;
-                            y = (Math.abs(y) >= DEAD_ZONE) ? ((y > 0)
-                                    ? Math.pow((y - DEAD_ZONE) / (1 - DEAD_ZONE),
-                                    EXPONENT)
-                                    : -Math.pow((y + DEAD_ZONE) / (1 - DEAD_ZONE),
-                                    EXPONENT))
-                                    : 0;
+                            if (Math.abs(x) < DEAD_ZONE && Math.abs(y) < DEAD_ZONE){
+                                x = 0;
+                                y = 0;
+                            }
+                                
+                        //     x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
+                        //             ? Math.pow((x - DEAD_ZONE) / (1 - DEAD_ZONE),
+                        //             EXPONENT)
+                        //             : -Math.pow((x + DEAD_ZONE) / (1 - DEAD_ZONE),
+                        //             EXPONENT))
+                        //             : 0;
+                        //     y = (Math.abs(y) >= DEAD_ZONE) ? ((y > 0)
+                        //             ? Math.pow((y - DEAD_ZONE) / (1 - DEAD_ZONE),
+                        //             EXPONENT)
+                        //             : -Math.pow((y + DEAD_ZONE) / (1 - DEAD_ZONE),
+                        //             EXPONENT))
+                        //             : 0;
                             z = (Math.abs(z) >= DEAD_ZONE) ? ((z > 0)
                                     ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
                                     : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;

@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,6 +21,13 @@ public class Shooter extends SubsystemBase {
     private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(Constants.Motors.SHOOTER_RIGHT,
             MotorType.kBrushless);
 
+    public Shooter(){
+        m_shooterMotorLeft.setSmartCurrentLimit(40);
+        m_shooterMotorRight.setSmartCurrentLimit(40);
+        m_shooterMotorLeft.setIdleMode(IdleMode.kBrake);
+        m_shooterMotorRight.setIdleMode(IdleMode.kBrake);
+    }
+
     public void set(double speed) {
         m_shooterMotorLeft.set(speed);
         m_shooterMotorRight.set(-speed);
@@ -34,7 +42,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stageShoot() {
-        set(0.25);
+        set(0.10);
     }
 
     public void stop() {

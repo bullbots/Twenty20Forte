@@ -14,7 +14,7 @@ public class SpinUpShooter extends WaitCommand {
   Shooter shooter;
 
   public SpinUpShooter(Shooter shooter) {
-    super(0.5);
+    super(1.0);
     addRequirements(shooter);
     this.shooter = shooter;
   }

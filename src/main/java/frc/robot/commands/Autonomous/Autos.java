@@ -26,8 +26,8 @@ public final class Autos {
 
     public static void load() {
         commandChooser.setDefaultOption("Testing", new Pair<>(
-                new DriveForward(100),
-                new DriveForward(100)));
+                new DriveForward(2),
+                new DriveForward(2)));
 
         SmartDashboard.putData("Command Selected", commandChooser);
     }
