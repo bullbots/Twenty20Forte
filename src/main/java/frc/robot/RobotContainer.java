@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -44,7 +45,8 @@ public class RobotContainer {
     private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
 
     // Stand-alone sensors
-    public static final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(Constants.Sensors.INTAKE_SENSOR);
+    public static final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(
+            Constants.Sensors.INTAKE_SENSOR);
 
     // The robot's subsystems...
     public static final DriveTrain drivetrain = new DriveTrain();
@@ -93,23 +95,23 @@ public class RobotContainer {
                             // number
                             // ternary operators: (boolean) ? conditionIsTrue :
                             // conditionIsFalse
-                            if (Math.abs(x) < DEAD_ZONE && Math.abs(y) < DEAD_ZONE){
+                            if (Math.abs(x) < DEAD_ZONE && Math.abs(y) < DEAD_ZONE) {
                                 x = 0;
                                 y = 0;
                             }
-                                
-                        //     x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
-                        //             ? Math.pow((x - DEAD_ZONE) / (1 - DEAD_ZONE),
-                        //             EXPONENT)
-                        //             : -Math.pow((x + DEAD_ZONE) / (1 - DEAD_ZONE),
-                        //             EXPONENT))
-                        //             : 0;
-                        //     y = (Math.abs(y) >= DEAD_ZONE) ? ((y > 0)
-                        //             ? Math.pow((y - DEAD_ZONE) / (1 - DEAD_ZONE),
-                        //             EXPONENT)
-                        //             : -Math.pow((y + DEAD_ZONE) / (1 - DEAD_ZONE),
-                        //             EXPONENT))
-                        //             : 0;
+
+                            // x = (Math.abs(x) >= DEAD_ZONE) ? ((x > 0)
+                            // ? Math.pow((x - DEAD_ZONE) / (1 - DEAD_ZONE),
+                            // EXPONENT)
+                            // : -Math.pow((x + DEAD_ZONE) / (1 - DEAD_ZONE),
+                            // EXPONENT))
+                            // : 0;
+                            // y = (Math.abs(y) >= DEAD_ZONE) ? ((y > 0)
+                            // ? Math.pow((y - DEAD_ZONE) / (1 - DEAD_ZONE),
+                            // EXPONENT)
+                            // : -Math.pow((y + DEAD_ZONE) / (1 - DEAD_ZONE),
+                            // EXPONENT))
+                            // : 0;
                             z = (Math.abs(z) >= DEAD_ZONE) ? ((z > 0)
                                     ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
                                     : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;
@@ -149,7 +151,6 @@ public class RobotContainer {
         m_driverController.leftStick().onTrue(new RunCommand(
                 () -> drivetrain.setMaxSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
-
         // Reset Gyro
         m_driverController.start().onTrue(new RunCommand(drivetrain::resetGyro));
 
@@ -171,15 +172,19 @@ public class RobotContainer {
 
         m_guitarHero.button(7).onTrue(new StageInShooter());
 
-        m_guitarHero.button(10).whileTrue(new IntakeBackCommand(1,m_intakeSensor::get));
-        m_guitarHero.button(9).whileTrue(new SetIntakeFront(1,m_intakeSensor::get));
+        m_guitarHero.button(10)
+                .whileTrue(new SequentialCommandGroup(new SlideSliderToPosition(slider, 1, slider::isAtPosition),
+                        new IntakeBackCommand(1, m_intakeSensor::get)));
+        m_guitarHero.button(9)
+                .whileTrue(new SequentialCommandGroup(new SlideSliderToPosition(slider, 1, slider::isAtPosition),
+                        new SetIntakeFront(1, m_intakeSensor::get)));
 
-        //Burrito shoots the notes out so they can't get stuck
+        // Burrito shoots the notes out so they can't get stuck
         m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
-        //Bindings for the windlass direction
-        m_guitarHero.axisGreaterThan(0,0.5).whileTrue(new WindlassDirections(windlass, -1));
-        m_guitarHero.axisLessThan(0,-0.5).whileTrue(new WindlassDirections(windlass, 1));
+        // Bindings for the windlass direction
+        m_guitarHero.axisGreaterThan(0, 0.5).whileTrue(new WindlassDirections(windlass, -1));
+        m_guitarHero.axisLessThan(0, -0.5).whileTrue(new WindlassDirections(windlass, 1));
     }
 
     /**
