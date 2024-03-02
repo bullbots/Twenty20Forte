@@ -186,7 +186,7 @@ public class RobotContainer {
                                                 new SetIntakeFront(1, m_intakeSensor::get)));
 
                 // Bump notes into shooter
-                m_guitarHero.button(3).onTrue(new BumpShooter(0.25));
+                m_guitarHero.button(3).onTrue(new BumpShooter(0.15));
                 // Burrito shoots the notes out so they can't get stuck
                 m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 

@@ -42,11 +42,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stageShoot() {
-        set(0.10);
+        set(0.15);
     }
 
     public void bumpShooter(){
-        set(0.30);
+        set(0.35);
     }
 
     public void stop() {

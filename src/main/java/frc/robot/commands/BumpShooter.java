@@ -28,7 +28,7 @@ public class BumpShooter extends WaitCommand {
     super.initialize();
     System.out.println("BumpShooter initialize");
     m_shooter.bumpShooter();
-    m_stager.start(Stager.Mode.MAX_SPEED);
+    m_stager.start(Stager.Mode.HALF_SPEED);
     m_shooter.stagedInShooter = false;
   }
 
