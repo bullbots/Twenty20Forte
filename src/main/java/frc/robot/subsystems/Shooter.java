@@ -45,6 +45,10 @@ public class Shooter extends SubsystemBase {
         set(0.10);
     }
 
+    public void bumpShooter(){
+        set(0.30);
+    }
+
     public void stop() {
         set(0);
     }
