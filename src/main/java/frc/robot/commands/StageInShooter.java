@@ -19,7 +19,6 @@ public class StageInShooter extends WaitCommand {
 
   public StageInShooter() {
     this(0.5);
-
   }
 
   public StageInShooter(double seconds) {
@@ -27,16 +26,18 @@ public class StageInShooter extends WaitCommand {
     addRequirements(RobotContainer.stager, RobotContainer.shooter);
     m_stager = RobotContainer.stager;
     m_shooter = RobotContainer.shooter;
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("StageInShooter initialize");
     if (m_shooter.stagedInShooter){
+      System.out.println("StageInShooter already staged canceling");
       cancel();
     }
     else {
+      System.out.println("StageInShooter initialize");
       super.initialize();
       RobotContainer.slider.locked = true;
       m_shooter.stageShoot();
@@ -61,6 +62,7 @@ public class StageInShooter extends WaitCommand {
     m_shooter.stop();
     m_shooter.stagedInShooter = true;
     RobotContainer.slider.locked = false;
+    System.out.println("StageInShooter end");
   }
 
   // Returns true when the command should end.

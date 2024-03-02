@@ -41,7 +41,7 @@ public class SetIntakeFront extends Command {
         m_Intake.start();
         m_Stager.start(Stager.Mode.MAX_SPEED);
         m_shooter.stageShoot();
-        
+        m_shooter.stagedInShooter = false;
     }
 
     @Override
@@ -49,6 +49,7 @@ public class SetIntakeFront extends Command {
         m_Intake.stop();
         m_Stager.stop();
         m_shooter.stop();
+        
     }
 
     @Override

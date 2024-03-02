@@ -20,7 +20,7 @@ public class CenterSpeaker extends SequentialCommandGroup {
   public CenterSpeaker() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new WaitCommand(4.0), 
+    addCommands(new WaitCommand(3.0), 
                new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()), 
                new KillAll(),
                new ParallelDeadlineGroup(new DriveForward(1.5), 

@@ -22,6 +22,7 @@ import frc.robot.sensors.DebouncedDigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -50,9 +51,11 @@ public class RobotContainer {
 
     // The robot's subsystems...
     public static final DriveTrain drivetrain = new DriveTrain();
-    //public final Windlass windlass = new Windlass();
-    //public static final Lifter liftLeft = new Lifter(Constants.Motors.LIFTER_LEFT);
-    //public static final Lifter liftRight = new Lifter(Constants.Motors.LIFTER_RIGHT);
+    // public final Windlass windlass = new Windlass();
+    // public static final Lifter liftLeft = new
+    // Lifter(Constants.Motors.LIFTER_LEFT);
+    // public static final Lifter liftRight = new
+    // Lifter(Constants.Motors.LIFTER_RIGHT);
     public static final Slider slider = new Slider();
     public static final FrontMiddleIntake frontMiddleIntake = new FrontMiddleIntake();
     public static final BackIntake backIntake = new BackIntake();
@@ -146,13 +149,21 @@ public class RobotContainer {
         m_driverController.rightTrigger(0.5).whileTrue(new ShootInSpeaker());
         m_driverController.rightTrigger(0.5).onFalse(new KillAll());
         m_driverController.leftTrigger(0.5).whileTrue(new ShootInAmp());
-        //m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1, slider::isAtPosition));
-        //m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120, slider::isAtPosition));
+        // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1,
+        // slider::isAtPosition));
+        // m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120,
+        // slider::isAtPosition));
         m_driverController.leftStick().onTrue(new RunCommand(
                 () -> drivetrain.setMaxSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
         // Reset Gyro
-        m_driverController.start().onTrue(new RunCommand(drivetrain::resetGyro));
+        m_driverController.start().onTrue(new InstantCommand() {
+            @Override
+            public void initialize() {
+                drivetrain.resetGyro();
+                System.out.println("Resetting Gyro");
+            }
+        });
 
         // Copilot controls
 
@@ -162,9 +173,11 @@ public class RobotContainer {
                 new SlideSliderToPosition(slider, -120, slider::isAtPosition));
 
         // Robot Up
-        //m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight, 1));
+        // m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight,
+        // 1));
         // Robot Down
-        //m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new Lifting(liftLeft, liftRight, -1));
+        // m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new Lifting(liftLeft,
+        // liftRight, -1));
 
         // Buttons for co-driver moving the slider up and down
         m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
@@ -186,8 +199,10 @@ public class RobotContainer {
         m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
         // Bindings for the windlass direction
-        //m_guitarHero.axisGreaterThan(0, 0.5).whileTrue(new WindlassDirections(windlass, -1));
-        //m_guitarHero.axisLessThan(0, -0.5).whileTrue(new WindlassDirections(windlass, 1));
+        // m_guitarHero.axisGreaterThan(0, 0.5).whileTrue(new
+        // WindlassDirections(windlass, -1));
+        // m_guitarHero.axisLessThan(0, -0.5).whileTrue(new WindlassDirections(windlass,
+        // 1));
     }
 
     /**

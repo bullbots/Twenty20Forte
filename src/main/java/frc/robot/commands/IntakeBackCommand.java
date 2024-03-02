@@ -9,7 +9,6 @@ import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Stager;
 
-
 public class IntakeBackCommand extends Command {
 
     BackIntake m_backIntake;
@@ -19,7 +18,7 @@ public class IntakeBackCommand extends Command {
     BooleanSupplier m_sensor;
     Shooter m_shooter;
 
-    public IntakeBackCommand( int direction, BooleanSupplier sensor) {
+    public IntakeBackCommand(int direction, BooleanSupplier sensor) {
         m_backIntake = RobotContainer.backIntake;
         m_frontMiddleIntake = RobotContainer.frontMiddleIntake;
         m_direction = direction;
@@ -32,7 +31,7 @@ public class IntakeBackCommand extends Command {
     @Override
     public void initialize() {
 
-        if (m_sensor.getAsBoolean()){
+        if (m_sensor.getAsBoolean()) {
             System.out.println("note/ring/donut/donote/orange thingy sensed");
             return;
         }
@@ -43,11 +42,11 @@ public class IntakeBackCommand extends Command {
         m_frontMiddleIntake.start();
         m_stager.start(Stager.Mode.MAX_SPEED);
         System.out.println("back intake initialized");
-
+        m_shooter.stagedInShooter = false;
     }
 
     @Override
-    public void execute(){
+    public void execute() {
 
     }
 
@@ -57,6 +56,7 @@ public class IntakeBackCommand extends Command {
         m_frontMiddleIntake.stop();
         m_stager.stop();
         m_shooter.stop();
+
     }
 
     @Override
@@ -64,4 +64,3 @@ public class IntakeBackCommand extends Command {
         return m_sensor.getAsBoolean();
     }
 }
-
