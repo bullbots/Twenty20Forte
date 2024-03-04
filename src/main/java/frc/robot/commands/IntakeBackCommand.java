@@ -3,61 +3,64 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.BackIntake;
 import frc.robot.subsystems.FrontMiddleIntake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Stager;
-
 
 public class IntakeBackCommand extends Command {
 
-    BackIntake m_BackIntake;
-    int m_Direction;
-    FrontMiddleIntake m_FrontMiddleIntake;
-    Stager m_Stager;
-    BooleanSupplier m_Sensor;
+    BackIntake m_backIntake;
+    int m_direction;
+    FrontMiddleIntake m_frontMiddleIntake;
+    Stager m_stager;
+    BooleanSupplier m_sensor;
+    Shooter m_shooter;
 
-    public IntakeBackCommand(BackIntake backIntake, FrontMiddleIntake frontMiddleIntake, Stager stager, int direction, BooleanSupplier sensor) {
-        m_BackIntake = backIntake;
-        m_FrontMiddleIntake = frontMiddleIntake;
-        m_Direction = direction;
-        m_Stager = stager;
-        m_Sensor = sensor;
-        addRequirements(m_BackIntake);
-        addRequirements(m_FrontMiddleIntake);
+    public IntakeBackCommand(int direction, BooleanSupplier sensor) {
+        m_backIntake = RobotContainer.backIntake;
+        m_frontMiddleIntake = RobotContainer.frontMiddleIntake;
+        m_direction = direction;
+        m_stager = RobotContainer.stager;
+        m_sensor = sensor;
+        m_shooter = RobotContainer.shooter;
+        addRequirements(m_backIntake, m_frontMiddleIntake, m_stager, m_shooter);
     }
 
     @Override
     public void initialize() {
 
-        if (m_Sensor.getAsBoolean()){
+        if (m_sensor.getAsBoolean()) {
             System.out.println("note/ring/donut/donote/orange thingy sensed");
             return;
         }
-        m_BackIntake.setDirection(m_Direction);
-        m_FrontMiddleIntake.setDirection(-m_Direction);
-
-        m_BackIntake.start();
-        m_FrontMiddleIntake.start();
-        m_Stager.start(Stager.Mode.MAX_SPEED);
+        m_backIntake.setDirection(m_direction);
+        m_frontMiddleIntake.setDirection(-m_direction);
+        m_shooter.stageShoot();
+        m_backIntake.start();
+        m_frontMiddleIntake.start();
+        m_stager.start(Stager.Mode.MAX_SPEED);
         System.out.println("back intake initialized");
-
+        m_shooter.stagedInShooter = false;
     }
 
     @Override
-    public void execute(){
+    public void execute() {
 
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_BackIntake.stop();
-        m_FrontMiddleIntake.stop();
-        m_Stager.stop();
+        m_backIntake.stop();
+        m_frontMiddleIntake.stop();
+        m_stager.stop();
+        m_shooter.stop();
+
     }
 
     @Override
     public boolean isFinished() {
-        return m_Sensor.getAsBoolean();
+        return m_sensor.getAsBoolean();
     }
 }
-

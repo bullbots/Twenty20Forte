@@ -7,7 +7,8 @@ import frc.robot.subsystems.Lifter;
 
 public class Lifting extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Lifter m_liftSubsystem;
+  private final Lifter m_liftLeft;
+  private final Lifter m_liftRight;
   
   private int m_direction;
 
@@ -17,22 +18,23 @@ public class Lifting extends Command {
    * @param Lifter The subsystem used by this command.
    * @return 
    */
-  public Lifting(Lifter lift, int direction) {
+  public Lifting(Lifter liftLeft, Lifter liftRight, int direction) {
     m_direction = direction;
-    m_liftSubsystem = lift;
+    m_liftLeft = liftLeft;
+    m_liftRight = liftRight;
     
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(lift);
-    //Robot arms retracting in
-    m_liftSubsystem.setDirection(-1);
-    m_liftSubsystem.start();
+    addRequirements(liftLeft, liftRight);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_liftSubsystem.setDirection(m_direction);
-    m_liftSubsystem.start();
+    System.out.println("Lifting initialize");
+    m_liftLeft.setDirection(-m_direction);
+    m_liftLeft.start();
+    m_liftRight.setDirection(m_direction);
+    m_liftRight.start();
   }
     
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +46,9 @@ public class Lifting extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_liftSubsystem.stop();
+    System.out.println("Lifting end");
+    m_liftLeft.stop();
+    m_liftRight.stop();
   }
 
   // Returns true when the command should end.

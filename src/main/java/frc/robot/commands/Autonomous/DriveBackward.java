@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveForward extends WaitCommand {
+public class DriveBackward extends WaitCommand {
   DriveTrain drivetrain;
   int wait;
   final int stop = 0;
 
-  public DriveForward(double seconds) {
+  public DriveBackward(double seconds) {
     super(seconds);
     addRequirements(RobotContainer.drivetrain);
     drivetrain = RobotContainer.drivetrain;
@@ -38,7 +38,7 @@ public class DriveForward extends WaitCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.holonomicDrive(0.50, 0, 0, false);
+    drivetrain.holonomicDrive(-0.50, 0, 0, false);
     wait += 1;
   }
 
@@ -46,7 +46,7 @@ public class DriveForward extends WaitCommand {
   @Override
   public void end(boolean interrupted) {
     drivetrain.stop();
-    System.out.println("Ending Drive Forward count: " + wait);
+    System.out.println("Ending Drive Backward count: " + wait);
   }
 
   // Returns true when the command should end.

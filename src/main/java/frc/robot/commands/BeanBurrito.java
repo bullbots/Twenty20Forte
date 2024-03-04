@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.BackIntake;
 import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Stager;
@@ -12,49 +13,47 @@ import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class SetIntakeFront extends Command {
+public class BeanBurrito extends Command {
 
+    BackIntake m_backIntake;
     FrontMiddleIntake m_Intake;
     int m_Direction;
     Stager m_Stager;
     Shooter m_shooter;
-    BooleanSupplier m_Sensor;
 
-    public SetIntakeFront(int direction, BooleanSupplier sensor) {
+    public BeanBurrito(int direction) {
         m_Direction = direction;
         m_Intake = RobotContainer.frontMiddleIntake;
+        m_backIntake = RobotContainer.backIntake;
         m_Stager = RobotContainer.stager;
         m_shooter = RobotContainer.shooter;
-        m_Sensor = sensor;
         addRequirements(m_Intake, m_Stager, m_shooter);
     }
 
     @Override
     public void initialize() {
-
-        if (m_Sensor.getAsBoolean()){
-            System.out.println("note/ring/donut/donote/orange thingy sensed");
-            return;
-        }
-
+        System.out.println("Burritos Away!!!!");
         m_Intake.setDirection(m_Direction);
         m_Intake.start();
-        m_Stager.start(Stager.Mode.MAX_SPEED);
+        m_backIntake.setDirection(m_Direction);
+        m_backIntake.start();
+        m_Stager.start(Stager.Mode.BURRITO);
         m_shooter.stageShoot();
-        m_shooter.stagedInShooter = false;
+        RobotContainer.slider.locked = false;
+        
     }
 
     @Override
     public void end(boolean interrupted) {
         m_Intake.stop();
+        m_backIntake.stop();
         m_Stager.stop();
         m_shooter.stop();
-        
     }
 
     @Override
     public boolean isFinished() {
-        return m_Sensor.getAsBoolean();
+        return false;
     }
 
 }
