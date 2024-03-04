@@ -11,6 +11,7 @@ public class Stager extends SubsystemBase {
     public enum Mode {
         MAX_SPEED,
         HALF_SPEED,
+        IN_BETWEEN,
         QUARTER_SPEED,
         BURRITO
     }
@@ -35,6 +36,10 @@ public class Stager extends SubsystemBase {
             case HALF_SPEED:
 
                 m_StagerMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
+                break;
+            case IN_BETWEEN:
+
+                m_StagerMotor.set(TalonSRXControlMode.PercentOutput, 0.4);
                 break;
             case QUARTER_SPEED:
 

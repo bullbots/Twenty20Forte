@@ -22,8 +22,8 @@ public class Shooter extends SubsystemBase {
             MotorType.kBrushless);
 
     public Shooter(){
-        m_shooterMotorLeft.setSmartCurrentLimit(40);
-        m_shooterMotorRight.setSmartCurrentLimit(40);
+        m_shooterMotorLeft.setSmartCurrentLimit(100);
+        m_shooterMotorRight.setSmartCurrentLimit(100);
         m_shooterMotorLeft.setIdleMode(IdleMode.kBrake);
         m_shooterMotorRight.setIdleMode(IdleMode.kBrake);
     }
@@ -46,7 +46,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void bumpShooter(){
-        set(0.30);
+        set(0.35);
     }
 
     public void stop() {
