@@ -130,7 +130,7 @@ public class DriveTrain extends SwerveDrivetrain {
     super(_shuffuleboardTab, _config, .501652, .62865, sim_gyro, frontLeft, frontRight, backLeft, backRight);
     encoders = new CANcoder[]{frontLeftEncoder, backLeftEncoder, frontRightEncoder, backRightEncoder};
     
-    gyro.setAngleAdjustment(0);
+    sim_gyro.setAngleAdjustment(0);
     configDriveMotor(frontLeftDriveFalcon);
     configDriveMotor(frontRightDriveFalcon);
     configDriveMotor(backLeftDriveFalcon);
@@ -197,7 +197,7 @@ public class DriveTrain extends SwerveDrivetrain {
         //configCANCoder(encoders[i], value);
       }
     }
-    SmartDashboard.putNumber("robot pitch angle", gyro.getPitch());
+    SmartDashboard.putNumber("robot pitch angle", sim_gyro.getPitch());
     SmartDashboard.putNumber("SwerveModule1 angle", frontRightEncoder.getAbsolutePosition().getValue());
     SmartDashboard.putNumber("SwerveModule2 angle", frontLeftEncoder.getAbsolutePosition().getValue());
     SmartDashboard.putNumber("SwerveModule3 angle", backLeftEncoder.getAbsolutePosition().getValue());
@@ -285,7 +285,7 @@ public class DriveTrain extends SwerveDrivetrain {
     poseEstimator.resetPosition(sim_gyro.getRotation2d(), getSwerveModulePositions(), newPose);
   }
   public void resetAngle(double deg){
-    poseEstimator.resetPosition(gyro.getRotation2d(), getSwerveModulePositions(), new Pose2d(getPose2d().getTranslation(), Rotation2d.fromDegrees(deg)));
+    poseEstimator.resetPosition(sim_gyro.getRotation2d(), getSwerveModulePositions(), new Pose2d(getPose2d().getTranslation(), Rotation2d.fromDegrees(deg)));
     System.out.println("Reseting Gyro");
   }
   public ScoringArea pickCubeScoringArea(){
