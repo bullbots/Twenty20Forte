@@ -24,7 +24,7 @@ public final class Constants {
 
     public static final int SLIDER = 14;
 
-    public static final int WINDLASS = 5;
+    
   }
 
   //Arm motor direction
