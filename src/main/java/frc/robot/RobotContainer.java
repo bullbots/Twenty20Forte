@@ -155,10 +155,18 @@ public class RobotContainer {
 
                 // Copilot controls
 
-                SmartDashboard.putData("Test SlideSliderToSpeaker",
-                                new SlideSliderToPosition(slider, 1, slider::isAtPosition));
-                SmartDashboard.putData("Test SlideSliderToAmp",
-                                new SlideSliderToPosition(slider, -120, slider::isAtPosition));
+                // SmartDashboard.putData("Test SlideSliderToSpeaker",
+                // new SlideSliderToPosition(slider, 1, slider::isAtPosition));
+                // SmartDashboard.putData("Test SlideSliderToAmp",
+                // new SlideSliderToPosition(slider, -120, slider::isAtPosition));
+
+                // SmartDashboard.putData("Test SlideSliderUp",
+                //                 new SlideSlider(slider, Slider.Mode.UP));
+                // SmartDashboard.putData("Test SlideSliderDown",
+                //                 new SlideSlider(slider, Slider.Mode.DOWN));
+
+                m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+                m_driverController.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
 
                 // Robot Up
                 // m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight,
