@@ -15,7 +15,6 @@ import frc.robot.commands.slider.SlideSlider;
 import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.SetIntakeFront;
 import frc.robot.commands.StageInShooter;
-import frc.robot.commands.WindlassDirections;
 import frc.robot.commands.shooting.ShootInAmp;
 import frc.robot.commands.shooting.ShootInSpeaker;
 import frc.robot.sensors.DebouncedDigitalInput;
@@ -52,7 +51,6 @@ public class RobotContainer {
 
         // The robot's subsystems...
         public static final DriveTrain drivetrain = new DriveTrain();
-        // public final Windlass windlass = new Windlass();
         // public static final Lifter liftLeft = new
         // Lifter(Constants.Motors.LIFTER_LEFT);
         // public static final Lifter liftRight = new
@@ -198,11 +196,7 @@ public class RobotContainer {
                 // Burrito shoots the notes out so they can't get stuck
                 m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
-                // Bindings for the windlass direction
-                // m_guitarHero.axisGreaterThan(0, 0.5).whileTrue(new
-                // WindlassDirections(windlass, -1));
-                // m_guitarHero.axisLessThan(0, -0.5).whileTrue(new WindlassDirections(windlass,
-                // 1));
+               
         }
 
         /**
