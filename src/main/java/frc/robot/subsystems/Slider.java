@@ -22,8 +22,8 @@ public class Slider extends SubsystemBase {
     }
 
     private TalonFX m_SliderMotor;
-    private int m_position;
-    private static final int TOLERANCE = 2;
+    private double m_position;
+    private static final double TOLERANCE = 0.1;
     public boolean locked = false;
     private final MotionMagicVoltage m_mmReq = new MotionMagicVoltage(0);
 
@@ -38,25 +38,22 @@ public class Slider extends SubsystemBase {
         config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-        // driveMotor.setNeutralMode(NeutralModeValue.Brake);
-        // driveMotor.setNeutralMode(NeutralModeValue.Brake);
+        /* Configure current limits */
+        MotionMagicConfigs mm = config.MotionMagic;
+        mm.MotionMagicCruiseVelocity = 5; // 5 rotations per second cruise
+        mm.MotionMagicAcceleration = 10; // Take approximately 0.5 seconds to reach max vel
+        // Take approximately 0.2 seconds to reach max accel
+        mm.MotionMagicJerk = 50;
 
-        // /* Configure current limits */
-        // MotionMagicConfigs mm = config.MotionMagic;
-        // mm.MotionMagicCruiseVelocity = 5; // 5 rotations per second cruise
-        // mm.MotionMagicAcceleration = 10; // Take approximately 0.5 seconds to reach max vel
-        // // Take approximately 0.2 seconds to reach max accel
-        // mm.MotionMagicJerk = 50;
+        Slot0Configs slot0 = config.Slot0;
+        slot0.kP = 60;
+        slot0.kI = 0;
+        slot0.kD = 0.1;
+        slot0.kV = 0.12;
+        slot0.kS = 0.25; // Approximately 0.25V to get the mechanism moving
 
-        // Slot0Configs slot0 = config.Slot0;
-        // slot0.kP = 60;
-        // slot0.kI = 0;
-        // slot0.kD = 0.1;
-        // slot0.kV = 0.12;
-        // slot0.kS = 0.25; // Approximately 0.25V to get the mechanism moving
-
-        // FeedbackConfigs fdb = config.Feedback;
-        // fdb.SensorToMechanismRatio = 12.8;
+        FeedbackConfigs fdb = config.Feedback;
+        fdb.SensorToMechanismRatio = 12.8;
 
         StatusCode status = StatusCode.StatusCodeNotInitialized;
         for (int i = 0; i < 5; ++i) {
@@ -90,7 +87,7 @@ public class Slider extends SubsystemBase {
         }
     }
 
-    public void moveToPosition(int position) {
+    public void moveToPosition(double position) {
         if (locked) {
             System.out.println("Slider Locked");
             return;

@@ -11,17 +11,17 @@ import frc.robot.subsystems.Slider;
 
 public class SlideSliderToPosition extends Command {
 
-  private int m_position;
+  private double m_position;
   private Slider m_slider;
   private BooleanSupplier m_condition;
 
     /** Creates a new SliderSliderToPosition. */
-  public SlideSliderToPosition(Slider slider, int position) {
+  public SlideSliderToPosition(Slider slider, double position) {
     this(slider, position, () -> false);
   }
 
   /** Creates a new SliderSliderToPosition. */
-  public SlideSliderToPosition(Slider slider, int position, BooleanSupplier condition) {
+  public SlideSliderToPosition(Slider slider, double position, BooleanSupplier condition) {
     addRequirements(slider);
     m_position = position;
     m_slider = slider;
