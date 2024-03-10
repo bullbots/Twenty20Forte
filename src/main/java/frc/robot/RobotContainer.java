@@ -16,7 +16,6 @@ import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.SetIntakeFront;
 import frc.robot.commands.StageInShooter;
 import frc.robot.commands.StrafeAndMoveForward;
-import frc.robot.commands.WindlassDirections;
 import frc.robot.commands.shooting.ShootInAmp;
 import frc.robot.commands.shooting.ShootInSpeaker;
 import frc.robot.sensors.DebouncedDigitalInput;
@@ -153,10 +152,7 @@ public class RobotContainer {
                                 System.out.println("Resetting Gyro");
                         }
                 });
-        //Bindings for the windlass direction
-        m_driverController.povLeft().whileTrue(new WindlassDirections(m_Windlass, -1));
-        m_driverController.povRight().whileFalse(new WindlassDirections(m_Windlass, 1));
-        
+
 
                 // Copilot controls
 

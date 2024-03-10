@@ -84,7 +84,7 @@ public abstract class SwerveModule {
 
             @Override
             public SwerveModulePosition getPosition() {
-                return new SwerveModulePosition(config.nativeUnitsToDistanceMeters(driveFalcon.getPosition().getValue()), getCANCoderRotation2d());
+                return new SwerveModulePosition(config.motorRotationsToDistanceMeters(driveFalcon.getPosition().getValue()), getCANCoderRotation2d());
             }
 
             @Override
