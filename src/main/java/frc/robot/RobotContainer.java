@@ -16,7 +16,6 @@ import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.SetIntakeFront;
 import frc.robot.commands.StageInShooter;
 import frc.robot.commands.StrafeAndMoveForward;
-import frc.robot.commands.WindlassDirections;
 import frc.robot.commands.shooting.ShootInAmp;
 import frc.robot.commands.shooting.ShootInSpeaker;
 import frc.robot.sensors.DebouncedDigitalInput;
@@ -153,23 +152,11 @@ public class RobotContainer {
                                 System.out.println("Resetting Gyro");
                         }
                 });
-        //Bindings for the windlass direction
-        m_driverController.povLeft().whileTrue(new WindlassDirections(m_Windlass, -1));
-        m_driverController.povRight().whileFalse(new WindlassDirections(m_Windlass, 1));
-        
 
                 // Copilot controls
 
-                SmartDashboard.putData("Test SlideSliderToSpeaker",
-                                new SlideSliderToPosition(slider, 1, slider::isAtPosition));
-                SmartDashboard.putData("Test SlideSliderToAmp",
-                                new SlideSliderToPosition(slider, -120, slider::isAtPosition));
-        //Robot Up
-        m_guitarHero.axisGreaterThan(1, -0.5).whileTrue(new Lifting(m_liftLeft, 1));
-        //Robot Down
-        m_guitarHero.axisLessThan(1, 0.5).whileTrue(new Lifting(m_liftRight, -1));
-       // m_driveTrain..whileTrue(new RepeatCommand( new StrafeAndMoveForward(2, .1, m_DriveTrain)));
-        //m_strafeRight.whileTrue(new RepeatCommand( new StrafeAndMoveForward(-2, .1, m_DriveTrain)));
+                m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+                m_driverController.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
 
                 // Robot Up
                 // m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight,
@@ -182,8 +169,8 @@ public class RobotContainer {
                 m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
                 m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
 
-                m_guitarHero.button(1).onTrue(new SlideSliderToPosition(slider, 1, slider::isAtPosition));
-                m_guitarHero.button(2).onTrue(new SlideSliderToPosition(slider, -120, slider::isAtPosition));
+                m_guitarHero.button(1).onTrue(new SlideSliderToPosition(slider, 0.2, slider::isAtPosition));
+                m_guitarHero.button(2).onTrue(new SlideSliderToPosition(slider, 9.3, slider::isAtPosition));
 
                 m_guitarHero.button(7).onTrue(new StageInShooter());
 
