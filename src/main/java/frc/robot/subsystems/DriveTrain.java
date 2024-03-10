@@ -205,9 +205,9 @@ public class DriveTrain extends SwerveDrivetrain {
     //System.out.println("Gyro pitch: " + gyro.getPitch());
     //double[] visionPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[6]);
     if(Robot.isReal()){
-      boolean hasTarget = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1;
+      boolean hasTarget = NetworkTableInstance.getDefault().getTable("limelight-limea").getEntry("tv").getDouble(0) == 1;
       if(hasTarget){
-        double[] visionPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+        double[] visionPose = NetworkTableInstance.getDefault().getTable("limelight-limea").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
         //estimatePoseBuffer.add(new Pose2d(visionPose[0], visionPose[1], new Rotation2d(Math.toRadians(visionPose[5]))));
         double sum = 0;
         for(int i = 0;i < estimatePoseBuffer.size();i++){
