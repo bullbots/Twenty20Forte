@@ -15,6 +15,8 @@ import frc.robot.commands.slider.SlideSlider;
 import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.SetIntakeFront;
 import frc.robot.commands.StageInShooter;
+import frc.robot.commands.StrafeAndMoveForward;
+import frc.robot.commands.WindlassDirections;
 import frc.robot.commands.shooting.ShootInAmp;
 import frc.robot.commands.shooting.ShootInSpeaker;
 import frc.robot.sensors.DebouncedDigitalInput;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -150,6 +153,10 @@ public class RobotContainer {
                                 System.out.println("Resetting Gyro");
                         }
                 });
+        //Bindings for the windlass direction
+        m_driverController.povLeft().whileTrue(new WindlassDirections(m_Windlass, -1));
+        m_driverController.povRight().whileFalse(new WindlassDirections(m_Windlass, 1));
+        
 
                 // Copilot controls
 
