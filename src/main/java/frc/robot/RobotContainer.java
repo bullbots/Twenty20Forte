@@ -141,6 +141,10 @@ public class RobotContainer {
                 // slider::isAtPosition));
                 // m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120,
                 // slider::isAtPosition));
+
+                m_driverController.rightBumper().whileTrue(new StrafeAndMoveForward(0.4, -0.1, drivetrain));
+                m_driverController.leftBumper().whileTrue(new StrafeAndMoveForward(-0.4, -0.1, drivetrain));
+
                 m_driverController.leftStick().onTrue(new RunCommand(
                                 () -> drivetrain.setMaxSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
