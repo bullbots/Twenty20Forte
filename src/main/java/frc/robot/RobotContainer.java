@@ -177,11 +177,11 @@ public class RobotContainer {
 
                 m_guitarHero.button(10)
                                 .whileTrue(new SequentialCommandGroup(
-                                                new SlideSliderToPosition(slider, 1, slider::isAtPosition),
+                                                new SlideSliderToPosition(slider, 0.2, slider::isAtPosition),
                                                 new IntakeBackCommand(1, m_intakeSensor::get)));
                 m_guitarHero.button(9)
                                 .whileTrue(new SequentialCommandGroup(
-                                                new SlideSliderToPosition(slider, 1, slider::isAtPosition),
+                                                new SlideSliderToPosition(slider, 0.2, slider::isAtPosition),
                                                 new SetIntakeFront(1, m_intakeSensor::get)));
 
                 // Bump notes into shooter
