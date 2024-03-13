@@ -53,6 +53,11 @@ public class DrivetrainConfig {
         return wheelRotations * (wheelRadiusMeters * 2 * Math.PI);
     }
 
+    public double motorRotationsToDistanceMeters(double motorRotations) {
+        double wheelRotations = motorRotations / gearRatio;
+        return wheelRotations * (wheelRadiusMeters * 2 * Math.PI);
+    }
+
     public double nativeUnitsToDistanceFeet(double sensorCounts) {
         double motorRotations = sensorCounts / encoderCountsPerMotorRevolution;
         double wheelRotations = motorRotations / gearRatio;
