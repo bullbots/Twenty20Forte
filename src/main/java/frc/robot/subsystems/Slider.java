@@ -108,5 +108,10 @@ public class Slider extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Slider encoder", m_SliderMotor.getPosition().getValue());
+        var reversedLimit = m_SliderMotor.getReverseLimit().getValue().value;
+        SmartDashboard.putNumber("Slider Reversed Limit", reversedLimit);
+        if (reversedLimit == 0){
+            m_SliderMotor.setPosition(0);
+        }
     }
 }
