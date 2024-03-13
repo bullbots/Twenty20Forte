@@ -149,13 +149,10 @@ public class RobotContainer {
                                 () -> drivetrain.setMaxSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
                 // Reset Gyro
-                m_driverController.start().onTrue(new InstantCommand() {
-                        @Override
-                        public void initialize() {
-                                drivetrain.resetGyro();
-                                System.out.println("Resetting Gyro");
-                        }
-                });
+                m_driverController.start().onTrue(new InstantCommand(() -> {
+                        drivetrain.resetGyro();
+                        System.out.println("Resetting Gyro");
+                }));
 
                 // Copilot controls
 
@@ -173,18 +170,18 @@ public class RobotContainer {
                 m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
                 m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
 
-                m_guitarHero.button(1).onTrue(new SlideSliderToPosition(slider, 0.2, slider::isAtPosition));
-                m_guitarHero.button(2).onTrue(new SlideSliderToPosition(slider, 9.3, slider::isAtPosition));
+                m_guitarHero.button(1).onTrue(new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition));
+                m_guitarHero.button(2).onTrue(new SlideSliderToPosition(slider, Slider.UP_POS, slider::isAtPosition));
 
                 m_guitarHero.button(7).onTrue(new StageInShooter());
 
                 m_guitarHero.button(10)
                                 .whileTrue(new SequentialCommandGroup(
-                                                new SlideSliderToPosition(slider, 1, slider::isAtPosition),
+                                                new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition),
                                                 new IntakeBackCommand(1, m_intakeSensor::get)));
                 m_guitarHero.button(9)
                                 .whileTrue(new SequentialCommandGroup(
-                                                new SlideSliderToPosition(slider, 1, slider::isAtPosition),
+                                                new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition),
                                                 new SetIntakeFront(1, m_intakeSensor::get)));
 
                 // Bump notes into shooter
