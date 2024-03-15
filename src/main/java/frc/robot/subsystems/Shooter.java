@@ -23,7 +23,7 @@ public class Shooter extends SubsystemBase {
 
     private static final TalonFX m_shooterMotorTop = new TalonFX(Constants.Motors.SHOOTER_LEFT);
     private static final TalonFX m_shooterMotorBottom = new TalonFX(Constants.Motors.SHOOTER_RIGHT);
-    private final CurrentLimitsConfigs limitsConfigs = new CurrentLimitsConfigs().withSupplyCurrentLimit(10);
+    private final CurrentLimitsConfigs limitsConfigs = new CurrentLimitsConfigs().withSupplyCurrentLimit(100).withStatorCurrentLimitEnable(true);
     private final TalonFXConfigurator topShooterConfig;
     private final TalonFXConfigurator bottomShooterConfig;
     public Shooter(){
