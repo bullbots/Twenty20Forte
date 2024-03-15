@@ -4,6 +4,7 @@
 
 package frc.robot.commands.drivetrain;
 
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
@@ -26,8 +27,9 @@ public class TurningRobotFuzzyLogic extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //Math.abs(m_targetAngle - );
     // get the delta between the targetAngle and the gyro angle
-    var delta = 0;
+    //var delta = 0;
     // if the absolute value is greater than a threshold, then highspeed
     //lower than its lowspeed with a second threshold
   }
