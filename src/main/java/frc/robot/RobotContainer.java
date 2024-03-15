@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.*;
+import frc.robot.utils.FieldOrientation;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -62,6 +63,7 @@ public class RobotContainer {
         public static final BackIntake backIntake = new BackIntake();
         public static final Stager stager = new Stager();
         public static final Shooter shooter = new Shooter();
+        private static final FieldOrientation fieldOrientation = new FieldOrientation();
 
         // Global robot states
         public static double gyro_angle = 0;
@@ -113,7 +115,7 @@ public class RobotContainer {
                                                                         y,
                                                                         x,
                                                                         -z,
-                                                                        true);
+                                                                        fieldOrientation.isFieldRelative());
                                                 }, drivetrain));
         }
 
@@ -137,10 +139,20 @@ public class RobotContainer {
                 m_driverController.rightTrigger(0.5).whileTrue(new ShootInSpeaker());
                 m_driverController.rightTrigger(0.5).onFalse(new KillAll());
                 m_driverController.leftTrigger(0.5).whileTrue(new ShootInAmp());
+
+                m_driverController.back().onTrue(new InstantCommand() {
+                        @Override
+                        public void initialize() {
+                                fieldOrientation.toggleOrientation();
+                                System.out.println("Field relative set to" + fieldOrientation.isFieldRelative());
+                        }
+                });
+                //m_driverController.back().( )
                 // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1,
                 // slider::isAtPosition));
                 // m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120,
                 // slider::isAtPosition));
+
                 m_driverController.leftStick().onTrue(new RunCommand(
                                 () -> drivetrain.setMaxSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
 
@@ -152,6 +164,8 @@ public class RobotContainer {
                                 System.out.println("Resetting Gyro");
                         }
                 });
+
+
 
                 // Copilot controls
 
