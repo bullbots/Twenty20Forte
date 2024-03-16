@@ -16,6 +16,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Slider extends SubsystemBase {
+
+    public static final double DOWN_POS = 0.1;
+    public static final double UP_POS = 9.3;
+
     public enum Mode {
         UP,
         DOWN
@@ -76,11 +80,11 @@ public class Slider extends SubsystemBase {
         switch (mode) {
             case DOWN:
                 System.out.println("Moving DOWN");
-                m_SliderMotor.set(-0.3);
+                m_SliderMotor.set(-0.8);
                 break;
             case UP:
                 System.out.println("Moving UP");
-                m_SliderMotor.set(0.3);
+                m_SliderMotor.set(0.8);
                 break;
             default:
                 break;

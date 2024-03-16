@@ -5,10 +5,11 @@
 package frc.robot.commands.stager;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Stager;
 
-public class StagingYeet extends InstantCommand {
+public class StagingYeet extends Command {
   /** Creates a new StagingYeet. */
   Stager m_stager;
   public StagingYeet(Stager stager) {
@@ -30,7 +31,7 @@ public class StagingYeet extends InstantCommand {
   }
   @Override
   public boolean isFinished() {
-      return false;
+      return super.isFinished();
   }
 
 }

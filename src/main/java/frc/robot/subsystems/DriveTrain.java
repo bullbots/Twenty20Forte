@@ -34,6 +34,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.drivetrain.SwerveDrivetrain;
 import frc.robot.drivetrain.MirrorPoses;
+import frc.robot.drivetrain.AprilTagOdometryUpdater;
 import frc.robot.drivetrain.DrivetrainConfig;
 import frc.robot.drivetrain.SwerveModule;
 import frc.robot.motors.WPI_CANSparkMax;
@@ -119,11 +120,10 @@ public class DriveTrain extends SwerveDrivetrain {
   final DoubleSubscriber[] moduleSub = new DoubleSubscriber[4];
   double[] prev = new double[4];
   CANcoder[] encoders;
+
+  private final AprilTagOdometryUpdater aprilTagOdometryUpdater = new AprilTagOdometryUpdater();
   
   double savedX;
-  CircularBuffer<Double> estimatePoseBuffer;
-  int visionPeriodicTicker = 0;
-  int staleVisionTicker = 0;
 
   NetworkTable limeNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
   public DriveTrain() {
@@ -167,7 +167,6 @@ public class DriveTrain extends SwerveDrivetrain {
     }
 
     configureShuffleboard();
-    estimatePoseBuffer = new CircularBuffer<Double>(8);
   }
 
   private static void configDriveMotor(TalonFX driveMotor) {
@@ -204,60 +203,9 @@ public class DriveTrain extends SwerveDrivetrain {
     SmartDashboard.putNumber("SwerveModule4 angle", backRightEncoder.getAbsolutePosition().getValue());
     //System.out.println("Gyro pitch: " + gyro.getPitch());
     //double[] visionPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[6]);
-    if(Robot.isReal()){
-      boolean hasTarget = NetworkTableInstance.getDefault().getTable("limelight-limea").getEntry("tv").getDouble(0) == 1;
-      if(hasTarget){
-        double[] visionPose = NetworkTableInstance.getDefault().getTable("limelight-limea").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
-        //estimatePoseBuffer.add(new Pose2d(visionPose[0], visionPose[1], new Rotation2d(Math.toRadians(visionPose[5]))));
-        double sum = 0;
-        for(int i = 0;i < estimatePoseBuffer.size();i++){
-          if(estimatePoseBuffer.get(i) != Double.MAX_VALUE)
-          sum += estimatePoseBuffer.get(i);
-        }
-        //count number of used entries in buffer
-        int bufferSize = estimatePoseBuffer.size();
-        for(int i = 0;i < estimatePoseBuffer.size();i++){
-          if(estimatePoseBuffer.get(i) == Double.MAX_VALUE){
-            bufferSize--;
-          }
-        }
-        //get average
-        double averageY = sum/bufferSize;
-        if(Math.abs(averageY - visionPose[1]) < 1 || bufferSize == 0){
-          estimatePoseBuffer.addFirst(visionPose[1]);
-        }else{
-        //   CameraLoging.logEntry(String.format("rejected estimate dif of: %f buffer size: %d%n",(averageY - visionPose[1]), bufferSize));
-          
-          System.out.printf("rejected estimate dif of: %f buffer size: %d%n",(averageY - visionPose[1]), bufferSize);
-        }
-        //if the the buffer has enough entries send it
-        if(bufferSize >= 6){
-          poseEstimator.addVisionMeasurement(new Pose2d(visionPose[0], visionPose[1], getPose2d().getRotation()) ,Timer.getFPGATimestamp());
-        }
-        staleVisionTicker++;
-        //System.out.println("buffer size: " + bufferSize);
-      }else{
-        //clear buffer if there are no targets for more than 10 frames
-        visionPeriodicTicker++;
-        if(visionPeriodicTicker > 10){
-          visionPeriodicTicker = 0;
-          //reset the buffer by setting it to max value
-          for(int i = 0;i < estimatePoseBuffer.size();i++){
-            estimatePoseBuffer.addFirst(Double.MAX_VALUE);
-          }
-          //System.out.println("cleared vision buffer");
-        }
-      }
-      if(staleVisionTicker > 10){
-        staleVisionTicker = 0;
-        for(int i = 0;i < estimatePoseBuffer.size();i++){
-          estimatePoseBuffer.addFirst(Double.MAX_VALUE);
-        }
-        //System.out.println("cleared vision buffer");
-      }
-      
-    }
-    
+
+    aprilTagOdometryUpdater.update(poseEstimator, this);
+
     // log the current
     //m_CurrentBLLogger.logEntry(backLeftDriveFalcon.getSupplyCurrent(), BullLogger.LogLevel.DEBUG);
   }

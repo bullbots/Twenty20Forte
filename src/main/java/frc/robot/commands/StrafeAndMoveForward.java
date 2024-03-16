@@ -14,17 +14,16 @@ public class StrafeAndMoveForward extends Command {
         forward = forwardSpeed;
         sideways = sideSpeed;
         m_driveTrain = drivetrain;
+        addRequirements(drivetrain);
     }
 
     @Override
     public void execute(){
-       m_driveTrain.holonomicDrive(forward, sideways, 0, true);
+       m_driveTrain.holonomicDrive(forward, sideways, 0, false);
     }
-
-   
 
     @Override
     public boolean isFinished(){
-        return true;
+        return false;
     }
 }
