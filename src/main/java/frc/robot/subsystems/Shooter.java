@@ -5,6 +5,11 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.hardware.DeviceIdentifier;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -19,50 +24,24 @@ public class Shooter extends SubsystemBase {
 
     public boolean stagedInShooter = false;
 
-    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+    private static final TalonFX m_shooterMotorTop = new TalonFX(Constants.Motors.SHOOTER_LEFT);
+    private static final TalonFX m_shooterMotorBottom = new TalonFX(Constants.Motors.SHOOTER_RIGHT);
+    // private final CurrentLimitsConfigs limitsConfigs = new CurrentLimitsConfigs().withSupplyCurrentLimit(10);
+    // private final TalonFXConfigurator topShooterConfig;
+    // private final TalonFXConfigurator bottomShooterConfig;
+    public Shooter(){
+    //     topShooterConfig = new TalonFXConfigurator(new DeviceIdentifier(Constants.Motors.SHOOTER_LEFT, "", ""));
+    //     bottomShooterConfig = new TalonFXConfigurator(new DeviceIdentifier(Constants.Motors.SHOOTER_RIGHT, "", ""));
+    //     topShooterConfig.apply(limitsConfigs);
+    //     bottomShooterConfig.apply(limitsConfigs);
 
-    private static final WPI_CANSparkMax m_shooterMotorLeft = new WPI_CANSparkMax(Constants.Motors.SHOOTER_LEFT,
-            MotorType.kBrushless);
-    private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(Constants.Motors.SHOOTER_RIGHT,
-            MotorType.kBrushless);
-
-    public Shooter() {
-        configureShooterMotor(m_shooterMotorLeft);
-        configureShooterMotor(m_shooterMotorRight);
-    }
-    
-    private void configureShooterMotor(WPI_CANSparkMax motor) {
-        motor.restoreFactoryDefaults();
-        // motor.setSmartCurrentLimit(100);
-       motor.setIdleMode(IdleMode.kBrake);
-
-        var pidController = motor.getPIDController();
-
-        // PID coefficients
-        kP = 5e-5;
-        kI = 1e-6;
-        kD = 0;
-        kIz = 0;
-        kFF = 0.00015;
-        kMaxOutput = 1;
-        kMinOutput = -1;
-        maxRPM = 5700;
-
-        // set PID coefficients
-        pidController.setP(kP);
-        pidController.setI(kI);
-        pidController.setD(kD);
-        pidController.setIZone(kIz);
-        pidController.setFF(kFF);
-        pidController.setOutputRange(kMinOutput, kMaxOutput);
+        m_shooterMotorTop.setNeutralMode(NeutralModeValue.Brake);
+        m_shooterMotorBottom.setNeutralMode(NeutralModeValue.Brake);
     }
 
-    public void set(double normalizedSpeed) {
-        var setPoint = normalizedSpeed * maxRPM;
-
-        System.out.println("Info Set Setpoint" + setPoint);
-        m_shooterMotorLeft.getPIDController().setReference(setPoint, CANSparkMax.ControlType.kVelocity);
-        m_shooterMotorRight.getPIDController().setReference(-setPoint, CANSparkMax.ControlType.kVelocity);
+    public void set(double speed) {
+        m_shooterMotorTop.set(-speed);
+        m_shooterMotorBottom.set(-speed);
     }
 
     public void speakerShoot() {
@@ -85,8 +64,7 @@ public class Shooter extends SubsystemBase {
         set(0);
     }
 
-    public void periodic() {
-        var shooterSpeed = m_shooterMotorLeft.getEncoder().getVelocity();
-        SmartDashboard.putNumber("Shooter speed", shooterSpeed);
+    public boolean isEnabled() {
+        return m_shooterMotorTop.get() != 0;
     }
 }
