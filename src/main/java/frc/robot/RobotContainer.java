@@ -15,6 +15,10 @@ import frc.robot.commands.BeanBurrito;
 import frc.robot.commands.BumpShooter;
 import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.KillAll;
+import frc.robot.commands.Autonomous.Autos;
+import frc.robot.commands.drivetrain.TurningRobotFuzzyLogic;
+import frc.robot.commands.slider.SlideSlider;
+import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.SetIntakeFront;
 import frc.robot.commands.StageInShooter;
 import frc.robot.commands.StrafeAndMoveForward;
@@ -54,10 +58,6 @@ public class RobotContainer {
 
         // The robot's subsystems...
         public static final DriveTrain drivetrain = new DriveTrain();
-        // public static final Lifter liftLeft = new
-        // Lifter(Constants.Motors.LIFTER_LEFT);
-        // public static final Lifter liftRight = new
-        // Lifter(Constants.Motors.LIFTER_RIGHT);
         public static final Slider slider = new Slider();
         public static final FrontMiddleIntake frontMiddleIntake = new FrontMiddleIntake();
         public static final BackIntake backIntake = new BackIntake();
@@ -67,7 +67,6 @@ public class RobotContainer {
 
         // Global robot states
         public static double gyro_angle = 0;
-
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
@@ -139,6 +138,7 @@ public class RobotContainer {
                 m_driverController.rightTrigger(0.5).whileTrue(new ShootInSpeaker());
                 m_driverController.rightTrigger(0.5).onFalse(new KillAll());
                 m_driverController.leftTrigger(0.5).whileTrue(new ShootInAmp());
+                // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 0.2,
 
                 m_driverController.back().onTrue(Commands.runOnce(() -> {
                         fieldOrientation.toggleOrientation();
@@ -162,18 +162,15 @@ public class RobotContainer {
                         System.out.println("Resetting Gyro");
                 }));
 
+                m_driverController.povLeft().onTrue(new TurningRobotFuzzyLogic(-90));
+                m_driverController.povRight().onTrue(new TurningRobotFuzzyLogic(90));
+                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(180));
                 // Copilot controls
 
-                m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
-                m_driverController.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
+                //m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+                //m_driverController.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
 
-                // Robot Up
-                // m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight,
-                // 1));
-                // Robot Down
-                // m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new Lifting(liftLeft,
-                // liftRight, -1));
-
+                
                 // Buttons for co-driver moving the slider up and down
                 m_guitarHero.button(1).whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
                 m_guitarHero.button(2).whileTrue(new SlideSlider(slider, Slider.Mode.UP));
@@ -205,6 +202,7 @@ public class RobotContainer {
          *
          * @return the command to run in autonomous
          */
+        
         public Command getAutonomousCommand() {
                 // An example command will be run in autonomous
                 System.out.println("Found Autos!");
