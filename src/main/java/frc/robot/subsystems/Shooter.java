@@ -23,14 +23,16 @@ public class Shooter extends SubsystemBase {
 
     private static final TalonFX m_shooterMotorTop = new TalonFX(Constants.Motors.SHOOTER_LEFT);
     private static final TalonFX m_shooterMotorBottom = new TalonFX(Constants.Motors.SHOOTER_RIGHT);
-    private final CurrentLimitsConfigs limitsConfigs = new CurrentLimitsConfigs().withSupplyCurrentLimit(100).withStatorCurrentLimitEnable(true);
-    private final TalonFXConfigurator topShooterConfig;
-    private final TalonFXConfigurator bottomShooterConfig;
+
+    // private final CurrentLimitsConfigs limitsConfigs = new CurrentLimitsConfigs().withSupplyCurrentLimit(10);
+    // private final TalonFXConfigurator topShooterConfig;
+    // private final TalonFXConfigurator bottomShooterConfig;
+
     public Shooter(){
-        topShooterConfig = new TalonFXConfigurator(new DeviceIdentifier(Constants.Motors.SHOOTER_LEFT, "", ""));
-        bottomShooterConfig = new TalonFXConfigurator(new DeviceIdentifier(Constants.Motors.SHOOTER_RIGHT, "", ""));
-        topShooterConfig.apply(limitsConfigs);
-        bottomShooterConfig.apply(limitsConfigs);
+    //     topShooterConfig = new TalonFXConfigurator(new DeviceIdentifier(Constants.Motors.SHOOTER_LEFT, "", ""));
+    //     bottomShooterConfig = new TalonFXConfigurator(new DeviceIdentifier(Constants.Motors.SHOOTER_RIGHT, "", ""));
+    //     topShooterConfig.apply(limitsConfigs);
+    //     bottomShooterConfig.apply(limitsConfigs);
 
         m_shooterMotorTop.setNeutralMode(NeutralModeValue.Brake);
         m_shooterMotorBottom.setNeutralMode(NeutralModeValue.Brake);
