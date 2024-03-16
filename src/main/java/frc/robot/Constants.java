@@ -17,8 +17,6 @@ public final class Constants {
     public static final int INTAKE_FRONT = 12;
     public static final int BELT = 10;
     public static final int STAGER = 20;
-    public static final int LIFTER_LEFT= 6;
-    public static final int LIFTER_RIGHT = 7;
     public static final int SHOOTER_LEFT = 8;
     public static final int SHOOTER_RIGHT = 9;
 
@@ -26,14 +24,7 @@ public final class Constants {
 
     
   }
-
-  //Arm motor direction
-  public static final class LiftArm {
-    public static final int LIFT_UP = 1;
-    public static final int LIFT_DOWN = -1;
-  }
-    
-
+  
   public static final class Sensors {
     public static final int INTAKE_SENSOR = 0;
   }
