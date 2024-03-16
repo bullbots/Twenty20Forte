@@ -5,7 +5,6 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
@@ -14,8 +13,8 @@ public class TurningRobotFuzzyLogic extends Command {
   /** Creates a new TurningRobotFuzzyLogic. */
   private double m_targetAngle;
   private final DriveTrain m_drivetrain;
-  private static final double HIGHSPEED = 0.5;
-  private static final double LOWSPEED = 0.2;
+  private static final double HIGHSPEED = 1.0;
+  private static final double LOWSPEED = 0.7;
   private static final double angleThreshold = 30;
   private static final double TOLERANCE = 2;
 
@@ -35,7 +34,7 @@ public class TurningRobotFuzzyLogic extends Command {
   @Override
   public void execute() {
     
-    var delta = MathUtil.angleModulus(m_targetAngle - RobotContainer.gyro_angle);
+    var delta = MathUtil.inputModulus(m_targetAngle - m_drivetrain.sim_gyro.getAngle(),-180,180);
     var speed = 0.0;
     if (Math.abs(delta) > angleThreshold) {
       speed = HIGHSPEED;
@@ -44,14 +43,15 @@ public class TurningRobotFuzzyLogic extends Command {
     }
     System.out.printf("Delta %s %n", delta);
     System.out.printf("Speed %s %n", speed);
+    System.out.printf("Gyro Angle %.3f %n", m_drivetrain.sim_gyro.getAngle());
 
-    // m_drivetrain.holonomicDrive(
-    //     // All numbers are negative, due to the way WPI
-    //     // Motors handle rotation
-    //     0,
-    //     0,
-    //     Math.signum(-delta) * speed,
-    //     false);
+    m_drivetrain.holonomicDrive(
+        // All numbers are negative, due to the way WPI
+        // Motors handle rotation
+        0,
+        0,
+        Math.signum(-delta) * speed,
+        false);
 
   }
   // get the delta between the targetAngle and the gyro angle
@@ -62,7 +62,7 @@ public class TurningRobotFuzzyLogic extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //m_drivetrain.stop();
+    m_drivetrain.stop();
     System.out.println("Info TurningRobotFuzzyLogic end");
   }
   // stop the motor
@@ -70,7 +70,7 @@ public class TurningRobotFuzzyLogic extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    var delta = MathUtil.angleModulus(m_targetAngle - RobotContainer.gyro_angle);
+    var delta = MathUtil.inputModulus(m_targetAngle - m_drivetrain.sim_gyro.getAngle(),-180,180);
     return Math.abs(delta)<= TOLERANCE;
     // Check to see if it is in the range :)
   }

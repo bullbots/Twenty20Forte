@@ -67,7 +67,6 @@ public class RobotContainer {
 
         // Global robot states
         public static double gyro_angle = 0;
-
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
