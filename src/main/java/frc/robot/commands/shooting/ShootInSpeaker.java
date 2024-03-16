@@ -10,31 +10,21 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.stager.StagingYeet;
+import frc.robot.subsystems.Slider;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ShootInSpeaker extends SequentialCommandGroup {
-  /** Creates a new ShootInSpeaker2. */
-  public ShootInSpeaker() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-        new ParallelCommandGroup(
-            new SlideSliderToPosition(RobotContainer.slider, 0.2, RobotContainer.slider::isAtPosition),
-            new SpinUpShooter(RobotContainer.shooter)),
-        new StagingYeet(RobotContainer.stager)
-                );
 
-  }
-  // @Override
-  // public void end(boolean interrupted) {
-  //   // super.end(interrupted);
-  //   System.out.println("ShootInSpeakerEnd");
-  //   RobotContainer.slider.stop();
-  //   RobotContainer.shooter.stop();
-  //   RobotContainer.stager.stop();
-  // }
-
-
+    public ShootInSpeaker() {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        addCommands(
+                new ParallelCommandGroup(
+                        new SlideSliderToPosition(RobotContainer.slider, Slider.DOWN_POS, RobotContainer.slider::isAtPosition),
+                        new SpinUpShooter(RobotContainer.shooter)),
+                new StagingYeet(RobotContainer.stager)
+        );
+    }
 }

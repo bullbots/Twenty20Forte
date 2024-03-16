@@ -5,6 +5,11 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.hardware.DeviceIdentifier;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -16,21 +21,24 @@ public class Shooter extends SubsystemBase {
 
     public boolean stagedInShooter = false;
 
-    private static final WPI_CANSparkMax m_shooterMotorLeft = new WPI_CANSparkMax(Constants.Motors.SHOOTER_LEFT,
-            MotorType.kBrushless);
-    private static final WPI_CANSparkMax m_shooterMotorRight = new WPI_CANSparkMax(Constants.Motors.SHOOTER_RIGHT,
-            MotorType.kBrushless);
-
+    private static final TalonFX m_shooterMotorTop = new TalonFX(Constants.Motors.SHOOTER_LEFT);
+    private static final TalonFX m_shooterMotorBottom = new TalonFX(Constants.Motors.SHOOTER_RIGHT);
+    // private final CurrentLimitsConfigs limitsConfigs = new CurrentLimitsConfigs().withSupplyCurrentLimit(10);
+    // private final TalonFXConfigurator topShooterConfig;
+    // private final TalonFXConfigurator bottomShooterConfig;
     public Shooter(){
-        m_shooterMotorLeft.setSmartCurrentLimit(100);
-        m_shooterMotorRight.setSmartCurrentLimit(100);
-        m_shooterMotorLeft.setIdleMode(IdleMode.kBrake);
-        m_shooterMotorRight.setIdleMode(IdleMode.kBrake);
+    //     topShooterConfig = new TalonFXConfigurator(new DeviceIdentifier(Constants.Motors.SHOOTER_LEFT, "", ""));
+    //     bottomShooterConfig = new TalonFXConfigurator(new DeviceIdentifier(Constants.Motors.SHOOTER_RIGHT, "", ""));
+    //     topShooterConfig.apply(limitsConfigs);
+    //     bottomShooterConfig.apply(limitsConfigs);
+
+        m_shooterMotorTop.setNeutralMode(NeutralModeValue.Brake);
+        m_shooterMotorBottom.setNeutralMode(NeutralModeValue.Brake);
     }
 
     public void set(double speed) {
-        m_shooterMotorLeft.set(speed);
-        m_shooterMotorRight.set(-speed);
+        m_shooterMotorTop.set(-speed);
+        m_shooterMotorBottom.set(-speed);
     }
 
     public void speakerShoot() {
@@ -54,6 +62,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isEnabled() {
-        return m_shooterMotorLeft.get() != 0;
+        return m_shooterMotorTop.get() != 0;
     }
 }
