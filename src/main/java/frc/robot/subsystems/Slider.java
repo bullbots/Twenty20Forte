@@ -44,8 +44,8 @@ public class Slider extends SubsystemBase {
 
         /* Configure current limits */
         MotionMagicConfigs mm = config.MotionMagic;
-        mm.MotionMagicCruiseVelocity = 5; // 5 rotations per second cruise
-        mm.MotionMagicAcceleration = 10; // Take approximately 0.5 seconds to reach max vel
+        mm.MotionMagicCruiseVelocity = 25; // 5 rotations per second cruise
+        mm.MotionMagicAcceleration = 50; // Take approximately 0.5 seconds to reach max vel
         // Take approximately 0.2 seconds to reach max accel
         mm.MotionMagicJerk = 50;
 
@@ -80,11 +80,11 @@ public class Slider extends SubsystemBase {
         switch (mode) {
             case DOWN:
                 System.out.println("Moving DOWN");
-                m_SliderMotor.set(-0.8);
+                m_SliderMotor.set(-1);
                 break;
             case UP:
                 System.out.println("Moving UP");
-                m_SliderMotor.set(0.8);
+                m_SliderMotor.set(1);
                 break;
             default:
                 break;
@@ -111,6 +111,7 @@ public class Slider extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Slider encoder", m_SliderMotor.getPosition().getValue());
+        // SmartDashboard.putNumber("Slider encoder", m_SliderMotor.getPosition().getValue());
+        // SmartDashboard.putNumber("Slider Current", m_SliderMotor.getSupplyCurrent().getValue());
     }
 }

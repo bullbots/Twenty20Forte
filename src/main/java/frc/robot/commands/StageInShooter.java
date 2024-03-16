@@ -18,7 +18,7 @@ public class StageInShooter extends WaitCommand {
   private boolean m_first;
 
   public StageInShooter() {
-    this(0.5);
+    this(0.25);
   }
 
   public StageInShooter(double seconds) {
