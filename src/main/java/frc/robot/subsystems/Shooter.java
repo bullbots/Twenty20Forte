@@ -5,20 +5,11 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
-import com.ctre.phoenix6.hardware.DeviceIdentifier;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
-import com.revrobotics.CANSparkMax;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.motors.WPI_CANSparkMax;
+
 
 public class Shooter extends SubsystemBase {
 
@@ -53,7 +44,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stageShoot() {
-        set(0.01);
+        set(0.10);
     }
 
     public void bumpShooter(){
