@@ -54,10 +54,6 @@ public class RobotContainer {
 
         // The robot's subsystems...
         public static final DriveTrain drivetrain = new DriveTrain();
-        // public static final Lifter liftLeft = new
-        // Lifter(Constants.Motors.LIFTER_LEFT);
-        // public static final Lifter liftRight = new
-        // Lifter(Constants.Motors.LIFTER_RIGHT);
         public static final Slider slider = new Slider();
         public static final FrontMiddleIntake frontMiddleIntake = new FrontMiddleIntake();
         public static final BackIntake backIntake = new BackIntake();
@@ -167,13 +163,7 @@ public class RobotContainer {
                 m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
                 m_driverController.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
 
-                // Robot Up
-                // m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight,
-                // 1));
-                // Robot Down
-                // m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new Lifting(liftLeft,
-                // liftRight, -1));
-
+                
                 // Buttons for co-driver moving the slider up and down
                 m_guitarHero.button(1).whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
                 m_guitarHero.button(2).whileTrue(new SlideSlider(slider, Slider.Mode.UP));
@@ -205,6 +195,7 @@ public class RobotContainer {
          *
          * @return the command to run in autonomous
          */
+        
         public Command getAutonomousCommand() {
                 // An example command will be run in autonomous
                 System.out.println("Found Autos!");
