@@ -11,6 +11,7 @@ import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.KillAll;
 import frc.robot.commands.Lifting;
 import frc.robot.commands.Autonomous.Autos;
+import frc.robot.commands.drivetrain.TurningRobotFuzzyLogic;
 import frc.robot.commands.slider.SlideSlider;
 import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.SetIntakeFront;
@@ -157,10 +158,13 @@ public class RobotContainer {
                         }
                 });
 
+                m_driverController.povLeft().onTrue(new TurningRobotFuzzyLogic(-90));
+                m_driverController.povRight().onTrue(new TurningRobotFuzzyLogic(90));
+                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(180));
                 // Copilot controls
 
-                m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
-                m_driverController.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
+                //m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+                //m_driverController.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
 
                 // Robot Up
                 // m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight,
