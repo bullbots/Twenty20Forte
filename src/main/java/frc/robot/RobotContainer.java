@@ -6,10 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -33,6 +30,8 @@ import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Slider;
 import frc.robot.subsystems.Stager;
+
+import frc.robot.utils.FieldOrientation;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -64,6 +63,7 @@ public class RobotContainer {
         public static final BackIntake backIntake = new BackIntake();
         public static final Stager stager = new Stager();
         public static final Shooter shooter = new Shooter();
+        private static final FieldOrientation fieldOrientation = new FieldOrientation();
 
         // Global robot states
         public static double gyro_angle = 0;
@@ -115,7 +115,7 @@ public class RobotContainer {
                                                                         y,
                                                                         x,
                                                                         -z,
-                                                                        true);
+                                                                        fieldOrientation.isFieldRelative());
                                                 }, drivetrain));
         }
 
@@ -139,6 +139,12 @@ public class RobotContainer {
                 m_driverController.rightTrigger(0.5).whileTrue(new ShootInSpeaker());
                 m_driverController.rightTrigger(0.5).onFalse(new KillAll());
                 m_driverController.leftTrigger(0.5).whileTrue(new ShootInAmp());
+
+                m_driverController.back().onTrue(Commands.runOnce(() -> {
+                        fieldOrientation.toggleOrientation();
+                        System.out.println("Field relative set to" + fieldOrientation.isFieldRelative());
+                }));
+                //m_driverController.back().( )
                 // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1,
                 // slider::isAtPosition));
                 // m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120,
@@ -191,7 +197,7 @@ public class RobotContainer {
                 // Burrito shoots the notes out so they can't get stuck
                 m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
-               
+
         }
 
         /**
