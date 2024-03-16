@@ -127,7 +127,7 @@ public class DriveTrain extends SwerveDrivetrain {
 
   NetworkTable limeNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
   public DriveTrain() {
-    super(_shuffuleboardTab, _config, .501652, .62865, sim_gyro, frontLeft, frontRight, backLeft, backRight);
+    super(_shuffuleboardTab, _config, Units.inchesToMeters(32), Units.inchesToMeters(28), sim_gyro, frontLeft, frontRight, backLeft, backRight);
     encoders = new CANcoder[]{frontLeftEncoder, backLeftEncoder, frontRightEncoder, backRightEncoder};
     
     sim_gyro.setAngleAdjustment(0);

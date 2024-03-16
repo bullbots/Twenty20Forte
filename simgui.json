@@ -10,6 +10,11 @@
       "/SmartDashboard/Test SlideSliderUp": "Command"
     },
     "windows": {
+      "/SmartDashboard/Command Selected": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Robot (Field2d)": {
         "bottom": 1476,
         "height": 8.210550308227539,
