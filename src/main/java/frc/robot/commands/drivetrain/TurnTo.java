@@ -11,13 +11,16 @@ import frc.robot.RobotContainer;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TurnTo extends InstantCommand {
+  private final double target;
+
   public TurnTo(double target) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    RobotContainer.targetAngle = target;
-    RobotContainer.drivingTo = true;
+    this.target = target;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    RobotContainer.targetAngle = target;
+    RobotContainer.drivingTo = true;
+  }
 }
