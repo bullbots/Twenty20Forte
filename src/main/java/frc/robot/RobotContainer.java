@@ -17,6 +17,7 @@ import frc.robot.commands.BumpShooter;
 import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.KillAll;
 import frc.robot.commands.Autonomous.Autos;
+import frc.robot.commands.drivetrain.TurnTo;
 import frc.robot.commands.drivetrain.TurningRobotFuzzyLogic;
 import frc.robot.commands.slider.SlideSlider;
 import frc.robot.commands.slider.SlideSliderToPosition;
@@ -52,6 +53,8 @@ public class RobotContainer {
         private final CommandXboxController m_driverController = new CommandXboxController(
                         OperatorConstants.kDriverControllerPort);
         private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
+        public static boolean drivingTo = false;
+        public static double targetAngle;
 
         // Stand-alone sensors
         public static final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(
@@ -74,7 +77,6 @@ public class RobotContainer {
         public RobotContainer() {
                 // Configure the trigger bindings
                 configureBindings();
-
                 Autos.load();
 
                 if (Robot.isSimulation()) {
@@ -83,40 +85,43 @@ public class RobotContainer {
 
                 // default driving code
                 drivetrain.setDefaultCommand(
-                                new RunCommand(
-                                                () -> {
-                                                        /**
-                                                         * DEAD_ZONE is the distance from the center of the joystick
-                                                         * that still has no
-                                                         * robot function,
-                                                         * EXPONENT is the ramping effect: Higher Exponent means slower
-                                                         * speed of ramping
-                                                         */
-                                                        final double DEAD_ZONE = .1;
-                                                        final double EXPONENT = 2;
-                                                        double x = m_driverController.getLeftX();
-                                                        double y = m_driverController.getLeftY();
-                                                        double z = m_driverController.getRightX();
-                                                        // mathematical formula for adjusting the axis to a more usable
-                                                        // number
-                                                        // ternary operators: (boolean) ? conditionIsTrue :
-                                                        // conditionIsFalse
-                                                        if (Math.abs(x) < DEAD_ZONE && Math.abs(y) < DEAD_ZONE) {
-                                                                x = 0;
-                                                                y = 0;
-                                                        }
-                                                        z = (Math.abs(z) >= DEAD_ZONE) ? ((z > 0)
-                                                                        ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
-                                                                        : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;
+                        new RunCommand(
+                                () -> {
+                                        /**
+                                         * DEAD_ZONE is the distance from the center of the joystick
+                                         * that still has no
+                                         * robot function,
+                                         * EXPONENT is the ramping effect: Higher Exponent means slower
+                                         * speed of ramping
+                                         */
+                                        final double DEAD_ZONE = .1;
+                                        final double EXPONENT = 2;
+                                        double x = m_driverController.getLeftX();
+                                        double y = m_driverController.getLeftY();
+                                        double z = m_driverController.getRightX();
 
-                                                        drivetrain.holonomicDrive(
-                                                                        // All numbers are negative, due to the way WPI
-                                                                        // Motors handle rotation
-                                                                        y,
-                                                                        x,
-                                                                        -z,
-                                                                        fieldOrientation.isFieldRelative());
-                                                }, drivetrain));
+                                        // mathematical formula for adjusting the axis to a more usable
+                                        // number
+                                        // ternary operators: (boolean) ? conditionIsTrue :
+                                        // conditionIsFalse
+                                        if (Math.abs(x) < DEAD_ZONE && Math.abs(y) < DEAD_ZONE) {
+                                                x = 0;
+                                                y = 0;
+                                        }
+                                        z = (Math.abs(z) >= DEAD_ZONE) ? ((z > 0)
+                                                        ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
+                                                        : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;
+                                        if (drivingTo){
+                                                z = DriveTrain.rotateFuzzyLogic(targetAngle);
+                                        }
+                                        drivetrain.holonomicDrive(
+                                                // All numbers are negative, due to the way WPI
+                                                // Motors handle rotation
+                                                y,
+                                                x,
+                                                -z,
+                                                fieldOrientation.isFieldRelative());
+                                        }, drivetrain));
         }
 
         /**
@@ -163,8 +168,8 @@ public class RobotContainer {
                         System.out.println("Resetting Gyro");
                 }));
 
-                m_driverController.povLeft().onTrue(new TurningRobotFuzzyLogic(-90));
-                m_driverController.povRight().onTrue(new TurningRobotFuzzyLogic(90));
+                m_driverController.povLeft().onTrue(new TurnTo(-90));
+                m_driverController.povRight().onTrue(new TurnTo(90));
 //                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(180));
                 m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(() ->
                         NetworkTableInstance.getDefault()

@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -32,6 +33,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.drivetrain.SwerveDrivetrain;
 import frc.robot.drivetrain.MirrorPoses;
 import frc.robot.drivetrain.AprilTagOdometryUpdater;
@@ -314,5 +316,25 @@ public class DriveTrain extends SwerveDrivetrain {
 
   public void setMaxSpeed(double speed){
     maxMetersPerSecond = speed;
+  }
+
+  public static double rotateFuzzyLogic(double target){
+    double HIGHSPEED = 1.0;
+    double LOWSPEED = 0.7;
+    double TOLERANCE = 2;
+    double angleThreshold = 30;
+    double delta = MathUtil.inputModulus(target - sim_gyro.getAngle(),
+    -180,
+    180);
+    if (Math.abs(delta) < TOLERANCE) {
+      RobotContainer.drivingTo = false;
+      return 0;
+    } else if (Math.abs(delta) < angleThreshold){
+      return Math.signum(-delta) * LOWSPEED;
+    } else {
+      return Math.signum(-delta) * HIGHSPEED;
+    }
+
+
   }
 }
