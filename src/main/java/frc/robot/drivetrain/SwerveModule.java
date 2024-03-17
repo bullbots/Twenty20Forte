@@ -40,7 +40,7 @@ public abstract class SwerveModule {
             @Override
             public SwerveModulePosition getPosition() {
                 // Need to add refresh() in swerve drive train periodic
-                return new SwerveModulePosition(config.nativeUnitsToDistanceMeters(driveFalcon.getPosition().refresh().getValue()), getCANCoderRotation2d());
+                return new SwerveModulePosition(config.nativeUnitsToDistanceMeters(driveFalcon.getPosition().getValue()), getCANCoderRotation2d());
             }
 
             @Override
