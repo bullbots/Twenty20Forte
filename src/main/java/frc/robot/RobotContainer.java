@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -164,7 +165,11 @@ public class RobotContainer {
 
                 m_driverController.povLeft().onTrue(new TurningRobotFuzzyLogic(-90));
                 m_driverController.povRight().onTrue(new TurningRobotFuzzyLogic(90));
-                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(180));
+//                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(180));
+                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(() ->
+                        NetworkTableInstance.getDefault()
+                                .getTable("limelight-limeb").getEntry("tx").getDouble(0)
+                ));
                 // Copilot controls
 
                 //m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));

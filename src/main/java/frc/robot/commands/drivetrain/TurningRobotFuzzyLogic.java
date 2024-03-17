@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
+import java.util.function.DoubleSupplier;
+
 public class TurningRobotFuzzyLogic extends Command {
   /** Creates a new TurningRobotFuzzyLogic. */
-  private double m_targetAngle;
+  private final DoubleSupplier deltaSupplier;
   private final DriveTrain m_drivetrain;
   private static final double HIGHSPEED = 1.0;
   private static final double LOWSPEED = 0.7;
@@ -20,9 +22,16 @@ public class TurningRobotFuzzyLogic extends Command {
 
   public TurningRobotFuzzyLogic(double targetAngle) {
     addRequirements(RobotContainer.drivetrain);
-    m_targetAngle = targetAngle;
     m_drivetrain = RobotContainer.drivetrain;
+    deltaSupplier = () -> MathUtil.inputModulus(targetAngle - m_drivetrain.sim_gyro.getAngle(),
+            -180,
+            180);
+  }
 
+  public TurningRobotFuzzyLogic(DoubleSupplier deltaSupplier) {
+    addRequirements(RobotContainer.drivetrain);
+    m_drivetrain = RobotContainer.drivetrain;
+    this.deltaSupplier = deltaSupplier;
   }
 
   // Called when the command is initially scheduled.
@@ -33,8 +42,7 @@ public class TurningRobotFuzzyLogic extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    var delta = MathUtil.inputModulus(m_targetAngle - m_drivetrain.sim_gyro.getAngle(),-180,180);
+    var delta = deltaSupplier.getAsDouble();
     var speed = 0.0;
     if (Math.abs(delta) > angleThreshold) {
       speed = HIGHSPEED;
@@ -52,12 +60,7 @@ public class TurningRobotFuzzyLogic extends Command {
         0,
         Math.signum(-delta) * speed,
         false);
-
   }
-  // get the delta between the targetAngle and the gyro angle
-  // var delta = 0;
-  // if the absolute value is greater than a threshold, then highspeed
-  // lower than its lowspeed with a second threshold
 
   // Called once the command ends or is interrupted.
   @Override
@@ -65,13 +68,11 @@ public class TurningRobotFuzzyLogic extends Command {
     m_drivetrain.stop();
     System.out.println("Info TurningRobotFuzzyLogic end");
   }
-  // stop the motor
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    var delta = MathUtil.inputModulus(m_targetAngle - m_drivetrain.sim_gyro.getAngle(),-180,180);
-    return Math.abs(delta)<= TOLERANCE;
-    // Check to see if it is in the range :)
+    var delta = deltaSupplier.getAsDouble();
+    return Math.abs(delta) <= TOLERANCE;
   }
 }
