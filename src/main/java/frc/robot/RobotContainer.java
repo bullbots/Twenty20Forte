@@ -4,33 +4,39 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.BeanBurrito;
 import frc.robot.commands.BumpShooter;
 import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.KillAll;
-import frc.robot.commands.Lifting;
 import frc.robot.commands.Autonomous.Autos;
+import frc.robot.commands.drivetrain.TurningRobotFuzzyLogic;
 import frc.robot.commands.slider.SlideSlider;
 import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.commands.SetIntakeFront;
 import frc.robot.commands.StageInShooter;
 import frc.robot.commands.StrafeAndMoveForward;
+import frc.robot.commands.Autonomous.Autos;
 import frc.robot.commands.shooting.ShootInAmp;
 import frc.robot.commands.shooting.ShootInSpeaker;
+import frc.robot.commands.slider.SlideSlider;
+import frc.robot.commands.slider.SlideSliderToPosition;
 import frc.robot.sensors.DebouncedDigitalInput;
+import frc.robot.subsystems.BackIntake;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.FrontMiddleIntake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Slider;
+import frc.robot.subsystems.Stager;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.*;
+import frc.robot.utils.FieldOrientation;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -53,19 +59,15 @@ public class RobotContainer {
 
         // The robot's subsystems...
         public static final DriveTrain drivetrain = new DriveTrain();
-        // public static final Lifter liftLeft = new
-        // Lifter(Constants.Motors.LIFTER_LEFT);
-        // public static final Lifter liftRight = new
-        // Lifter(Constants.Motors.LIFTER_RIGHT);
         public static final Slider slider = new Slider();
         public static final FrontMiddleIntake frontMiddleIntake = new FrontMiddleIntake();
         public static final BackIntake backIntake = new BackIntake();
         public static final Stager stager = new Stager();
         public static final Shooter shooter = new Shooter();
+        private static final FieldOrientation fieldOrientation = new FieldOrientation();
 
         // Global robot states
         public static double gyro_angle = 0;
-
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
@@ -113,7 +115,7 @@ public class RobotContainer {
                                                                         y,
                                                                         x,
                                                                         -z,
-                                                                        true);
+                                                                        fieldOrientation.isFieldRelative());
                                                 }, drivetrain));
         }
 
@@ -137,6 +139,13 @@ public class RobotContainer {
                 m_driverController.rightTrigger(0.5).whileTrue(new ShootInSpeaker());
                 m_driverController.rightTrigger(0.5).onFalse(new KillAll());
                 m_driverController.leftTrigger(0.5).whileTrue(new ShootInAmp());
+                // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 0.2,
+
+                m_driverController.back().onTrue(Commands.runOnce(() -> {
+                        fieldOrientation.toggleOrientation();
+                        System.out.println("Field relative set to" + fieldOrientation.isFieldRelative());
+                }));
+                //m_driverController.back().( )
                 // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1,
                 // slider::isAtPosition));
                 // m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120,
@@ -154,24 +163,25 @@ public class RobotContainer {
                         System.out.println("Resetting Gyro");
                 }));
 
+                m_driverController.povLeft().onTrue(new TurningRobotFuzzyLogic(-90));
+                m_driverController.povRight().onTrue(new TurningRobotFuzzyLogic(90));
+//                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(180));
+                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(() ->
+                        NetworkTableInstance.getDefault()
+                                .getTable("limelight-limeb").getEntry("tx").getDouble(0)
+                ));
                 // Copilot controls
 
-                m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
-                m_driverController.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
+                //m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+                //m_driverController.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
 
-                // Robot Up
-                // m_guitarHero.axisLessThan(1, -0.5).whileTrue(new Lifting(liftLeft, liftRight,
-                // 1));
-                // Robot Down
-                // m_guitarHero.axisGreaterThan(1, 0.5).whileTrue(new Lifting(liftLeft,
-                // liftRight, -1));
-
+                
                 // Buttons for co-driver moving the slider up and down
-                m_guitarHero.povDown().whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
-                m_guitarHero.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+                m_guitarHero.button(1).whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
+                m_guitarHero.button(2).whileTrue(new SlideSlider(slider, Slider.Mode.UP));
 
-                m_guitarHero.button(1).onTrue(new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition));
-                m_guitarHero.button(2).onTrue(new SlideSliderToPosition(slider, Slider.UP_POS, slider::isAtPosition));
+                m_guitarHero.povDown().onTrue(new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition));
+                m_guitarHero.povUp().onTrue(new SlideSliderToPosition(slider, Slider.UP_POS, slider::isAtPosition));
 
                 m_guitarHero.button(7).onTrue(new StageInShooter());
 
@@ -189,7 +199,7 @@ public class RobotContainer {
                 // Burrito shoots the notes out so they can't get stuck
                 m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
-               
+
         }
 
         /**
@@ -197,6 +207,7 @@ public class RobotContainer {
          *
          * @return the command to run in autonomous
          */
+        
         public Command getAutonomousCommand() {
                 // An example command will be run in autonomous
                 System.out.println("Found Autos!");
