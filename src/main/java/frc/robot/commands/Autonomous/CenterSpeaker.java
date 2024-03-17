@@ -23,8 +23,8 @@ public class CenterSpeaker extends SequentialCommandGroup {
     addCommands(new WaitCommand(3.0), 
                new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()), 
                new KillAll(),
-               new ParallelDeadlineGroup(new DriveForward(1.5), 
-               new SetIntakeFront(1, RobotContainer.m_intakeSensor::get))
+               new SetIntakeFront(1, RobotContainer.m_intakeSensor::get),
+               new ParallelDeadlineGroup(new DriveForward(1.5))
                );
   }
 }
