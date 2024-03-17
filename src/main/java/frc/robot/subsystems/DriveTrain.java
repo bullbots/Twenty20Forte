@@ -204,7 +204,7 @@ public class DriveTrain extends SwerveDrivetrain {
     //System.out.println("Gyro pitch: " + gyro.getPitch());
     //double[] visionPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[6]);
 
-    aprilTagOdometryUpdater.update(poseEstimator, this);
+    // aprilTagOdometryUpdater.update(poseEstimator, this);
 
     // log the current
     //m_CurrentBLLogger.logEntry(backLeftDriveFalcon.getSupplyCurrent(), BullLogger.LogLevel.DEBUG);
@@ -236,72 +236,7 @@ public class DriveTrain extends SwerveDrivetrain {
     poseEstimator.resetPosition(sim_gyro.getRotation2d(), getSwerveModulePositions(), new Pose2d(getPose2d().getTranslation(), Rotation2d.fromDegrees(deg)));
     System.out.println("Reseting Gyro");
   }
-  public ScoringArea pickCubeScoringArea(){
-    ScoringArea[] cubes = {ScoringArea.CUBE1,ScoringArea.CUBE2,ScoringArea.CUBE3};
-    //iterate
-    ScoringArea selected = cubes[0];
-    double selectedDistance = Double.MAX_VALUE;
-    for (ScoringArea scoringArea : cubes) {
-      double distance = scoringArea.getPose2d().getTranslation().getDistance(getPose2d().getTranslation());
-      if(distance < selectedDistance){
-        selected = scoringArea;
-        selectedDistance = distance;
-      }
-    }
-    //return
-    if(selectedDistance < 2){
-      return selected;
-    }else{
-      return ScoringArea.NONE;
-    }
-  }
-  public ScoringArea pickConeScoringArea(){
-    ScoringArea[] cubes = {ScoringArea.CONE1,ScoringArea.CONE2,ScoringArea.CONE3,ScoringArea.CONE4,ScoringArea.CONE5,ScoringArea.CONE6};
-    //iterate
-    ScoringArea selected = cubes[0];
-    double selectedDistance = Double.MAX_VALUE;
-    for (ScoringArea scoringArea : cubes) {
-      double distance = scoringArea.getPose2d().getTranslation().getDistance(getPose2d().getTranslation());
-      if(distance < selectedDistance){
-        selected = scoringArea;
-        selectedDistance = distance;
-      }
-    }
-    //return
-    if(selectedDistance < 2){
-      return selected;
-    }else{
-      return ScoringArea.NONE;
-    }
-  }
-  public static enum ScoringArea{
-    CUBE1(new Pose2d(2,1.0668,new Rotation2d())),
-    CUBE2(new Pose2d(2,2.7432,new Rotation2d())),
-    CUBE3(new Pose2d(2,4.4196,new Rotation2d())),
-
-    CONE1(new Pose2d(1.9,0.508,new Rotation2d())),
-    CONE2(new Pose2d(1.9,1.6256,new Rotation2d())),
-    CONE3(new Pose2d(1.9,2.1844,new Rotation2d())),
-    CONE4(new Pose2d(1.9,3.302,new Rotation2d())),
-    CONE5(new Pose2d(1.9,3.8608,new Rotation2d())),
-    CONE6(new Pose2d(1.9,4.9784,new Rotation2d())),
-    //HUMANSTATION(new Pose2d(4,4.9784, Rotation2d.fromDegrees(180))),
-    NONE(null);
-
-    private final Pose2d pose;
-    private ScoringArea(Pose2d pose){
-      this.pose = pose;
-    }
-    public Pose2d getPose2d(){
-      if (this.equals(NONE)) {
-        return pose;
-      }
-      if(DriverStation.getAlliance().equals(Alliance.Red)){
-        return MirrorPoses.mirror(pose);
-      }
-      return pose;
-    }
-  }
+  
   public void moduleXConfiguration(){
     setSwerveModuleStates(new SwerveModuleState[] {
       new SwerveModuleState(0, Rotation2d.fromDegrees(45)),

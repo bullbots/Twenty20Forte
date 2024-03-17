@@ -16,7 +16,9 @@ import frc.robot.subsystems.Slider;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ShootInSpeaker extends SequentialCommandGroup {
-
+    /**
+     * Creates a new ShootInSpeaker2.
+     */
     public ShootInSpeaker() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
