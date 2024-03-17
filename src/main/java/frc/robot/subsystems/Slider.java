@@ -80,11 +80,11 @@ public class Slider extends SubsystemBase {
         switch (mode) {
             case DOWN:
                 System.out.println("Moving DOWN");
-                m_SliderMotor.set(-0.8);
+                m_SliderMotor.set(-1);
                 break;
             case UP:
                 System.out.println("Moving UP");
-                m_SliderMotor.set(0.8);
+                m_SliderMotor.set(1);
                 break;
             default:
                 break;
@@ -112,5 +112,10 @@ public class Slider extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Slider encoder", m_SliderMotor.getPosition().getValue());
+        var reversedLimit = m_SliderMotor.getReverseLimit().getValue().value;
+        SmartDashboard.putNumber("Slider Reversed Limit", reversedLimit);
+        if (reversedLimit == 0){
+            m_SliderMotor.setPosition(0);
+        }
     }
 }

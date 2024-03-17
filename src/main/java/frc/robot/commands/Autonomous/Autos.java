@@ -4,7 +4,6 @@
 
 package frc.robot.commands.Autonomous;
 
-
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -25,9 +24,13 @@ public final class Autos {
     private static final SendableChooser<Pair<Command, Command>> commandChooser = new SendableChooser<>();
 
     public static void load() {
-        commandChooser.setDefaultOption("Drive Forward", new Pair<>(
-                new DriveForward(2),
-                new DriveForward(2)));
+        commandChooser.setDefaultOption("Do Nothing", new Pair<>(
+            new DoNothing("chill af"),
+            new DoNothing("hot af")));
+
+        commandChooser.addOption("Drive Forward", new Pair<>(
+            new DriveForward(2),
+            new DriveForward(2)));
 
         commandChooser.addOption("Center Speaker", new Pair<>(
             new CenterSpeaker(), 
@@ -43,7 +46,8 @@ public final class Autos {
 
     public static Command getSelected() {
         // SmartDashboard.putBoolean("Autonomous Finished", false);
-        // return commandChooser.getSelected().andThen(() -> SmartDashboard.putBoolean("Autonomous Finished", true));
+        // return commandChooser.getSelected().andThen(() ->
+        // SmartDashboard.putBoolean("Autonomous Finished", true));
         var blueOption = Optional.of(Alliance.Blue);
         if (DriverStation.getAlliance().equals(blueOption)) {
             return commandChooser.getSelected().getFirst();

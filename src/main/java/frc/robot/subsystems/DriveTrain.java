@@ -204,7 +204,7 @@ public class DriveTrain extends SwerveDrivetrain {
     //System.out.println("Gyro pitch: " + gyro.getPitch());
     //double[] visionPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[6]);
 
-    aprilTagOdometryUpdater.update(poseEstimator, this);
+    // aprilTagOdometryUpdater.update(poseEstimator, this);
 
     // log the current
     //m_CurrentBLLogger.logEntry(backLeftDriveFalcon.getSupplyCurrent(), BullLogger.LogLevel.DEBUG);
