@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.749954642766429,
+      "y": 6.640734424325992
+    },
+    "rotation": 59.036243467926376
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp-side Speaker Step 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp-side Speaker Step 2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

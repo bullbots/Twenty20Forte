@@ -1,10 +1,15 @@
 package frc.robot.subsystems;
 
 
+import java.io.File;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -31,9 +36,11 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.Constants.Drivetrain;
 import frc.robot.Robot;
 import frc.robot.drivetrain.SwerveDrivetrain;
 import frc.robot.drivetrain.MirrorPoses;
+import frc.robot.drivetrain.DrivetrainBase;
 import frc.robot.drivetrain.DrivetrainConfig;
 import frc.robot.drivetrain.SwerveModule;
 import frc.robot.motors.WPI_CANSparkMax;
@@ -168,6 +175,10 @@ public class DriveTrain extends SwerveDrivetrain {
 
     configureShuffleboard();
     estimatePoseBuffer = new CircularBuffer<Double>(8);
+    
+    AutoBuilder.buildAuto("testName");
+
+
   }
 
   private static void configDriveMotor(TalonFX driveMotor) {
