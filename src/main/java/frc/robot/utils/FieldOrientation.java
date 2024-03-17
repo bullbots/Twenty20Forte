@@ -2,7 +2,7 @@ package frc.robot.utils;
 
 public class FieldOrientation {
 
-    private boolean isField = true;
+    private boolean isField = false;
 
     public boolean isFieldRelative() {
         return isField;
