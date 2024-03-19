@@ -41,8 +41,8 @@ public final class Autos {
             new DoubleCenterSpeaker()
         ));
         commandChooser.addOption("AmpSpeaker", new Pair<>(
-            new BlueAmpSpeaker(),
-            new RedAmpSpeaker()
+            new AmpSpeaker(AmpSpeaker.SpeakerSide.BLUE),
+            new AmpSpeaker(AmpSpeaker.SpeakerSide.RED)
         ));
 
         SmartDashboard.putData("Command Selected", commandChooser);
