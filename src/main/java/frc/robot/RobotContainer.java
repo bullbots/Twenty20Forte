@@ -143,7 +143,7 @@ public class RobotContainer {
 
                 m_driverController.back().onTrue(Commands.runOnce(() -> {
                         fieldOrientation.toggleOrientation();
-                        System.out.println("Field relative set to" + fieldOrientation.isFieldRelative());
+                        System.out.println("Field relative set to: " + fieldOrientation.isFieldRelative());
                 }));
                 //m_driverController.back().( )
                 // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1,
@@ -163,13 +163,10 @@ public class RobotContainer {
                         System.out.println("Resetting Gyro");
                 }));
 
-                m_driverController.povLeft().onTrue(new TurningRobotFuzzyLogic(-90));
-                m_driverController.povRight().onTrue(new TurningRobotFuzzyLogic(90));
-//                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(180));
-                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(() ->
-                        NetworkTableInstance.getDefault()
-                                .getTable("limelight-limeb").getEntry("tx").getDouble(0)
-                ));
+                m_driverController.x().onTrue(new TurningRobotFuzzyLogic(-90));
+                m_driverController.b().onTrue(new TurningRobotFuzzyLogic(90));
+                m_driverController.y().onTrue(new TurningRobotFuzzyLogic(180));
+                m_driverController.a().onTrue(new TurningRobotFuzzyLogic(0));
                 // Copilot controls
 
                 //m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
