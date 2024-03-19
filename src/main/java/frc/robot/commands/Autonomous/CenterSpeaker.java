@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -16,15 +17,16 @@ import frc.robot.commands.shooting.ShootInSpeaker;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CenterSpeaker extends SequentialCommandGroup {
-  /** Creates a new CenterSpeaker. */
-  public CenterSpeaker() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new WaitCommand(3.0), 
-               new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()), 
-               new KillAll(),
-               new ParallelDeadlineGroup(new DriveForward(1.5), 
-               new SetIntakeFront(1, RobotContainer.m_intakeSensor::get))
-               );
-  }
+    /**
+     * Creates a new CenterSpeaker.
+     */
+    public CenterSpeaker() {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        addCommands(new WaitCommand(3.0),
+                new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()),
+                new KillAll(),
+                new ParallelCommandGroup(new SetIntakeFront(1, RobotContainer.m_intakeSensor::get), new DriveForward(1.5))
+        );
+    }
 }

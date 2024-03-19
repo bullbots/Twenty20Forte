@@ -77,6 +77,7 @@ public class RobotContainer {
         public RobotContainer() {
                 // Configure the trigger bindings
                 configureBindings();
+
                 Autos.load();
 
                 if (Robot.isSimulation()) {
@@ -148,7 +149,7 @@ public class RobotContainer {
 
                 m_driverController.back().onTrue(Commands.runOnce(() -> {
                         fieldOrientation.toggleOrientation();
-                        System.out.println("Field relative set to" + fieldOrientation.isFieldRelative());
+                        System.out.println("Field relative set to: " + fieldOrientation.isFieldRelative());
                 }));
                 //m_driverController.back().( )
                 // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1,
@@ -168,15 +169,15 @@ public class RobotContainer {
                         System.out.println("Resetting Gyro");
                 }));
 
-                m_driverController.button(3).onTrue(new TurnTo(90));
-                m_driverController.button(4).onTrue(new TurnTo(0));
-                m_driverController.button(1).onTrue(new TurnTo(180));
-                m_driverController.button(2).onTrue(new TurnTo(-90));                
-//                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(180));
+                m_driverController.x().onTrue(new TurnTo(90));
+                m_driverController.b().onTrue(new TurnTo(0));
+                m_driverController.y().onTrue(new TurnTo(180));
+                m_driverController.a().onTrue(new TurnTo(-90));
                 m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(() ->
                         NetworkTableInstance.getDefault()
                                 .getTable("limelight-limeb").getEntry("tx").getDouble(0)
                 ));
+                m_driverController.povDown().onTrue(new TurningRobotFuzzyLogic(180));
                 // Copilot controls
 
                 //m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));

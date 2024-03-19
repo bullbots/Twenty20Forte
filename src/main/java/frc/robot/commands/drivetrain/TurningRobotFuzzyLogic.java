@@ -5,6 +5,7 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
@@ -23,7 +24,7 @@ public class TurningRobotFuzzyLogic extends Command {
   public TurningRobotFuzzyLogic(double targetAngle) {
     addRequirements(RobotContainer.drivetrain);
     m_drivetrain = RobotContainer.drivetrain;
-    deltaSupplier = () -> MathUtil.inputModulus(targetAngle - m_drivetrain.sim_gyro.getAngle(),
+    deltaSupplier = () -> MathUtil.inputModulus(targetAngle - DriveTrain.sim_gyro.getAngle(),
             -180,
             180);
   }
@@ -37,6 +38,7 @@ public class TurningRobotFuzzyLogic extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("INFO: TurningRobotFuzzyLogic.initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,24 +51,26 @@ public class TurningRobotFuzzyLogic extends Command {
     } else {
       speed = LOWSPEED;
     }
-    System.out.printf("Delta %s %n", delta);
-    System.out.printf("Speed %s %n", speed);
-    System.out.printf("Gyro Angle %.3f %n", m_drivetrain.sim_gyro.getAngle());
+    System.out.printf("INFO: Delta %.3f; Speed %.3f; Gyro Angle %.3f %n", delta, speed, DriveTrain.sim_gyro.getAngle());
+
+    SmartDashboard.putNumber("TurningRobotFuzzyLogic Delta", delta);
+    SmartDashboard.putNumber("TurningRobotFuzzyLogic Speed", speed);
+    SmartDashboard.putNumber("TurningRobotFuzzyLogic Delta", delta);
 
     m_drivetrain.holonomicDrive(
         // All numbers are negative, due to the way WPI
         // Motors handle rotation
         0,
         0,
-        Math.signum(-delta) * speed,
+        -Math.signum(delta) * speed,
         false);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("INFO: TurningRobotFuzzyLogic.end");
     m_drivetrain.stop();
-    System.out.println("Info TurningRobotFuzzyLogic end");
   }
 
   // Returns true when the command should end.
