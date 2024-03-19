@@ -19,13 +19,14 @@ public class Slider extends SubsystemBase {
 
     public static final double DOWN_POS = 0.1;
     public static final double UP_POS = 9.3;
+    private static int reverseLimitCounter = 0;
 
     public enum Mode {
         UP,
         DOWN
     }
 
-    private TalonFX m_SliderMotor;
+    private final TalonFX m_SliderMotor;
     private double m_position;
     private static final double TOLERANCE = 0.1;
     public boolean locked = false;
@@ -66,7 +67,7 @@ public class Slider extends SubsystemBase {
                 break;
         }
         if (!status.isOK()) {
-            System.out.println("Could not configure device. Error: " + status.toString());
+            System.out.println("Could not configure device. Error: " + status);
         }
     }
 
@@ -114,8 +115,14 @@ public class Slider extends SubsystemBase {
         SmartDashboard.putNumber("Slider encoder", m_SliderMotor.getPosition().getValue());
         var reversedLimit = m_SliderMotor.getReverseLimit().getValue().value;
         SmartDashboard.putNumber("Slider Reversed Limit", reversedLimit);
-        if (reversedLimit == 0){
-            m_SliderMotor.setPosition(0);
+        if (reversedLimit == 0) {
+            // Put a counter, so we don't spam the Console and resetting the slideMotor encoder.
+            reverseLimitCounter++;
+            if (reverseLimitCounter == 10) {
+                reverseLimitCounter = 0;
+                System.out.println("WARNING: Slider Reversed-Limit hit!!! Resetting position");
+                m_SliderMotor.setPosition(0);
+            }
         }
     }
 }
