@@ -10,6 +10,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.drivetrain.*;
 import frc.robot.motors.WPI_CANSparkMax;
 import frc.robot.sensors.SimNavX;
@@ -265,5 +267,25 @@ public class DriveTrain extends SwerveDrivetrain {
 
     public void setMaxSpeed(double speed) {
         maxMetersPerSecond = speed;
+    }
+
+    public double rotateFuzzyLogic(double target) {
+        System.out.println("Target angle: " + target);
+        double HIGHSPEED = 1.0;
+        double LOWSPEED = 0.7;
+        double TOLERANCE = 2;
+        double angleThreshold = 30;
+        double delta = MathUtil.inputModulus(target - getPose2d().getRotation().getDegrees(),
+                -180,
+                180);
+        System.out.println("Delta: " + delta);
+        if (Math.abs(delta) < TOLERANCE) {
+            RobotContainer.drivingTo = false;
+            return 0;
+        } else if (Math.abs(delta) < angleThreshold) {
+            return Math.signum(-delta) * LOWSPEED;
+        } else {
+            return Math.signum(-delta) * HIGHSPEED;
+        }
     }
 }
