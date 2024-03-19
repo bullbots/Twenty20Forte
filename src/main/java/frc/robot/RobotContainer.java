@@ -54,7 +54,7 @@ public class RobotContainer {
                         OperatorConstants.kDriverControllerPort);
         private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
         public static boolean drivingTo = false;
-        public static double targetAngle;
+        public static double targetAngle = 0;
 
         // Stand-alone sensors
         public static final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(
@@ -111,8 +111,8 @@ public class RobotContainer {
                                         z = (Math.abs(z) >= DEAD_ZONE) ? ((z > 0)
                                                         ? (z - DEAD_ZONE) / (1 - DEAD_ZONE)
                                                         : (z + DEAD_ZONE) / (1 - DEAD_ZONE)) : 0;
-                                        if (drivingTo){
-                                                z = DriveTrain.rotateFuzzyLogic(targetAngle);
+                                        if (RobotContainer.drivingTo){
+                                                z = drivetrain.rotateFuzzyLogic(targetAngle);
                                         }
                                         drivetrain.holonomicDrive(
                                                 // All numbers are negative, due to the way WPI
@@ -168,8 +168,10 @@ public class RobotContainer {
                         System.out.println("Resetting Gyro");
                 }));
 
-                m_driverController.povLeft().onTrue(new TurnTo(-90));
-                m_driverController.povRight().onTrue(new TurnTo(90));
+                m_driverController.button(3).onTrue(new TurnTo(90));
+                m_driverController.button(4).onTrue(new TurnTo(0));
+                m_driverController.button(1).onTrue(new TurnTo(180));
+                m_driverController.button(2).onTrue(new TurnTo(-90));                
 //                m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(180));
                 m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(() ->
                         NetworkTableInstance.getDefault()
