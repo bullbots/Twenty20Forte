@@ -4,10 +4,14 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Stager;
+import frc.robot.utils.ControllerVibrate;
 
 public class StageInShooter extends WaitCommand {
   /** Creates a new StageInShooter. */
