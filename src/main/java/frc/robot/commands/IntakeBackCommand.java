@@ -8,6 +8,7 @@ import frc.robot.subsystems.BackIntake;
 import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Stager;
+import frc.robot.utils.ControllerVibrate;
 
 public class IntakeBackCommand extends Command {
 
@@ -17,6 +18,7 @@ public class IntakeBackCommand extends Command {
     Stager m_stager;
     BooleanSupplier m_sensor;
     Shooter m_shooter;
+    ControllerVibrate m_controllerVibrate;
 
     public IntakeBackCommand(int direction, BooleanSupplier sensor) {
         m_backIntake = RobotContainer.backIntake;
@@ -25,6 +27,7 @@ public class IntakeBackCommand extends Command {
         m_stager = RobotContainer.stager;
         m_sensor = sensor;
         m_shooter = RobotContainer.shooter;
+        m_controllerVibrate = new ControllerVibrate(1);
         addRequirements(m_backIntake, m_frontMiddleIntake, m_stager, m_shooter);
     }
 
@@ -56,7 +59,7 @@ public class IntakeBackCommand extends Command {
         m_frontMiddleIntake.stop();
         m_stager.stop();
         m_shooter.stop();
-
+        m_controllerVibrate.schedule();
     }
 
     @Override

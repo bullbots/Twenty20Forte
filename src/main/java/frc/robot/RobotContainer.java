@@ -181,7 +181,7 @@ public class RobotContainer {
                 m_guitarHero.povDown().onTrue(new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition));
                 m_guitarHero.povUp().onTrue(new SlideSliderToPosition(slider, Slider.UP_POS, slider::isAtPosition));
 
-                m_guitarHero.button(7).onTrue((new StageInShooter()).andThen(new ControllerVibrate(1)));
+                m_guitarHero.button(7).onTrue((new StageInShooter()));
 
                 m_guitarHero.button(10)
                                 .whileTrue(new SequentialCommandGroup(

@@ -5,6 +5,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Stager;
+import frc.robot.utils.ControllerVibrate;
 
 import java.util.function.BooleanSupplier;
 
@@ -19,6 +20,7 @@ public class SetIntakeFront extends Command {
     Stager m_Stager;
     Shooter m_shooter;
     BooleanSupplier m_Sensor;
+    ControllerVibrate m_controllerVibrate;
 
     public SetIntakeFront(int direction, BooleanSupplier sensor) {
         m_Direction = direction;
@@ -26,6 +28,7 @@ public class SetIntakeFront extends Command {
         m_Stager = RobotContainer.stager;
         m_shooter = RobotContainer.shooter;
         m_Sensor = sensor;
+        m_controllerVibrate = new ControllerVibrate(1);
         addRequirements(m_Intake, m_Stager, m_shooter);
     }
 
@@ -49,7 +52,7 @@ public class SetIntakeFront extends Command {
         m_Intake.stop();
         m_Stager.stop();
         m_shooter.stop();
-        
+        m_controllerVibrate.schedule();
     }
 
     @Override

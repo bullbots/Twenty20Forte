@@ -19,7 +19,6 @@ public class StageInShooter extends WaitCommand {
   private Stager m_stager;
   private Shooter m_shooter;
   private boolean m_first;
-  private ControllerVibrate m_controllerVibrate;
 
 
   public StageInShooter() {
