@@ -59,7 +59,7 @@ public class IntakeBackCommand extends Command {
         m_frontMiddleIntake.stop();
         m_stager.stop();
         m_shooter.stop();
-        if(!interrupted) {
+        if (!interrupted) {
             m_controllerVibrate.schedule();
         }
     }
