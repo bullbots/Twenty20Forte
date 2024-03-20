@@ -52,7 +52,9 @@ public class SetIntakeFront extends Command {
         m_Intake.stop();
         m_Stager.stop();
         m_shooter.stop();
-        m_controllerVibrate.schedule();
+        if(!interrupted) {
+            m_controllerVibrate.schedule();
+        }
     }
 
     @Override
