@@ -41,8 +41,12 @@ public final class Autos {
             new DoubleCenterSpeaker()
         ));
         commandChooser.addOption("AmpSpeaker", new Pair<>(
-            new AmpSpeaker(AmpSpeaker.SpeakerSide.BLUE),
-            new AmpSpeaker(AmpSpeaker.SpeakerSide.RED)
+            new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.BLUE, AmpSourceSpeaker.SpeakerSide.AMP),
+            new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.RED, AmpSourceSpeaker.SpeakerSide.AMP)
+        ));
+        commandChooser.addOption("SourceSpeaker", new Pair<>(
+                new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.BLUE, AmpSourceSpeaker.SpeakerSide.SOURCE),
+                new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.RED, AmpSourceSpeaker.SpeakerSide.SOURCE)
         ));
 
         SmartDashboard.putData("Command Selected", commandChooser);
@@ -54,8 +58,10 @@ public final class Autos {
         // SmartDashboard.putBoolean("Autonomous Finished", true));
         var blueOption = Optional.of(Alliance.Blue);
         if (DriverStation.getAlliance().equals(blueOption)) {
+            System.out.println("INFO: Blue side selected");
             return commandChooser.getSelected().getFirst();
         }
+        System.out.println("INFO: Red side selected");
         return commandChooser.getSelected().getSecond();
     }
 }

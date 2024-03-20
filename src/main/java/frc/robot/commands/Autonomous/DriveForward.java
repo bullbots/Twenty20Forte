@@ -48,10 +48,4 @@ public class DriveForward extends WaitCommand {
     drivetrain.stop();
     System.out.println("Ending Drive Forward count: " + wait);
   }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return super.isFinished();
-  }
 }

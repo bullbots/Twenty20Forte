@@ -33,6 +33,7 @@ public class StraightenWheelsCommand extends WaitCommand {
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
+        driveTrain.stop();
         System.out.println("StraightenWheelsCommand.end");
     }
 }
