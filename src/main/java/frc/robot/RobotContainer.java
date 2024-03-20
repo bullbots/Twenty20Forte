@@ -51,7 +51,7 @@ import frc.robot.utils.FieldOrientation;
  */
 public class RobotContainer {
     // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController m_driverController = new CommandXboxController(
+    public static final CommandXboxController m_driverController = new CommandXboxController(
             OperatorConstants.kDriverControllerPort);
     private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
     public static boolean drivingTo = false;
