@@ -102,8 +102,8 @@ public abstract class SwerveModule {
                         // SmartDashboard.putNumber("Position Goal" + moduleNumber, state.angle.getRadians());
                 // Calculate the turning motor output from the turning PID controller.
                 double turnOutput =
-                         turningPIDController.calculate(getPosition().angle.getRadians(), state.angle.getRadians());
-                
+                         turningPIDController.calculate(getCANCoderRotation2d().getRadians(), state.angle.getRadians());
+
                 //double   turnOutput = 0.5;
                 SmartDashboard.putNumber("getCANCoderRotation2d"+ this.m_moduleNumber, getCANCoderRotation2d().getDegrees());
                 SmartDashboard.putNumber("desiredState"+ this.m_moduleNumber, desiredState.angle.getDegrees());
