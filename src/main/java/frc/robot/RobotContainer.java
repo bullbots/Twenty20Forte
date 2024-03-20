@@ -147,17 +147,11 @@ public class RobotContainer {
         m_driverController.rightTrigger(0.5).whileTrue(new ShootInSpeaker());
         m_driverController.rightTrigger(0.5).onFalse(new KillAll());
         m_driverController.leftTrigger(0.5).whileTrue(new ShootInAmp());
-        // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 0.2,
 
         m_driverController.back().onTrue(Commands.runOnce(() -> {
             fieldOrientation.toggleOrientation();
             System.out.println("Field relative set to: " + fieldOrientation.isFieldRelative());
         }));
-        //m_driverController.back().( )
-        // m_driverController.a().onTrue(new SlideSliderToPosition(slider, 1,
-        // slider::isAtPosition));
-        // m_driverController.b().onTrue(new SlideSliderToPosition(slider, -120,
-        // slider::isAtPosition));
 
         m_driverController.rightBumper().whileTrue(new StrafeAndMoveForward(0.4, -0.1, drivetrain));
         m_driverController.leftBumper().whileTrue(new StrafeAndMoveForward(-0.4, -0.1, drivetrain));
