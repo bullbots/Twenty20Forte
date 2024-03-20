@@ -92,6 +92,10 @@ public class Shooter extends SubsystemBase {
         set(0.10);
     }
 
+    public void burritoShoot() {
+        set(-0.10);
+    }
+
     public void bumpShooter() {
         set(0.35);
     }
