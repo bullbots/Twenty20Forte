@@ -120,7 +120,7 @@ public class Slider extends SubsystemBase {
             reverseLimitCounter++;
             if (reverseLimitCounter == 10) {
                 reverseLimitCounter = 0;
-                System.out.println("WARNING: Slider Reversed-Limit hit!!! Resetting position");
+                //System.out.println("WARNING: Slider Reversed-Limit hit!!! Resetting position");
                 m_SliderMotor.setPosition(0);
             }
         }

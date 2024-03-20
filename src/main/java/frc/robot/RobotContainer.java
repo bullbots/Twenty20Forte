@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -36,7 +37,7 @@ import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Slider;
 import frc.robot.subsystems.Stager;
-
+import frc.robot.utils.ControllerVibrate;
 import frc.robot.utils.FieldOrientation;
 
 /**
@@ -50,7 +51,7 @@ import frc.robot.utils.FieldOrientation;
  */
 public class RobotContainer {
     // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController m_driverController = new CommandXboxController(
+    public static final CommandXboxController m_driverController = new CommandXboxController(
             OperatorConstants.kDriverControllerPort);
     private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
     public static boolean drivingTo = false;
