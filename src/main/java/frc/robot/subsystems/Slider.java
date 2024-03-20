@@ -110,6 +110,11 @@ public class Slider extends SubsystemBase {
         m_SliderMotor.set(0);
     }
 
+    public boolean sliderDown() {
+        var sliderMidPoint = (UP_POS - DOWN_POS) * 0.5;
+        return m_SliderMotor.getPosition().getValue() <= sliderMidPoint;
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Slider encoder", m_SliderMotor.getPosition().getValue());
