@@ -17,7 +17,7 @@ public class AlignToTrap extends Command {
   /** Creates a new AlignToTrap. */
   private DriveTrain drivetrain;
   private final double TOLERANCE = 0.2;
-  private final double TARGETY = 0;
+  private final double TARGETY = 21.5;
   public AlignToTrap() {
     drivetrain = RobotContainer.drivetrain;
     addRequirements(drivetrain);
