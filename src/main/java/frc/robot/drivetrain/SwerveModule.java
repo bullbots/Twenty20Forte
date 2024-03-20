@@ -212,7 +212,6 @@ public abstract class SwerveModule {
         if (angle < 0.0) {
             angle += 2.0 * Math.PI;
         }
-
         return angle;
     }
 

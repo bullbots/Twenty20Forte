@@ -20,9 +20,8 @@ public class StageInShooter extends WaitCommand {
   private Shooter m_shooter;
   private boolean m_first;
 
-
   public StageInShooter() {
-    this(0.5);
+    this(0.25);
   }
 
   public StageInShooter(double seconds) {
@@ -66,22 +65,6 @@ public class StageInShooter extends WaitCommand {
     m_shooter.stop();
     m_shooter.stagedInShooter = true;
     RobotContainer.slider.locked = false;
-    // m_controllerVibrate = new ControllerVibrate(RobotContainer.m_controller, ControllerVibrate.NOTE_LOADED);
-    // m_controllerVibrate.start();
-    // var newCommand = new WaitCommand(1) {
-    //   @Override
-    //   public void initialize() {
-    //       super.initialize();
-    //       RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.5);
-    //   }
-
-    //   @Override
-    //       public void end(boolean interrupted) {
-    //           super.end(interrupted);
-    //           RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.0);
-    //       }
-    // };
-    // newCommand.schedule();
     System.out.println("StageInShooter end");
   }
 
