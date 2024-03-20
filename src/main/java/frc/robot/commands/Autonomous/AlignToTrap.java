@@ -17,6 +17,7 @@ public class AlignToTrap extends Command {
   /** Creates a new AlignToTrap. */
   private DriveTrain drivetrain;
   private final double TOLERANCE = 0.2;
+  private final double TARGETY = 0;
   public AlignToTrap() {
     drivetrain = RobotContainer.drivetrain;
     addRequirements(drivetrain);
@@ -32,11 +33,8 @@ public class AlignToTrap extends Command {
   @Override
   public void execute() {
     double correction = NetworkTableInstance.getDefault().getTable("limelight-limea").getEntry("tx").getDouble(0);
-    if (correction > 0){
-      drivetrain.fromChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(0, 1, 0, drivetrain.getPose2d().getRotation()));
-    } else {
-      drivetrain.fromChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(0, -1, 0, drivetrain.getPose2d().getRotation()));
-    }
+    double deltaY = NetworkTableInstance.getDefault().getTable("limelight-limea").getEntry("ty").getDouble(0);
+    drivetrain.fromChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(Math.signum(deltaY-TARGETY), Math.signum(correction), 0, drivetrain.getPose2d().getRotation()));
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +46,7 @@ public class AlignToTrap extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(NetworkTableInstance.getDefault().getTable("limelight-limea").getEntry("tx").getDouble(0)) < TOLERANCE;
+    return Math.abs(NetworkTableInstance.getDefault().getTable("limelight-limea").getEntry("tx").getDouble(0)) < TOLERANCE
+    && Math.abs(NetworkTableInstance.getDefault().getTable("limelight-limea").getEntry("ty").getDouble(0)-TARGETY) < TOLERANCE;
   }
 }
