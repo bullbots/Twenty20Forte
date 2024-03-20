@@ -118,7 +118,7 @@ public class Slider extends SubsystemBase {
         if (reversedLimit == 0) {
             // Put a counter, so we don't spam the Console and resetting the slideMotor encoder.
             reverseLimitCounter++;
-            if (reverseLimitCounter == 10) {
+            if (reverseLimitCounter == 50) {
                 reverseLimitCounter = 0;
                 //System.out.println("WARNING: Slider Reversed-Limit hit!!! Resetting position");
                 m_SliderMotor.setPosition(0);
