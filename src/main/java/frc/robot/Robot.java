@@ -66,8 +66,9 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      CommandScheduler.getInstance().clearComposedCommands();
-      m_autonomousCommand.beforeStarting(new StraightenWheelsCommand(1.0)).schedule();
+      // CommandScheduler.getInstance().clearComposedCommands();
+      // m_autonomousCommand.beforeStarting(new StraightenWheelsCommand(1.0)).schedule();
+      m_autonomousCommand.schedule();
     }
   }
 

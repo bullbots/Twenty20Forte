@@ -120,8 +120,8 @@ public class RobotContainer {
                             drivetrain.holonomicDrive(
                                     // All numbers are negative, due to the way WPI
                                     // Motors handle rotation
-                                    y,
-                                    x,
+                                    -y,
+                                    -x,
                                     -z,
                                     fieldOrientation.isFieldRelative());
                         }, drivetrain));

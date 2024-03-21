@@ -6,6 +6,7 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
@@ -26,7 +27,7 @@ public class CenterSpeaker extends SequentialCommandGroup {
         addCommands(new WaitCommand(3.0),
                 new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()),
                 new KillAll(),
-                new ParallelCommandGroup(new SetIntakeFront(1, RobotContainer.m_intakeSensor::get), new DriveForward(1.5))
+                new ParallelRaceGroup(new SetIntakeFront(1, RobotContainer.m_intakeSensor::get), new DriveForward(1.5))
         );
     }
 }
