@@ -276,6 +276,8 @@ public class DriveTrain extends SwerveDrivetrain {
             DriverStation.getAlliance().ifPresent((allianceColor) -> {
                 var newPose = (allianceColor == DriverStation.Alliance.Red) ? MirrorPoses.mirror(new Pose2d()) : new Pose2d();
                 resetOdometry(newPose);
+                var teamColor = allianceColor == DriverStation.Alliance.Red ? "Red" : "Blue";
+                // System.out.println("Team Color " + teamColor);
                 hasAppliedOperatorPerspective = true;
             });
         }
