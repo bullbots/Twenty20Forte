@@ -93,10 +93,12 @@ public class RobotContainer {
         led.setLength(ledBuffer.getLength());
 
         for (int i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 120, 0, 0);
+            ledBuffer.setRGB(i, 0, 255, 55);
         }
 
         led.setData(ledBuffer);
+
+        led.start();
 
         Autos.load();
 
