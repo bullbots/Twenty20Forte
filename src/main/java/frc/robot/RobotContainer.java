@@ -102,6 +102,18 @@ public class RobotContainer {
 
         Autos.load();
 
+
+        //led stuff
+        led.setLength(ledBuffer.getLength());
+
+        for (int i = 0; i < ledBuffer.getLength(); i++) {
+            ledBuffer.setRGB(i, 0, 255, 255);
+        }
+
+        led.setData(ledBuffer);
+
+        led.start();
+
         if (Robot.isSimulation()) {
             DriverStation.silenceJoystickConnectionWarning(true);
         }
