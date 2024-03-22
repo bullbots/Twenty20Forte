@@ -227,9 +227,9 @@ public class RobotContainer {
         m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
         m_guitarHero.axisGreaterThan(1, 0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 0, 255, 0));
-        m_guitarHero.axisGreaterThan(1, -0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 0, 0));
-        m_guitarHero.axisLessThan(1, 0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
-        m_guitarHero.axisLessThan(1, -0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
+        // m_guitarHero.axisGreaterThan(1, -0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 0, 0, 255));
+        // m_guitarHero.axisLessThan(1, 0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
+        // m_guitarHero.axisLessThan(1, -0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
 
     }
 
@@ -248,8 +248,8 @@ public class RobotContainer {
     public void periodic() {
         SmartDashboard.putNumber("Intake Sensor", m_intakeSensor.get() ? 1 : 0);
 
-        if (m_intakeSensor.get()) {
-            new SolidColor(leds, Constants.LED_COUNT, 255, 165, 0).schedule();
-        }
+        // if (m_intakeSensor.get()) {
+        //     new SolidColor(leds, Constants.LED_COUNT, 255, 165, 0).schedule();
+        // }
     }
 }
