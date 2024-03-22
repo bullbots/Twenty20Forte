@@ -26,7 +26,7 @@ public class Leds extends SubsystemBase {
 
   public void setLedColor(int ledNumber, int red, int blue, int green) {
 
-    ledBuffer.setRGB(ledNumber, green, red, blue);
+    ledBuffer.setRGB(ledNumber, blue, red, green);
 
     led.setData(ledBuffer);
     

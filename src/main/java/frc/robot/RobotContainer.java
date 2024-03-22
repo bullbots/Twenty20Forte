@@ -226,10 +226,10 @@ public class RobotContainer {
         // Burrito shoots the notes out so they can't get stuck
         m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
-        //m_guitarHero.axisGreaterThan(1, 0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 0, 255, 0));
-        // m_guitarHero.axisGreaterThan(1, -0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 0, 0, 255));
-        // m_guitarHero.axisLessThan(1, 0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
-        // m_guitarHero.axisLessThan(1, -0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
+        m_guitarHero.axisGreaterThan(1, 0.3).onTrue(new SolidColor(leds, Constants.LED_COUNT, 0, 255, 0));
+         m_guitarHero.axisGreaterThan(1, -0.3).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
+        m_guitarHero.axisGreaterThan(0, 0.3).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 0, 255));
+        m_guitarHero.axisGreaterThan(0, -0.3).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 0));
 
     }
 
