@@ -5,9 +5,10 @@
 package frc.robot.commands.Leds;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Leds;
 
-public class SolidColor extends Command {
+public class SolidColor extends InstantCommand {
 
   int lengthOfLeds;
   Leds ledss;
@@ -33,11 +34,6 @@ public class SolidColor extends Command {
     for (int i = 0; i < lengthOfLeds; i++) {
       ledss.setLedColor(i, r, g, b);
     }
-  }
-
-
-  @Override
-  public boolean isFinished() {
-    return true;
+    System.out.println("finishing solid color");
   }
 }

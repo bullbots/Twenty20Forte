@@ -86,9 +86,7 @@ public class RobotContainer {
         configureBindings();
 
         Autos.load();
-
-        new SolidColor(leds, Constants.LED_COUNT, 0, 255, 0);
-
+        
         if (Robot.isSimulation()) {
             DriverStation.silenceJoystickConnectionWarning(true);
         }
