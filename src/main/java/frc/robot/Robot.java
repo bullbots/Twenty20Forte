@@ -101,9 +101,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    System.out.println("running solid color");
-    SolidColor green = new SolidColor(RobotContainer.leds, Constants.LED_COUNT, 0, 255, 0);
-    green.schedule();
+    // System.out.println("running solid color");
+    // SolidColor green = new SolidColor(RobotContainer.leds, Constants.LED_COUNT, 0, 102, 255);
+    // green.schedule();
   }
 
   /** This function is called once when the robot is first started up. */
