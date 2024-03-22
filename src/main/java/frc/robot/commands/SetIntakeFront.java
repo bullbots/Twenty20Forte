@@ -1,7 +1,10 @@
 package frc.robot.commands;
 
 
+import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.commands.Leds.SolidColor;
 import frc.robot.subsystems.FrontMiddleIntake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Stager;
@@ -21,6 +24,7 @@ public class SetIntakeFront extends Command {
     Shooter m_shooter;
     BooleanSupplier m_Sensor;
     ControllerVibrate m_controllerVibrate;
+    // SolidColor m_solidColor;
 
     public SetIntakeFront(int direction, BooleanSupplier sensor) {
         m_Direction = direction;
@@ -29,6 +33,7 @@ public class SetIntakeFront extends Command {
         m_shooter = RobotContainer.shooter;
         m_Sensor = sensor;
         m_controllerVibrate = new ControllerVibrate(1);
+        // m_solidColor = new SolidColor(RobotContainer.leds, Constants.LED_COUNT, 255, 50, 0);
         addRequirements(m_Intake, m_Stager, m_shooter);
     }
 
@@ -54,6 +59,7 @@ public class SetIntakeFront extends Command {
         m_shooter.stop();
         if (!interrupted) {
             m_controllerVibrate.schedule();
+            // m_solidColor.schedule();
         }
     }
 
