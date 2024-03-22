@@ -23,6 +23,7 @@ import frc.robot.commands.BumpShooter;
 import frc.robot.commands.IntakeBackCommand;
 import frc.robot.commands.KillAll;
 import frc.robot.commands.Autonomous.Autos;
+import frc.robot.commands.Leds.SolidColor;
 import frc.robot.commands.drivetrain.TurnTo;
 import frc.robot.commands.drivetrain.TurningRobotFuzzyLogic;
 import frc.robot.commands.slider.SlideSlider;
@@ -225,8 +226,10 @@ public class RobotContainer {
         // Burrito shoots the notes out so they can't get stuck
         m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
-        m_guitarHero.axisGreaterThan(1, gyro_angle);
-
+        m_guitarHero.axisGreaterThan(1, 0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 0, 255, 0));
+        m_guitarHero.axisGreaterThan(1, -0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 0, 0));
+        m_guitarHero.axisLessThan(1, 0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
+        m_guitarHero.axisLessThan(1, -0.5).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
 
     }
 
