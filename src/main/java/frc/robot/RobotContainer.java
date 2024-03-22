@@ -247,5 +247,9 @@ public class RobotContainer {
 
     public void periodic() {
         SmartDashboard.putNumber("Intake Sensor", m_intakeSensor.get() ? 1 : 0);
+
+        if (m_intakeSensor.get()) {
+            new SolidColor(leds, Constants.LED_COUNT, 255, 165, 0).schedule();
+        }
     }
 }
