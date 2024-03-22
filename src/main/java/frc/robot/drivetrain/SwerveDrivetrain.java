@@ -156,7 +156,7 @@ public class SwerveDrivetrain extends DrivetrainBase implements HolonomicDrivetr
     } else {
       swerveModuleStates = kinematics.toSwerveModuleStates(
         fieldRelative?
-            (DriverStation.getAlliance().equals(Alliance.Blue)?
+            (DriverStation.getAlliance().isPresent() && (DriverStation.getAlliance().get() == Alliance.Blue)?
               ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getPose2d().getRotation())
             :
               ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getPose2d().getRotation().rotateBy(Rotation2d.fromDegrees(180))))
