@@ -13,10 +13,21 @@ public class Leds extends SubsystemBase {
   private static AddressableLED led = new AddressableLED(0);
   private static AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(40);
 
-  public Leds() {}
+  public Leds() {
+    led.setLength(ledBuffer.getLength());
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 255, 255, 255);
+    }
+
+    led.setData(ledBuffer);
+    led.start();
+  }
+
+  public void setLedColor(int ledNumber, int red, int blue, int green) {
+
+    ledBuffer.setRGB(ledNumber, green, blue, red);
+
+    led.setData(ledBuffer);
   }
 }

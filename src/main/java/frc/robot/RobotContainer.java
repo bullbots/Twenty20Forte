@@ -39,6 +39,7 @@ import frc.robot.sensors.DebouncedDigitalInput;
 import frc.robot.subsystems.BackIntake;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.FrontMiddleIntake;
+import frc.robot.subsystems.Leds;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Slider;
 import frc.robot.subsystems.Stager;
@@ -78,6 +79,7 @@ public class RobotContainer {
     public static final Stager stager = new Stager();
     public static final Shooter shooter = new Shooter();
     private static final FieldOrientation fieldOrientation = new FieldOrientation();
+    public static final Leds leds = new Leds();
 
     // Global robot states
     public static double gyro_angle = 0;
@@ -101,18 +103,6 @@ public class RobotContainer {
         led.start();
 
         Autos.load();
-
-
-        //led stuff
-        led.setLength(ledBuffer.getLength());
-
-        for (int i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 0, 255, 255);
-        }
-
-        led.setData(ledBuffer);
-
-        led.start();
 
         if (Robot.isSimulation()) {
             DriverStation.silenceJoystickConnectionWarning(true);
@@ -234,6 +224,8 @@ public class RobotContainer {
         m_guitarHero.button(3).onTrue(new BumpShooter(0.15));
         // Burrito shoots the notes out so they can't get stuck
         m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
+
+        m_guitarHero.axisGreaterThan(1, gyro_angle);
 
 
     }
