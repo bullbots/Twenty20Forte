@@ -23,7 +23,6 @@ public class AmpSourceSpeaker extends SequentialCommandGroup {
         var driveTime = (sourceSide == SpeakerSide.AMP) ? 0.5 : 1.0;
 
         addCommands(
-                new WaitCommand(3.0),
                 new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()),
                 new KillAll(),
                 new DriveForward(driveTime),

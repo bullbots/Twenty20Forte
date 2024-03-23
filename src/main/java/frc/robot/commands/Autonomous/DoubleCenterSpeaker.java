@@ -20,7 +20,7 @@ public class DoubleCenterSpeaker extends SequentialCommandGroup {
   public DoubleCenterSpeaker() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new WaitCommand(3.0),
+    addCommands(
         new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()),
         new KillAll(),
         new ParallelDeadlineGroup(new DriveForward(1.5),

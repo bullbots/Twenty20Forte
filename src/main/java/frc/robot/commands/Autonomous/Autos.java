@@ -10,8 +10,11 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import java.util.Optional;
+
+import javax.swing.Painter;
 
 public final class Autos {
     /**
@@ -22,6 +25,7 @@ public final class Autos {
     }
 
     private static final SendableChooser<Pair<Command, Command>> commandChooser = new SendableChooser<>();
+    private static final SendableChooser<Double> delayChooser = new SendableChooser<>();
 
     public static void load() {
         commandChooser.setDefaultOption("Do Nothing", new Pair<>(
@@ -52,8 +56,21 @@ public final class Autos {
                 new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.BLUE, AmpSourceSpeaker.SpeakerSide.SOURCE),
                 new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.RED, AmpSourceSpeaker.SpeakerSide.SOURCE)
         ));
+        commandChooser.addOption("Double Speaker", new Pair<>(
+            new DoubleSpeaker(),
+            new DoubleSpeaker()
+        ));
+
+        delayChooser.setDefaultOption("3 sec", Double.valueOf(3));
+
+        delayChooser.addOption("0 sec", Double.valueOf(0));
+
+        delayChooser.addOption("2 sec", Double.valueOf(2));
+
+        delayChooser.addOption("1 sec", Double.valueOf(1));
 
         SmartDashboard.putData("Command Selected", commandChooser);
+        SmartDashboard.putData("Delay", delayChooser);
     }
 
     public static Command getSelected() {
@@ -63,9 +80,9 @@ public final class Autos {
         var blueOption = Optional.of(Alliance.Blue);
         if (DriverStation.getAlliance().equals(blueOption)) {
             System.out.println("INFO: Blue side selected");
-            return commandChooser.getSelected().getFirst();
+            return commandChooser.getSelected().getFirst().beforeStarting(new WaitCommand(delayChooser.getSelected().doubleValue()));
         }
         System.out.println("INFO: Red side selected");
-        return commandChooser.getSelected().getSecond();
+        return commandChooser.getSelected().getSecond().beforeStarting(new WaitCommand(delayChooser.getSelected().doubleValue()));
     }
 }
