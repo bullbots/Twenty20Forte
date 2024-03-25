@@ -26,6 +26,7 @@ public class AmpSourceSpeaker extends SequentialCommandGroup {
                 new WaitCommand(3.0),
                 new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()),
                 new KillAll(),
+                new WaitCommand(5),
                 new DriveForward(driveTime),
                 new TurningRobotFuzzyLogic(ampTurnSign * sourceTurnSign * 50),
                 new ParallelRaceGroup(
