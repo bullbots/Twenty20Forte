@@ -177,7 +177,7 @@ public class RobotContainer {
         m_driverController.leftBumper().whileTrue(new StrafeAndMoveForward(-0.4, -0.1, drivetrain));
 
         m_driverController.leftStick().onTrue(new RunCommand(
-                () -> drivetrain.setMaxSpeed((DriveTrain.maxMetersPerSecond == 10) ? 5 : 10)));
+                () -> drivetrain.setMaxSpeed((DriveTrain.maxMetersPerSecond == 2) ? 1 : 2)));
 
         // Reset Gyro
         m_driverController.start().onTrue(new InstantCommand(() -> {
@@ -189,11 +189,11 @@ public class RobotContainer {
         m_driverController.b().onTrue(new TurnTo(0));
         m_driverController.y().onTrue(new TurnTo(180));
         m_driverController.a().onTrue(new TurnTo(-90));
-        m_driverController.povDown().onTrue(new TurningRobotFuzzyLogic(() ->
-                NetworkTableInstance.getDefault()
-                        .getTable("limelight-limeb").getEntry("tx").getDouble(0)
-        ));
-        m_driverController.povUp().onTrue(new SwapPipeline());
+        // m_driverController.povDown().onTrue(new TurningRobotFuzzyLogic(() ->
+        //         NetworkTableInstance.getDefault()
+        //                 .getTable("limelight-limeb").getEntry("tx").getDouble(0)
+        // ));
+        // m_driverController.povUp().onTrue(new SwapPipeline());
         // Copilot controls
 
         //m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
@@ -201,28 +201,27 @@ public class RobotContainer {
 
 
         // Buttons for co-driver moving the slider up and down
-        m_guitarHero.button(1).whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
-        m_guitarHero.button(2).whileTrue(new SlideSlider(slider, Slider.Mode.UP));
+        // m_guitarHero.button(1).whileTrue(new SlideSlider(slider, Slider.Mode.DOWN));
+        // m_guitarHero.button(2).whileTrue(new SlideSlider(slider, Slider.Mode.UP));
 
-        m_guitarHero.povDown().onTrue(new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition));
-        m_guitarHero.povUp().onTrue(new SlideSliderToPosition(slider, Slider.UP_POS, slider::isAtPosition));
+        m_driverController.povDown().onTrue(new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition));
+        m_driverController.povUp().onTrue(new SlideSliderToPosition(slider, Slider.UP_POS, slider::isAtPosition));
 
-        m_guitarHero.button(7).onTrue(new StageInShooter());
-
-        m_guitarHero.button(10)
-                .whileTrue(new SequentialCommandGroup(
-                        new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition),
-                        new IntakeBackCommand(1, m_intakeSensor::get)));
-        m_guitarHero.button(9)
-                .whileTrue(new SequentialCommandGroup(
-                        new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition),
-                        new SetIntakeFront(1, m_intakeSensor::get)));
+        m_driverController.povLeft().onTrue(new StageInShooter());
+        m_driverController.povRight().onTrue(new StageInShooter());
+        // m_guitarHero.button(10)
+        //         .whileTrue(new SequentialCommandGroup(
+        //                 new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition),
+        //                 new IntakeBackCommand(1, m_intakeSensor::get)));
+        // m_guitarHero.button(9)
+        //         .whileTrue(new SequentialCommandGroup(
+        //                 new SlideSliderToPosition(slider, Slider.DOWN_POS, slider::isAtPosition),
+        //                 new SetIntakeFront(1, m_intakeSensor::get)));
 
         // Bump notes into shooter
-        m_guitarHero.button(3).onTrue(new BumpShooter(0.15));
+        // m_guitarHero.button(3).onTrue(new BumpShooter(0.15));
         // Burrito shoots the notes out so they can't get stuck
-        m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
-
+        // m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
     }
 

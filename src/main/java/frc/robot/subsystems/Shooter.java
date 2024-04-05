@@ -81,11 +81,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public void speakerShoot() {
-        set(1.0);
+        set(.40);
     }
 
     public void ampShoot() {
-        set(-0.75);
+        set(-0.30);
     }
 
     public void stageShoot() {

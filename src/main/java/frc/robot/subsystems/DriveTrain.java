@@ -91,7 +91,7 @@ public class DriveTrain extends SwerveDrivetrain {
         return controller;
     }
 
-    public static double maxMetersPerSecond = 10;
+    public static double maxMetersPerSecond = 2;
 
     private static final ShuffleboardTab _shuffuleboardTab = Shuffleboard.getTab("Drivetrain");
     public static final DrivetrainConfig _config = new DrivetrainConfig(maxMetersPerSecond, .5, 7, 2, Units.inchesToMeters(2), 6.75, 2048);

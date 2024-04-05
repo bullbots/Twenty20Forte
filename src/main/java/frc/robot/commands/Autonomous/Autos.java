@@ -60,12 +60,13 @@ public final class Autos {
         // SmartDashboard.putBoolean("Autonomous Finished", false);
         // return commandChooser.getSelected().andThen(() ->
         // SmartDashboard.putBoolean("Autonomous Finished", true));
-        var blueOption = Optional.of(Alliance.Blue);
-        if (DriverStation.getAlliance().equals(blueOption)) {
-            System.out.println("INFO: Blue side selected");
-            return commandChooser.getSelected().getFirst();
-        }
-        System.out.println("INFO: Red side selected");
-        return commandChooser.getSelected().getSecond();
+        // var blueOption = Optional.of(Alliance.Blue);
+        // if (DriverStation.getAlliance().equals(blueOption)) {
+        //     System.out.println("INFO: Blue side selected");
+        //     return commandChooser.getSelected().getFirst();
+        // }
+        // System.out.println("INFO: Red side selected");
+        // return commandChooser.getSelected().getSecond();
+        return new DoNothing("Hello World");
     }
 }
