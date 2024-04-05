@@ -32,6 +32,10 @@ public final class Autos {
             new DriveForward(2),
             new DriveForward(2)));
 
+        commandChooser.addOption("Just Shoot", new Pair<>(
+            new JustShoot(),
+            new JustShoot()));
+
         commandChooser.addOption("Center Speaker", new Pair<>(
             new CenterSpeaker(), 
             new CenterSpeaker()));

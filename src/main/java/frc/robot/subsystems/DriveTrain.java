@@ -24,6 +24,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -40,6 +41,7 @@ public class DriveTrain extends SwerveDrivetrain {
 
     private static final double TRANSLATIONAL_TOLERANCE = .02;
     private static final double ROTATIONAL_TOLERANCE = Math.toRadians(1);
+    private boolean hasAppliedOperatorPerspective = false;
 
     /**
      * Returns a new PID controller that can be used to control the position of the robot chassis in one axis.
@@ -130,7 +132,7 @@ public class DriveTrain extends SwerveDrivetrain {
         super(_shuffuleboardTab, _config, Units.inchesToMeters(32), Units.inchesToMeters(28), sim_gyro, frontLeft, frontRight, backLeft, backRight);
         encoders = new CANcoder[]{frontLeftEncoder, backLeftEncoder, frontRightEncoder, backRightEncoder};
 
-        sim_gyro.setAngleAdjustment(0);
+//        sim_gyro.setAngleAdjustment(0);
         configDriveMotor(frontLeftDriveFalcon);
         configDriveMotor(frontRightDriveFalcon);
         configDriveMotor(backLeftDriveFalcon);
@@ -159,12 +161,9 @@ public class DriveTrain extends SwerveDrivetrain {
         moduleSub[2] = datatable.getDoubleTopic("module3Offset").subscribe(0.0);
         moduleSub[3] = datatable.getDoubleTopic("module4Offset").subscribe(0.0);
 
-        sim_gyro.reset();
-        if (Robot.isRedAlliance()) {
-            resetOdometry(MirrorPoses.mirror(getPose2d()));
-        } else {
-            resetOdometry();
-        }
+//        sim_gyro.reset();
+
+        resetGyro();
 
         configureShuffleboard();
     }
@@ -200,31 +199,6 @@ public class DriveTrain extends SwerveDrivetrain {
     private static void configCANCoder(CANcoder encoder, double encoderOffset) {
         //encoder.configFactoryDefault();
         //encoder.configMagnetOffset(encoderOffset);
-    }
-
-    @Override
-    public void periodic() {
-        super.periodic();
-        for (int i = 0; i < moduleSub.length; i++) {
-            DoubleSubscriber sub = moduleSub[i];
-            double value = sub.get();
-            if (value != prev[i]) {
-                prev[i] = value;  // save previous value
-                //configCANCoder(encoders[i], value);
-            }
-        }
-        SmartDashboard.putNumber("robot pitch angle", sim_gyro.getPitch());
-        SmartDashboard.putNumber("SwerveModule1 angle", frontRightEncoder.getAbsolutePosition().getValue());
-        SmartDashboard.putNumber("SwerveModule2 angle", frontLeftEncoder.getAbsolutePosition().getValue());
-        SmartDashboard.putNumber("SwerveModule3 angle", backLeftEncoder.getAbsolutePosition().getValue());
-        SmartDashboard.putNumber("SwerveModule4 angle", backRightEncoder.getAbsolutePosition().getValue());
-        //System.out.println("Gyro pitch: " + gyro.getPitch());
-        //double[] visionPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[6]);
-
-        // aprilTagOdometryUpdater.update(poseEstimator, this);
-
-        // log the current
-        //m_CurrentBLLogger.logEntry(backLeftDriveFalcon.getSupplyCurrent(), BullLogger.LogLevel.DEBUG);
     }
 
     @Override
@@ -287,5 +261,47 @@ public class DriveTrain extends SwerveDrivetrain {
         } else {
             return Math.signum(-delta) * HIGHSPEED;
         }
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+
+        /* Periodically try to apply the operator perspective */
+        /* If we haven't applied the operator perspective before, then we should apply it regardless of DS state */
+        /* This allows us to correct the perspective in case the robot code restarts mid-match */
+        /* Otherwise, only check and apply the operator perspective if the DS is disabled */
+        /* This ensures driving behavior doesn't change until an explicit disable event occurs during testing*/
+        if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
+            DriverStation.getAlliance().ifPresent((allianceColor) -> {
+                var newPose = (allianceColor == DriverStation.Alliance.Red) ? MirrorPoses.mirror(new Pose2d()) : new Pose2d();
+                resetOdometry(newPose);
+                var teamColor = allianceColor == DriverStation.Alliance.Red ? "Red" : "Blue";
+                // System.out.println("Team Color " + teamColor);
+                hasAppliedOperatorPerspective = true;
+            });
+        }
+
+//        for (int i = 0; i < moduleSub.length; i++) {
+//            DoubleSubscriber sub = moduleSub[i];
+//            double value = sub.get();
+//            if (value != prev[i]) {
+//                prev[i] = value;  // save previous value
+//                configCANCoder(encoders[i], value);
+//            }
+//        }
+
+        // Returns the current pitch value (in degrees, from -180 to 180) reported by the sensor.
+        // Pitch is a measure of rotation around the X Axis. Why do we need this information?
+//        SmartDashboard.putNumber("Robot Pitch Angle", sim_gyro.getPitch());
+
+        SmartDashboard.putNumber("SwerveModule1 Angle", backRightEncoder.getAbsolutePosition().getValue());
+        SmartDashboard.putNumber("SwerveModule2 Angle", backLeftEncoder.getAbsolutePosition().getValue());
+        SmartDashboard.putNumber("SwerveModule3 Angle", frontLeftEncoder.getAbsolutePosition().getValue());
+        SmartDashboard.putNumber("SwerveModule4 Angle", frontRightEncoder.getAbsolutePosition().getValue());
+
+        //double[] visionPose = NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[6]);
+
+        // aprilTagOdometryUpdater.update(poseEstimator, this);
     }
 }

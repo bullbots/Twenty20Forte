@@ -4,8 +4,13 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.CANifier.PWMChannel;
+
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -39,6 +44,7 @@ import frc.robot.subsystems.Slider;
 import frc.robot.subsystems.Stager;
 import frc.robot.utils.ControllerVibrate;
 import frc.robot.utils.FieldOrientation;
+import frc.robot.utils.SwapPipeline;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -56,6 +62,9 @@ public class RobotContainer {
     private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
     public static boolean drivingTo = false;
     public static double targetAngle = 0;
+    public static AddressableLED led = new AddressableLED(0);
+    public static AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(40);
+
 
     // Stand-alone sensors
     public static final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(
@@ -79,6 +88,17 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+
+        //led stuff
+        led.setLength(ledBuffer.getLength());
+
+        for (int i = 0; i < ledBuffer.getLength(); i++) {
+            ledBuffer.setRGB(i, 0, 255, 55);
+        }
+
+        led.setData(ledBuffer);
+
+        led.start();
 
         Autos.load();
 
@@ -120,8 +140,8 @@ public class RobotContainer {
                             drivetrain.holonomicDrive(
                                     // All numbers are negative, due to the way WPI
                                     // Motors handle rotation
-                                    y,
-                                    x,
+                                    -y,
+                                    -x,
                                     -z,
                                     fieldOrientation.isFieldRelative());
                         }, drivetrain));
@@ -169,11 +189,11 @@ public class RobotContainer {
         m_driverController.b().onTrue(new TurnTo(0));
         m_driverController.y().onTrue(new TurnTo(180));
         m_driverController.a().onTrue(new TurnTo(-90));
-        m_driverController.povUp().onTrue(new TurningRobotFuzzyLogic(() ->
+        m_driverController.povDown().onTrue(new TurningRobotFuzzyLogic(() ->
                 NetworkTableInstance.getDefault()
                         .getTable("limelight-limeb").getEntry("tx").getDouble(0)
         ));
-        m_driverController.povDown().onTrue(new TurningRobotFuzzyLogic(180));
+        m_driverController.povUp().onTrue(new SwapPipeline());
         // Copilot controls
 
         //m_driverController.povUp().whileTrue(new SlideSlider(slider, Slider.Mode.UP));
