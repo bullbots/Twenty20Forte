@@ -11,8 +11,11 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Leds.GuitarVillianDisplay;
 import frc.robot.commands.Leds.SolidColor;
 import frc.robot.commands.drivetrain.StraightenWheelsCommand;
+import frc.robot.subsystems.Leds;
+import frc.robot.utils.GuitarVillianLogic;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -91,16 +94,24 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {}
-
+  private int count;
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
+    GuitarVillianLogic.initialize();
     CommandScheduler.getInstance().cancelAll();
+    count = 0;
   }
 
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
+    count++;
+    if (count >= GuitarVillianLogic.getLevel()){
+    GuitarVillianLogic.update();
+    new GuitarVillianDisplay(RobotContainer.leds, GuitarVillianLogic.getData(), true, true).schedule();
+    count = 0;
+    }
     // System.out.println("running solid color");
     // SolidColor green = new SolidColor(RobotContainer.leds, Constants.LED_COUNT, 0, 102, 255);
     // green.schedule();

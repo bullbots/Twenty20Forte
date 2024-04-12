@@ -36,4 +36,9 @@ public class SolidColor extends InstantCommand {
     }
     System.out.println("finishing solid color");
   }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
 }
