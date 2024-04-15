@@ -24,6 +24,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.CircularBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -42,6 +43,7 @@ public class DriveTrain extends SwerveDrivetrain {
     private static final double TRANSLATIONAL_TOLERANCE = .02;
     private static final double ROTATIONAL_TOLERANCE = Math.toRadians(1);
     private boolean hasAppliedOperatorPerspective = false;
+    private final CircularBuffer<Boolean> driverStationDisabledBuff = new CircularBuffer<>(2);
 
     /**
      * Returns a new PID controller that can be used to control the position of the robot chassis in one axis.
@@ -267,17 +269,23 @@ public class DriveTrain extends SwerveDrivetrain {
     public void periodic() {
         super.periodic();
 
+        driverStationDisabledBuff.addLast(DriverStation.isDisabled());
+
+        if (!driverStationDisabledBuff.getFirst() && driverStationDisabledBuff.getLast()) {
+            hasAppliedOperatorPerspective = false;
+        }
+
         /* Periodically try to apply the operator perspective */
         /* If we haven't applied the operator perspective before, then we should apply it regardless of DS state */
         /* This allows us to correct the perspective in case the robot code restarts mid-match */
         /* Otherwise, only check and apply the operator perspective if the DS is disabled */
         /* This ensures driving behavior doesn't change until an explicit disable event occurs during testing*/
-        if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
+        if (!hasAppliedOperatorPerspective) {
             DriverStation.getAlliance().ifPresent((allianceColor) -> {
                 var newPose = (allianceColor == DriverStation.Alliance.Red) ? MirrorPoses.mirror(new Pose2d()) : new Pose2d();
                 resetOdometry(newPose);
                 var teamColor = allianceColor == DriverStation.Alliance.Red ? "Red" : "Blue";
-                // System.out.println("Team Color " + teamColor);
+                System.out.println("Alliance color detected: " + teamColor);
                 hasAppliedOperatorPerspective = true;
             });
         }
