@@ -32,8 +32,13 @@ public class SolidColor extends InstantCommand {
   @Override
   public void initialize() {
     for (int i = 0; i < lengthOfLeds; i++) {
-      ledss.setLedColor(i, r, g, b);
+      ledss.setLedColor(i, r, b, g);
     }
     System.out.println("finishing solid color");
+  }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
   }
 }
