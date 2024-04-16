@@ -1,5 +1,10 @@
 {
   "HALProvider": {
+    "Addressable LEDs": {
+      "window": {
+        "visible": true
+      }
+    },
     "Other Devices": {
       "window": {
         "visible": false
@@ -10,6 +15,10 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Command Selected": "String Chooser",
+      "/SmartDashboard/LED Blue": "Command",
+      "/SmartDashboard/LED Green": "Command",
+      "/SmartDashboard/LED Red": "Command",
+      "/SmartDashboard/LED White": "Command",
       "/SmartDashboard/Robot (Field2d)": "Field2d",
       "/SmartDashboard/Test SlideSliderDown": "Command",
       "/SmartDashboard/Test SlideSliderToAmp": "Command",
@@ -18,6 +27,26 @@
     },
     "windows": {
       "/SmartDashboard/Command Selected": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/LED Blue": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/LED Green": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/LED Red": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/LED White": {
         "window": {
           "visible": true
         }

@@ -64,9 +64,6 @@ public class RobotContainer {
     private final CommandJoystick m_guitarHero = new CommandJoystick(OperatorConstants.kCopilotControllerPort);
     public static boolean drivingTo = false;
     public static double targetAngle = 0;
-    public static AddressableLED led = new AddressableLED(0);
-    public static AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(40);
-
 
     // Stand-alone sensors
     public static final DebouncedDigitalInput m_intakeSensor = new DebouncedDigitalInput(
@@ -91,17 +88,6 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
-
-        //led stuff
-        led.setLength(ledBuffer.getLength());
-
-        for (int i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 0, 255, 55);
-        }
-
-        led.setData(ledBuffer);
-
-        led.start();
 
         Autos.load();
         
@@ -226,8 +212,12 @@ public class RobotContainer {
         // Burrito shoots the notes out so they can't get stuck
         m_guitarHero.button(4).whileTrue(new BeanBurrito(-1));
 
+        SmartDashboard.putData("LED White", new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
+        SmartDashboard.putData("LED Green", new SolidColor(leds, Constants.LED_COUNT, 0, 255, 0));
+        SmartDashboard.putData("LED Blue", new SolidColor(leds, Constants.LED_COUNT, 0, 0, 255));
+        SmartDashboard.putData("LED Red", new SolidColor(leds, Constants.LED_COUNT, 255, 0, 0));
         m_guitarHero.axisGreaterThan(1, 0.3).onTrue(new SolidColor(leds, Constants.LED_COUNT, 0, 255, 0));
-         m_guitarHero.axisGreaterThan(1, -0.3).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
+        m_guitarHero.axisGreaterThan(1, -0.3).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 255));
         m_guitarHero.axisGreaterThan(0, 0.3).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 0, 255));
         m_guitarHero.axisGreaterThan(0, -0.3).onTrue(new SolidColor(leds, Constants.LED_COUNT, 255, 255, 0));
 
