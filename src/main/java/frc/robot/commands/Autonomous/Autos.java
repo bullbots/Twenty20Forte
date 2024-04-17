@@ -49,8 +49,16 @@ public final class Autos {
             new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.RED, AmpSourceSpeaker.SpeakerSide.AMP)
         ));
         commandChooser.addOption("SourceSpeaker", new Pair<>(
-                new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.BLUE, AmpSourceSpeaker.SpeakerSide.SOURCE),
-                new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.RED, AmpSourceSpeaker.SpeakerSide.SOURCE)
+            new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.BLUE, AmpSourceSpeaker.SpeakerSide.SOURCE),
+            new AmpSourceSpeaker(AmpSourceSpeaker.SpeakerSide.RED, AmpSourceSpeaker.SpeakerSide.SOURCE)
+        ));
+        commandChooser.addOption("DoubleAmpSpeaker", new Pair<>(
+            new DoubleAmpSourceSpeaker(DoubleAmpSourceSpeaker.SpeakerSide.BLUE, DoubleAmpSourceSpeaker.SpeakerSide.AMP),
+            new DoubleAmpSourceSpeaker(DoubleAmpSourceSpeaker.SpeakerSide.RED, DoubleAmpSourceSpeaker.SpeakerSide.AMP)
+        ));
+        commandChooser.addOption("DoubleSourceSpeaker", new Pair<>(
+            new DoubleAmpSourceSpeaker(DoubleAmpSourceSpeaker.SpeakerSide.BLUE, DoubleAmpSourceSpeaker.SpeakerSide.SOURCE),
+            new DoubleAmpSourceSpeaker(DoubleAmpSourceSpeaker.SpeakerSide.RED, DoubleAmpSourceSpeaker.SpeakerSide.SOURCE)
         ));
 
         SmartDashboard.putData("Command Selected", commandChooser);
