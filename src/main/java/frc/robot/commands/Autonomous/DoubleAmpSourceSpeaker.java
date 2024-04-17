@@ -28,10 +28,11 @@ public class DoubleAmpSourceSpeaker extends SequentialCommandGroup {
                 new KillAll(),
                 new DriveForward(driveTime),
                 new TurningRobotFuzzyLogic(ampTurnSign * sourceTurnSign * 50),
-                new ParallelRaceGroup(
+                new ParallelDeadlineGroup(
+                        new WaitCommand(3.3),
                         new SetIntakeFront(1, RobotContainer.m_intakeSensor::get),
-                        new DriveForward(1.1)),
-                new DriveBackward(1.1),
+                        new DriveForward(1.3)),
+                new DriveBackward(1.3),
                 new TurningRobotFuzzyLogic(ampTurnSign * sourceTurnSign * -50),
                 new DriveBackward(driveTime),
                 new WaitCommand(0.5),

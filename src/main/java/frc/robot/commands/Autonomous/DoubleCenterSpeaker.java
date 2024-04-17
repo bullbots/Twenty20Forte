@@ -18,17 +18,18 @@ import frc.robot.commands.shooting.ShootInSpeaker;
 public class DoubleCenterSpeaker extends SequentialCommandGroup {
   /** Creates a new CenterSpeaker. */
   public DoubleCenterSpeaker() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new WaitCommand(3.0),
+
+    addCommands(
+        new WaitCommand(3),
         new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()),
         new KillAll(),
-        new ParallelDeadlineGroup(new DriveForward(1.5),
-            new SetIntakeFront(1, RobotContainer.m_intakeSensor::get)),
-
-        new SetIntakeFront(1, RobotContainer.m_intakeSensor::get),
-        new DriveBackward(1.5),
+        new ParallelDeadlineGroup(
+            new WaitCommand(3.3),
+            new SetIntakeFront(1, RobotContainer.m_intakeSensor::get),
+            new DriveForward(1.3)),
+        new DriveBackward(1.3),
         new ParallelDeadlineGroup(new WaitCommand(3.0), new ShootInSpeaker()),
-        new KillAll());
+        new KillAll()
+    );
   }
 }

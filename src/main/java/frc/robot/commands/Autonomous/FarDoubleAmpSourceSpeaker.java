@@ -28,7 +28,8 @@ public class FarDoubleAmpSourceSpeaker extends SequentialCommandGroup {
                 new KillAll(),
                 new DriveForward(driveTime),
                 new TurningRobotFuzzyLogic(ampTurnSign * sourceTurnSign * 50),
-                new ParallelRaceGroup(
+                new ParallelDeadlineGroup(
+                        new WaitCommand(6.5),
                         new SetIntakeFront(1, RobotContainer.m_intakeSensor::get),
                         new DriveForward(4.5)),
                 new DriveBackward(4.5),
